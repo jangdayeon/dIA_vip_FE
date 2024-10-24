@@ -35,6 +35,9 @@ export default function Reserve() {
                 카테고리
               </label>
               <select className='border bg-white rounded-lg p-1 border-black w-80'>
+                <option value='' disabled selected>
+                  카테고리를 선택하세요.
+                </option>
                 {categories.map((category) => (
                   <option key={category} value={category}>
                     {category}
