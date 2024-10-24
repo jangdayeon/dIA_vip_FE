@@ -1,5 +1,9 @@
 'use client';
 
+export type reserve = {
+  title: string;
+};
+
 export default function Reserve() {
   return (
     <div className='mx-32 mt-10'>
@@ -28,7 +32,10 @@ export default function Reserve() {
               <label htmlFor='' className='font-semibold'>
                 희망일시
               </label>
-              <select className='border bg-white rounded-lg p-1 border-black w-80' />
+              <input
+                type='datetime-local'
+                className='border bg-white rounded-lg p-1 border-black w-80'
+              />
             </div>
             <div className='flex gap-2 items-center'>
               <p className='font-semibold'>고객명</p>
