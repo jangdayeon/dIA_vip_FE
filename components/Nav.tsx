@@ -7,13 +7,7 @@ export default function Nav() {
     <div className='flex justify-between items-center w-full h-20 bg-[#d6e8f6] border-b border-[#a5a5a5]'>
       <div className='flex items-center gap-3'>
         <Link href='/'>
-          <Image
-            src={logo}
-            alt='nav_logo'
-            className='ml-5'
-            width={93}
-            height={50}
-          />
+          <Image src={logo} alt='nav_logo' className='ml-5 w-24 h-12' />
         </Link>
         <div className='flex font-bold gap-2'>
           <Link href='/reserve' className='hover:underline '>
