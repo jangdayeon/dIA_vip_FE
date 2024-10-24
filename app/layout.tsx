@@ -33,7 +33,6 @@ export default function RootLayout({
         <header>
           <Nav />
         </header>
-
         {children}
         <footer className='font-bold text-center border'>
           &copy; 2024 디지털 하나로 프로젝트
