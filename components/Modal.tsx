@@ -1,49 +1,92 @@
-'use client';
+import { SquareCheckBig } from 'lucide-react';
+import Image from 'next/image';
+import PBCard from '../assets/pb_card.png';
 
-import { useRouter } from 'next/navigation';
-import { useCallback, useRef, useEffect, MouseEventHandler } from 'react';
+interface ModalProps {
+  onClose: () => void;
+}
 
-export default function Modal({ children }: { children: React.ReactNode }) {
-  const overlay = useRef(null);
-  const wrapper = useRef(null);
-  const router = useRouter();
-
-  const onDismiss = useCallback(() => {
-    router.back();
-  }, [router]);
-
-  const onClick: MouseEventHandler = useCallback(
-    (e) => {
-      if (e.target === overlay.current || e.target === wrapper.current) {
-        if (onDismiss) onDismiss();
-      }
-    },
-    [onDismiss, overlay, wrapper]
-  );
-
-  const onKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onDismiss();
-    },
-    [onDismiss]
-  );
-
-  useEffect(() => {
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [onKeyDown]);
-
+export default function Modal({ onClose }: ModalProps) {
   return (
-    <div
-      ref={overlay}
-      className='fixed z-10 left-0 right-0 top-0 bottom-0 mx-auto bg-black/60 p-10'
-      onClick={onClick}
-    >
-      <div
-        ref={wrapper}
-        className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:w-10/12 md:w-8/12 lg:w-2/5 p-6'
-      >
-        <div className='bg-white p-5'>{children}</div>
+    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
+      <div className='bg-sky-50 rounded-lg p-6 max-w-lg w-full'>
+        <div className='flex justify-between items-center gap-4'>
+          <div className='w-1/3'>
+            <Image src={PBCard} alt='PB card' className='' />
+
+            <div className='bg-white rounded-lg shadow border border-zinc-400 m-4'>
+              <div className='text-center'>
+                <div className='text-yellow-700 bg-[#D7D3B6] rounded-t-lg text-2xl font-bold'>
+                  MY PB
+                </div>
+                <div className='text-sm'>현재 상태 : 상담 가능</div>
+                <div className='text-sm'>전담 기간 : 21.03.02~</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className='flex gap-3'>
+              <h2 className='text-slate-600 text-2xl font-bold'>안유진 PB</h2>
+              <div className='space-x-2 mt-1'>
+                <span className='px-2 py-1 bg-slate-500 rounded-sm text-sm text-white'>
+                  #펀드
+                </span>
+                <span className='px-2 py-1 bg-slate-500 rounded-sm text-sm text-white'>
+                  #채권
+                </span>
+              </div>
+            </div>
+            <div className='mt-4'>
+              <div className='font-bold mb-2'>
+                "고객님의 자산을 안전하게 책임지겠습니다."
+              </div>
+              <div className='text-sm mb-4'>
+                <div className='mb-2'>
+                  <p className='underline'>연락처</p>
+                  <p>010-1234-1234</p>
+                </div>
+                <div>
+                  <p className='underline'>사무실</p>
+                  <p>강남파이낸스PB센터</p>
+                  <p>서울 강남구 테헤란로 152</p>
+                  <p>강남파이낸스센터 2층 (역삼동 737)</p>
+                </div>
+              </div>
+            </div>
+            <hr className='border-black mb-4' />
+
+            <div className='text-sm font-semibold'>
+              <div className='flex items-center gap-1'>
+                <SquareCheckBig className='w-3 h-3' />
+                경력: 석사
+              </div>
+              <div className='flex items-center gap-1'>
+                <SquareCheckBig className='w-3 h-3' />
+                CFA, CFP, 투자자문용사
+              </div>
+              <div className='flex items-center gap-1'>
+                <SquareCheckBig className='w-3 h-3' />
+                하나은행 PB (20/04 ~ )
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Info */}
+        <div className='mt-6 text-right space-x-2'>
+          <button
+            onClick={onClose}
+            className='bg-gray-200 p-2 rounded-2xl border border-black hover:text-white'
+          >
+            상담 예약
+          </button>
+          <button
+            onClick={onClose}
+            className='bg-slate-600 text-white p-2 rounded-2xl border border-black hover:text-black'
+          >
+            메인으로
+          </button>
+        </div>
       </div>
     </div>
   );
