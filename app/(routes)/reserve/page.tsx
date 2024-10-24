@@ -1,10 +1,26 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 export type reserve = {
   title: string;
+  category: string;
+  date: string;
+  detail: string;
 };
 
 export default function Reserve() {
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const response = await fetch('/api/categories');
+      const data = await response.json();
+      setCategories(data.categories);
+    }
+
+    fetchCategories();
+  }, []);
   return (
     <div className='mx-32 mt-10'>
       <div className='text-4xl font-bold'>상담 예약</div>
@@ -18,7 +34,13 @@ export default function Reserve() {
               <label htmlFor='' className='font-semibold'>
                 카테고리
               </label>
-              <select className='border bg-white rounded-lg p-1 border-black w-80' />
+              <select className='border bg-white rounded-lg p-1 border-black w-80'>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className='flex gap-2 items-center'>
               <p className='font-semibold'>PB</p>
