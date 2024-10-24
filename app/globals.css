@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -14,10 +9,24 @@
   }
 }
 
+html,
 body {
+  height: 100%; /* 부모 요소에 height 적용 */
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrap-container {
+  min-height: 95%;
+}
+
+footer {
+  height: 5%; /* footer의 높이 */
+  border-top: 1px solid #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @layer utilities {

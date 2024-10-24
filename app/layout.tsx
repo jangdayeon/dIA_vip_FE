@@ -30,10 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header>
-          <Nav />
-        </header>
-        {children}
+        <div className='wrap-container'>
+          <header>
+            <Nav />
+          </header>
+          {children}
+        </div>
         <footer className='font-bold text-center border'>
           &copy; 2024 디지털 하나로 프로젝트
         </footer>
