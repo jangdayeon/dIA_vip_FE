@@ -1,11 +1,15 @@
 type Props = {
+  type: 'submit' | 'reset' | 'button';
   text: string;
   bg: string;
 };
 
-export default function Button({ text, bg }: Props) {
+export default function Button({ type, text, bg }: Props) {
   return (
-    <button className={`border border-black ${bg} p-2 rounded-lg`}>
+    <button
+      type={`${type}`}
+      className={`border border-black ${bg} p-2 rounded-lg`}
+    >
       {text}
     </button>
   );
