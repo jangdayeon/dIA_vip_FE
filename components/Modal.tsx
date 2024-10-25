@@ -9,18 +9,20 @@ interface ModalProps {
 export default function Modal({ onClose }: ModalProps) {
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
-      <div className='bg-sky-50 rounded-lg p-6 max-w-lg w-full'>
-        <div className='flex justify-between items-center gap-4'>
+      <div className='bg-sky-50 rounded-lg p-6 max-w-2xl w-full'>
+        <div className='flex flex-row px-4 py-6 gap-4'>
           <div className='w-1/3'>
             <Image src={PBCard} alt='PB card' className='' />
 
-            <div className='bg-white rounded-lg shadow border border-zinc-400 m-4'>
+            <div className='bg-white rounded-lg shadow border border-zinc-400 mt-4'>
               <div className='text-center'>
-                <div className='text-yellow-700 bg-[#D7D3B6] rounded-t-lg text-2xl font-bold'>
+                <div className='text-yellow-700 bg-[#D7D3B6] p-2 rounded-t-lg text-2xl font-bold'>
                   MY PB
                 </div>
-                <div className='text-sm'>현재 상태 : 상담 가능</div>
-                <div className='text-sm'>전담 기간 : 21.03.02~</div>
+                <div className='text-sm m-2'>
+                  <div>현재 상태 : 상담 가능</div>
+                  <div>전담 기간 : 21.03.02~</div>
+                </div>
               </div>
             </div>
           </div>
