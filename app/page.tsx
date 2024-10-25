@@ -1,6 +1,7 @@
 'use client';
 
 import PBCard from '@/components/PBCard';
+import ReserveCard from '@/components/ReserveCard';
 import Image from 'next/image';
 import banner from '../assets/home_banner.png';
 
@@ -13,19 +14,7 @@ export default function Home() {
         <div className='grid grid-cols-3 gap-3 p-5'>
           <div className='grid grid-cols-1 gap-3'>
             <PBCard />
-
-            {/* 상담 예약 Section */}
-            <div className='bg-white shadow-lg rounded-lg p-6'>
-              <h2 className='w-32 h-8 text-slate-600 text-2xl font-semibold'>
-                상담 예약
-              </h2>
-              <div className='text-stone-900 text-xl font-normal'>
-                지체 없는 맞춤 예약 서비스
-              </div>
-              <div className='text-black/60 text-xs font-normal'>
-                하나은행만의 전문 PB와 1대 1 상담을 언제든 신청할 수 있습니다.
-              </div>
-            </div>
+            <ReserveCard />
           </div>
 
           {/* 상담 일정 Section */}
