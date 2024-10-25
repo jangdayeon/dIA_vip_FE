@@ -70,7 +70,7 @@ export default function Confirm() {
           >
             신청 취소
           </button>
-          <form action='/' className='text-white'>
+          <form action='/confirmList' className='text-white'>
             <Button type='submit' text='목록으로' bg='bg-[#3F6886]' />
           </form>
         </div>
