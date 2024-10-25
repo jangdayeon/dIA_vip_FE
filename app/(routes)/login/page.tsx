@@ -1,5 +1,6 @@
 'use client';
 
+import { LockClosedIcon, UserIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useRef } from 'react';
@@ -38,21 +39,8 @@ function SignInCard() {
           </p>
         </div>
         <form onSubmit={loginCheck}>
-          <div className='flex flex-row w-full mb-5 border border-gray-400 rounded-lg focus-within:#F2F9FF focus-within:ring-2 focus-within:#F2F9FF'>
-            <div className='flex items-center pl-3'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                fill='currentColor'
-                className='size-7'
-              >
-                <path
-                  fillRule='evenodd'
-                  d='M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z'
-                  clipRule='evenodd'
-                />
-              </svg>
-            </div>
+          <div className='flex flex-row items-center w-full mb-5 border border-gray-400 rounded-lg focus-within:#F2F9FF focus-within:ring-2 focus-within:#F2F9FF opac'>
+            <UserIcon className='pl-3 h-8' />
             <input
               ref={idRef}
               placeholder='아이디를 입력하세요.'
@@ -60,25 +48,12 @@ function SignInCard() {
             />
           </div>
 
-          <div className='flex flex-row w-full mb-5 border border-gray-400 rounded-lg focus-within:#F2F9FF focus-within:ring-2 focus-within:#F2F9FF'>
-            <div className='flex items-center pl-3'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                fill='currentColor'
-                className='size-7'
-              >
-                <path
-                  fillRule='evenodd'
-                  d='M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z'
-                  clipRule='evenodd'
-                />
-              </svg>
-            </div>
+          <div className='flex flex-row items-center w-full mb-5 border border-gray-400 rounded-lg focus-within:#F2F9FF focus-within:ring-2 focus-within:#F2F9FF opac'>
+            <LockClosedIcon className='pl-3 h-8' />
             <input
               ref={pwRef}
               placeholder='비밀번호를 입력하세요.'
-              className='w-full h-16 p-3 text-lg font-medium focus:outline-none border-0'
+              className='  w-full h-16 p-3 text-lg font-medium focus:outline-none'
             />
           </div>
 
