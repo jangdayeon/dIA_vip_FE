@@ -1,3 +1,3 @@
 export default function ConsultingList() {
-  return <>ConsultingList</>;
+  return <>상담 내역</>;
 }
