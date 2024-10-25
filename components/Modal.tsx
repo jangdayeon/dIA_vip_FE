@@ -1,5 +1,8 @@
+'use client';
+
 import { SquareCheckBig } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import PBCard from '../assets/pb_card.png';
 
 interface ModalProps {
@@ -7,6 +10,11 @@ interface ModalProps {
 }
 
 export default function Modal({ onClose }: ModalProps) {
+  const router = useRouter();
+  const onReserve = () => {
+    router.push('/reserve');
+  };
+
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
       <div className='bg-sky-50 rounded-lg p-6 max-w-2xl w-full'>
@@ -77,7 +85,7 @@ export default function Modal({ onClose }: ModalProps) {
         {/* Contact Info */}
         <div className='mt-6 text-right space-x-2'>
           <button
-            onClick={onClose}
+            onClick={onReserve}
             className='bg-gray-200 p-2 rounded-2xl border border-black hover:text-white'
           >
             상담 예약
