@@ -15,7 +15,6 @@ function SigninCard() {
 
     const id = idRef.current?.value;
     const pw = pwRef.current?.value;
-    console.log(id, pw);
     if (!id) {
       alert('아이디를 입력해주세요.');
       return;
