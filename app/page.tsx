@@ -1,8 +1,8 @@
 'use client';
 
+import PBCard from '@/components/PBCard';
 import Image from 'next/image';
 import banner from '../assets/home_banner.png';
-import pb_profile from '../assets/pb_profile.png';
 
 export default function Home() {
   return (
@@ -12,22 +12,7 @@ export default function Home() {
 
         <div className='grid grid-cols-3 gap-3 p-5'>
           <div className='grid grid-cols-1 gap-3'>
-            {/* 담당 PB Section */}
-            <div className='bg-white shadow-lg rounded-lg p-6'>
-              <h2 className='text-slate-600 text-2xl font-semibold'>담당 PB</h2>
-              <div className='flex items-center space-x-4'>
-                <Image
-                  src={pb_profile}
-                  alt='Profile'
-                  className='w-16 h-16 rounded-full'
-                />
-                <div>
-                  <h2 className='text-lg font-semibold'>안유진 PB</h2>
-                  <span className='text-sm text-gray-600'>전문 상담사</span>
-                  <span className='text-sm text-gray-600'>부동산 전문가</span>
-                </div>
-              </div>
-            </div>
+            <PBCard />
 
             {/* 상담 예약 Section */}
             <div className='bg-white shadow-lg rounded-lg p-6'>
