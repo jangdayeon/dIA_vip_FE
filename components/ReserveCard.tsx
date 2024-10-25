@@ -1,4 +1,4 @@
-import { ChevronRight } from 'lucide-react';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import reserveIcon from '../assets/market_validation_icon.png';
@@ -7,12 +7,10 @@ export default function ReserveCard() {
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='flex justify-between border-b border-opacity-55 px-6 py-4'>
-        <h2 className='w-32 h-8 text-slate-600 text-2xl font-semibold'>
-          상담 예약
-        </h2>
+        <h2 className='text-slate-600 text-2xl font-semibold'>상담 예약</h2>
 
         <Link href='/reserve'>
-          <ChevronRight className='text-[#3F6886] hover:text-black' />
+          <ChevronRightIcon className='h-8 text-[#3F6886] hover:text-black' />
         </Link>
       </div>
 
