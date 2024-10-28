@@ -39,7 +39,7 @@ export default function ConsultingDetailCard() {
   const { category, title, date, manager } = consultingDetail;
 
   return (
-    <div className='mt-10 mx-20'>
+    <div className='mt-10'>
       <div className='flex justify-end gap-2 items-center'>
         <button
           onClick={() => router.push('/reserve')}
