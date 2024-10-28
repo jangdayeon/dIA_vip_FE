@@ -1,41 +1,35 @@
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+type searchResult = {
+  id: number;
+  category: string;
+  title: string;
+  date: string;
+  manager: string;
+  status: string;
+};
+
 export default function SearchResult() {
-  const data = [
-    {
-      id: 1,
-      category: '세무',
-      title: '종합소득세',
-      date: '2024-10-25 14:00',
-      manager: '안유진',
-    },
-    {
-      id: 2,
-      category: '세무',
-      title: '연말정산',
-      date: '2024-10-25 15:00',
-      manager: '안유진',
-    },
-    {
-      id: 3,
-      category: '세무',
-      title: '프리랜서 건강보험',
-      date: '2024-10-25 16:00',
-      manager: '안유진',
-    },
-    {
-      id: 4,
-      category: '법률',
-      title: '프리랜서 계약',
-      date: '2024-10-26 10:00',
-      manager: '안유진',
-    },
-    {
-      id: 5,
-      category: '법률',
-      title: '프리랜서 계약해지',
-      date: '2024-10-26 11:00',
-      manager: '안유진',
-    },
-  ];
+  const [searchResults, setSearchResults] = useState<searchResult[]>([]);
+  const router = useRouter();
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    e.preventDefault();
+
+    router.push(`/consultingList/${id}`);
+  };
+
+  useEffect(() => {
+    async function fetchSearchResults() {
+      const response = await fetch('/api/searchResults');
+      const data = await response.json();
+      setSearchResults(data.searchResults);
+    }
+
+    fetchSearchResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className='border border-black bg-white rounded-2xl w-full min-h-96 overflow-y-auto p-2'>
       <table className='table-auto w-full'>
@@ -46,10 +40,11 @@ export default function SearchResult() {
             <th className='border-b-2 border-black px-4 py-2'>제목</th>
             <th className='border-b-2 border-black px-4 py-2'>상담일시</th>
             <th className='border-b-2 border-black px-4 py-2'>담당자</th>
+            <th className='border-b-2 border-black px-4 py-2'>일지보기</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {searchResults.map((item) => (
             <tr key={item.id}>
               <td className='border-b border-black px-4 py-2 text-center'>
                 {item.id}
@@ -65,6 +60,18 @@ export default function SearchResult() {
               </td>
               <td className='border-b border-black px-4 py-2 text-center'>
                 {item.manager}
+              </td>
+              <td className='border-b border-black px-4 py-2 text-center'>
+                {item.status === '열람 가능' ? (
+                  <button
+                    onClick={(e) => handleSubmit(e, item.id)}
+                    className='hover:underline text-blue-700'
+                  >
+                    {item.status}
+                  </button>
+                ) : (
+                  item.status
+                )}
               </td>
             </tr>
           ))}
