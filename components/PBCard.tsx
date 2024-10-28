@@ -6,6 +6,7 @@ import Modal from './Modal';
 
 export default function PBCard() {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isOnline, setIsOnline] = useState<boolean>(true); // Simulating online status
 
   const handleOpenModal = (): void => {
