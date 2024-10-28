@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-type searchResult = {
+export type searchResult = {
   id: number;
   category: string;
   title: string;
