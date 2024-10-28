@@ -3,7 +3,7 @@
 import { LockClosedIcon, UserIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useRef } from 'react';
+import { FormEvent, useRef } from 'react';
 
 function SigninCard() {
   const idRef = useRef<HTMLInputElement>(null);

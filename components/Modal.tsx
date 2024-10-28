@@ -48,7 +48,7 @@ export default function Modal({ onClose }: ModalProps) {
             </div>
             <div className='mt-4'>
               <div className='font-bold mb-2'>
-                "고객님의 자산을 안전하게 책임지겠습니다."
+                고객님의 자산을 안전하게 책임지겠습니다.
               </div>
               <div className='text-sm mb-4'>
                 <div className='mb-2'>
