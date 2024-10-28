@@ -1,7 +1,7 @@
 'use client';
 
 import SearchResult from '@/components/SearchResult';
-import { Search } from 'lucide-react';
+import { RotateCcw, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 export default function ConsultingList() {
@@ -39,7 +39,7 @@ export default function ConsultingList() {
           </button>
         </div>
         <div className='flex w-full items-center gap-2 my-2'>
-          <p className='w-28 text-center font-semibold'>카테고리</p>
+          <p className='w-40 text-center font-semibold'>카테고리</p>
           <select
             ref={categoryRef}
             defaultValue='전체'
@@ -58,7 +58,9 @@ export default function ConsultingList() {
             <p>~</p>
             <input ref={dateEndRef} type='date' className='w-40' />
           </div>
-          <button className='ml-auto font-bold hover:underline'>초기화</button>
+          <button className='border border-black p-1 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white'>
+            <RotateCcw />
+          </button>
         </div>
         <SearchResult />
       </form>

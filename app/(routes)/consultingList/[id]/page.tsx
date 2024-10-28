@@ -1,9 +1,13 @@
+import ConsultingDetailCard from '@/components/ConsultingDetailCard';
 import Sidebar from '@/components/Sidebar';
 
 export default function Detail() {
   return (
-    <div className='flex h-screen bg-gray-50'>
+    <div className='flex flex-row'>
       <Sidebar />
+      <div className='flex w-full justify-center px-36'>
+        <ConsultingDetailCard />
+      </div>
     </div>
   );
 }
