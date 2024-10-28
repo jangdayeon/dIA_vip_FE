@@ -1,7 +1,9 @@
+import Sidebar from '@/components/Sidebar';
+
 export default function Detail() {
   return (
-    <div>
-      <div>상담 내역 ID 상세 내역 </div>
+    <div className='flex h-screen bg-gray-50'>
+      <Sidebar />
     </div>
   );
 }
