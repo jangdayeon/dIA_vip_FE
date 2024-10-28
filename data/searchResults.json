@@ -1,0 +1,44 @@
+{
+  "searchResults": [
+    {
+      "id": 1,
+      "category": "세무",
+      "title": "종합소득세",
+      "date": "2024-10-25 14:00",
+      "manager": "안유진",
+      "status": "열람 가능"
+    },
+    {
+      "id": 2,
+      "category": "세무",
+      "title": "연말정산",
+      "date": "2024-10-25 15:00",
+      "manager": "안유진",
+      "status": "열람 가능"
+    },
+    {
+      "id": 3,
+      "category": "세무",
+      "title": "프리랜서 건강보험",
+      "date": "2024-10-25 16:00",
+      "manager": "안유진",
+      "status": "열람 가능"
+    },
+    {
+      "id": 4,
+      "category": "법률",
+      "title": "프리랜서 계약",
+      "date": "2024-10-26 10:00",
+      "manager": "안유진",
+      "status": "열람 가능"
+    },
+    {
+      "id": 5,
+      "category": "법률",
+      "title": "프리랜서 계약해지",
+      "date": "2024-10-26 11:00",
+      "manager": "안유진",
+      "status": "열람 불가"
+    }
+  ]
+}
