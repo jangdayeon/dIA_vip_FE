@@ -4,9 +4,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 function SignupCard() {
   const router = useRouter();
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   async function signinCheck(formData: FormData) {
     const name = formData.get('name');
@@ -25,36 +27,36 @@ function SignupCard() {
 
     console.log(name, email, pw, pwCheck, phone, address, sex);
     if (!name || !email || !pw || !pwCheck || !phone || !address) {
-      alert('입력을 확인해주세요.');
+      setErrorMsg('입력을 확인해주세요.');
       return;
     }
 
     if (pw !== pwCheck) {
-      alert('비밀번호를 다시 한 번 확인해주세요.');
+      setErrorMsg('비밀번호를 다시 한 번 확인해주세요.');
       return;
     }
 
     if (name.toString().length < 2 || name.toString().length > 20) {
-      alert('이름을 다시 한 번 확인해주세요.');
+      setErrorMsg('이름을 다시 한 번 확인해주세요.');
       return;
     }
     if (!emailRegex.test(email.toString())) {
-      alert('이메일 형식이 맞지 않습니다.');
+      setErrorMsg('이메일 형식이 맞지 않습니다.');
       return;
     }
 
     if (!passwordRegex.test(pw.toString())) {
-      alert(
+      setErrorMsg(
         '비밀번호는 영어 대소문자, 숫자, $@$!%*#?& 기호 중 하나 이상 포함된 8~20자이어야 합니다.'
       );
       return;
     }
     if (!phoneRegex.test(phone.toString())) {
-      alert('연락처 형식이 맞지 않습니다.');
+      setErrorMsg('연락처 형식이 맞지 않습니다.');
       return;
     }
     if (!addressRegex.test(address.toString())) {
-      alert('주소 형식이 맞지 않습니다.');
+      setErrorMsg('주소 형식이 맞지 않습니다.');
       return;
     }
 
@@ -144,6 +146,7 @@ function SignupCard() {
               </div>
             </RadioGroup>
           </div>
+          {errorMsg && <div className='text-red-600 mb-3'>{errorMsg}</div>}
 
           <button
             type='submit'
