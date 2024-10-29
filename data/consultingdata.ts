@@ -1,6 +1,7 @@
 export type Consulting = {
   title: string;
   date: string;
+  status: string;
 };
 
 export const consultingData = [
