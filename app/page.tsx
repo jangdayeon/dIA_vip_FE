@@ -1,10 +1,19 @@
 'use client';
 
+import { getSession } from '@/actions/myauth';
 import LoginedMain from '@/components/LoginedMain';
 import NotLoginedMain from '@/components/NotLoginedMain';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  //TODO: 로그인 연결 후 처리 필요
-  const logined = true;
-  return <>{logined ? <LoginedMain /> : <NotLoginedMain />}</>;
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    (async function () {
+      const ss = await getSession();
+      setId(ss?.user?.email || '');
+    })();
+  }, []);
+
+  return <>{id ? <LoginedMain /> : <NotLoginedMain />}</>;
 }
