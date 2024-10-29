@@ -40,7 +40,7 @@ export default function ConsultingDetailCard() {
   const { category, title, date, manager } = consultingDetail;
 
   return (
-    <div className='mt-10'>
+    <div className='mt-10 w-full'>
       <div className='flex justify-end gap-2 items-center'>
         <button
           onClick={() => router.push('/reserve')}
@@ -58,15 +58,14 @@ export default function ConsultingDetailCard() {
         </button>
       </div>
       <div>
-        <div className='mt-2 border border-black bg-[#F2F9FF] rounded-lg'>
+        <div className='mt-2 border border-black bg-[#F2F9FF] rounded-t-lg'>
           <div className='m-5'>
             <div className='text-2xl font-bold'>
               [{category}] {title}
             </div>
-            <div className='flex justify-between py-2 space-x-10'>
+            <div className='flex justify-between py-2'>
               <div className='flex flex-row gap-2'>
                 <div className='font-bold'>PB명</div> {manager}
-                <div className='font-bold'>고객명</div>
               </div>
               <div>{date}</div>
             </div>
