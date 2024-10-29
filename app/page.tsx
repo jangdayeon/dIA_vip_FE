@@ -13,7 +13,7 @@ export default function Home() {
       const ss = await getSession();
       setId(ss?.user?.email || '');
     })();
-  }, []);
+  }, [id]);
 
   return <>{id ? <LoginedMain /> : <NotLoginedMain />}</>;
 }

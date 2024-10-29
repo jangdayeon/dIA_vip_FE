@@ -22,12 +22,12 @@ export default function SignInOut({
 
   if (id)
     return (
-      <>
-        <div className='flex font-bold gap-2'>
-          <Link href='/reserve' className='hover:underline '>
+      <div className='flex flex-row justify-between'>
+        <div className='flex flex-row font-bold gap-5 items-center'>
+          <Link href='/reserve' className='hover:text-[#3F6886] '>
             상담 예약
           </Link>
-          <Link href='/consultingList' className='hover:underline '>
+          <Link href='/consultingList' className='hover:text-[#3F6886] '>
             상담 내역
           </Link>
         </div>
@@ -41,7 +41,7 @@ export default function SignInOut({
         >
           로그아웃
         </button>
-      </>
+      </div>
     );
 
   return (
