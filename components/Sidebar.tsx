@@ -49,7 +49,7 @@ export default function Sidebar() {
                   <div className='flex items-center'>
                     <ChatBubbleLeftRightIcon className='w-6 h-6 text-gray-500 mr-3' />
                     <div>
-                      <p className='text-sm font-semibold text-gray-700'>
+                      <p className='text-sm font-semibold text-gray-700 truncate max-w-48'>
                         {item.title}
                       </p>
                       <p className='text-xs text-gray-500'>{item.date}</p>

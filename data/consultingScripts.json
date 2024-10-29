@@ -1,9 +1,21 @@
 {
   "consultingScripts": [
     { "sequence": "1", "speaker": "VIP", "content": "안녕하세요." },
-    { "sequence": "2", "speaker": "PB", "content": "네, 안녕하세요." },
-    { "sequence": "3", "speaker": "VIP", "content": "날씨가 좋네요." },
-    { "sequence": "4", "speaker": "PB", "content": "집에 가고 싶어요." },
+    {
+      "sequence": "2",
+      "speaker": "PB",
+      "content": "안녕하세요. 오랜만이네요! 대출을 원하신다고요~~?"
+    },
+    {
+      "sequence": "3",
+      "speaker": "VIP",
+      "content": "네 용산에 있는 집 있잖아요~ 그거 담보로 대출을 받고 싶어요!"
+    },
+    {
+      "sequence": "4",
+      "speaker": "PB",
+      "content": "네네~ 잠시만요 ~ 아 역 근처에 있는 거 말씀하시는거죠? 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~~~~ 그거는 어쩌고~"
+    },
     {
       "sequence": "5",
       "speaker": "VIP",

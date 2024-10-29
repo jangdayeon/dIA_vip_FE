@@ -77,7 +77,7 @@ export default function ConsultingDetailCard() {
           </div>
           <div className='bg-white w-full p-5 border-b'>
             <div className='text-xl font-bold'>상담 주요 스크립트</div>
-            <div className='mt-5'>
+            <div className='mt-5 flex justify-center'>
               <ConsultingScriptCard />
             </div>
           </div>

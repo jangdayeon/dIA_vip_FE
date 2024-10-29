@@ -1,6 +1,7 @@
 import { scheduleData, type Schedule } from '@/data/scheduledata';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { CalendarClock } from 'lucide-react';
+import Link from 'next/link';
 
 const ScheduleItem = ({ title, date }: Schedule) => {
   return (
@@ -12,7 +13,9 @@ const ScheduleItem = ({ title, date }: Schedule) => {
           <p className='text-xs text-gray-500'>{date}</p>
         </div>
       </div>
-      <ChevronRightIcon className='w-5 h-5' />
+      <Link href='/confirm'>
+        <ChevronRightIcon className='w-5 h-5' />
+      </Link>
     </div>
   );
 };

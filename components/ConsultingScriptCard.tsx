@@ -22,7 +22,7 @@ export default function ConsultingScriptCard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
+    <div className='w-96 h-screen overflow-y-scroll'>
       {consultingScripts.map((item) => (
         <div
           key={item.sequence}
