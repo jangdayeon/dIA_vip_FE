@@ -1,9 +1,11 @@
 'use client';
 
 import { FolderArrowDownIcon, HeartIcon } from '@heroicons/react/16/solid';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ConsultingScriptCard from './ConsultingScriptCard';
+import Loading from './Loading';
 
 interface ConsultingDetail {
   id: number;
@@ -35,7 +37,7 @@ export default function ConsultingDetailCard() {
     fetchConsultingDetail();
   }, [id]);
 
-  if (!consultingDetail) return <div>Loading...</div>;
+  if (!consultingDetail) return <Loading />;
 
   const { category, title, date, manager } = consultingDetail;
 

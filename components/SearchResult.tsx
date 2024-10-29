@@ -31,7 +31,7 @@ export default function SearchResult() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='border border-black bg-white rounded-2xl w-full min-h-96 overflow-y-auto p-2'>
+    <div className='border border-black bg-white w-full h-96 overflow-y-auto p-2'>
       <table className='table-auto w-full'>
         <thead>
           <tr>
@@ -52,7 +52,7 @@ export default function SearchResult() {
               <td className='border-b border-black px-4 py-2 text-center'>
                 {item.category}
               </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
+              <td className='border-b border-black px-4 py-2 text-center truncate max-w-48'>
                 {item.title}
               </td>
               <td className='border-b border-black px-4 py-2 text-center'>

@@ -9,7 +9,9 @@ const ScheduleItem = ({ title, date }: Schedule) => {
       <div className='flex items-center'>
         <CalendarClock className='w-6 h-6 text-gray-500 mr-3' />
         <div>
-          <p className='text-sm font-semibold text-gray-700'>{title}</p>
+          <p className='text-sm font-semibold text-gray-700 truncate max-w-60'>
+            {title}
+          </p>
           <p className='text-xs text-gray-500'>{date}</p>
         </div>
       </div>

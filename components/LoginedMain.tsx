@@ -9,7 +9,7 @@ export default function logined() {
   return (
     <div className='flex justify-center items-center mx-auto p-10'>
       <div className='bg-sky-50 rounded-2xl'>
-        <Image src={banner} alt='' className='w-full' />
+        <Image src={banner} alt='' className='w-full h-40' />
 
         <div className='grid grid-cols-3 gap-3 p-5'>
           <div className='grid grid-cols-1 gap-3'>
