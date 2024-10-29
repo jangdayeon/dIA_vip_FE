@@ -1,6 +1,10 @@
+import { mySignOut, getSession } from '@/actions/myauth';
 import Nav from '@/components/Nav';
+import { DataProvider } from '@/hooks/useData';
+import { SessionProvider } from 'next-auth/react';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { auth } from '@/lib/auth';
 import './globals.css';
 
 const geistSans = localFont({
@@ -20,25 +24,35 @@ export const metadata: Metadata = {
     '하나금융그룹의 VIP 손님을 위한 180°달라질 PB (Private Banker) 상담 서비스',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  const signOut = async () => {
+    'use server';
+    await mySignOut();
+  };
+
   return (
     <html lang='ko'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className='wrap-container'>
-          <header>
-            <Nav />
-          </header>
-          {children}
-        </div>
-        <footer className='font-bold text-center border'>
-          &copy; 2024 디지털 하나로 프로젝트
-        </footer>
+        <SessionProvider session={session}>
+          <DataProvider getSession={getSession} signOut={signOut}>
+            <div className='wrap-container'>
+              <header>
+                <Nav />
+              </header>
+              {children}
+            </div>
+            <footer className='font-bold text-center border'>
+              &copy; 2024 디지털 하나로 프로젝트
+            </footer>
+          </DataProvider>
+        </SessionProvider>
       </body>
     </html>
   );
