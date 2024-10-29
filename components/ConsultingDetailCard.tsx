@@ -3,6 +3,7 @@
 import { FolderArrowDownIcon, HeartIcon } from '@heroicons/react/16/solid';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import ConsultingScriptCard from './ConsultingScriptCard';
 
 interface ConsultingDetail {
   id: number;
@@ -77,7 +78,9 @@ export default function ConsultingDetailCard() {
           </div>
           <div className='bg-white w-full p-5 border-b'>
             <div className='text-xl font-bold'>상담 주요 스크립트</div>
-            <div className='mt-5'>상담 스크립트가 여기 표시됩니다.</div>
+            <div className='mt-5'>
+              <ConsultingScriptCard />
+            </div>
           </div>
         </div>
       </div>

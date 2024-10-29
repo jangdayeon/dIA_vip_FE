@@ -1,0 +1,22 @@
+{
+  "consultingScripts": [
+    { "sequence": "1", "speaker": "VIP", "content": "안녕하세요." },
+    { "sequence": "2", "speaker": "PB", "content": "네, 안녕하세요." },
+    { "sequence": "3", "speaker": "VIP", "content": "날씨가 좋네요." },
+    { "sequence": "4", "speaker": "PB", "content": "집에 가고 싶어요." },
+    {
+      "sequence": "5",
+      "speaker": "VIP",
+      "content": "오늘 저녁에 뭐 드실 예정인가요?"
+    },
+    { "sequence": "6", "speaker": "PB", "content": "아직 계획은 없어요." },
+    { "sequence": "7", "speaker": "VIP", "content": "그럼 같이 식사하실래요?" },
+    { "sequence": "8", "speaker": "PB", "content": "좋아요! 어디로 갈까요?" },
+    {
+      "sequence": "9",
+      "speaker": "VIP",
+      "content": "저녁에 조용한 곳이 좋을 것 같아요."
+    },
+    { "sequence": "10", "speaker": "PB", "content": "그럼 그 근처에서 만나죠!" }
+  ]
+}
