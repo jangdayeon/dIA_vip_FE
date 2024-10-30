@@ -1,3 +1,5 @@
+'use client';
+
 import { getSession } from '@/actions/myauth';
 import ConsultingListCard from '@/components/ConsultingListCard';
 import PBCard from '@/components/PBCard';
@@ -6,22 +8,18 @@ import ScheduleCard from '@/components/ScheduleCard';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import banner from '../assets/home_banner.png';
-import LoginedMainLoading from './LoginedMainLoading';
 import NotLoginedMain from './NotLoginedMain';
 
 export default function Logined() {
-  const [id, setId] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [id, setId] = useState('guest');
 
   useEffect(() => {
     (async function () {
       const ss = await getSession();
       setId(ss?.user?.email || '');
-      setLoading(false);
     })();
   });
 
-  if (loading) return <LoginedMainLoading />;
   if (!id) {
     return <NotLoginedMain />;
   }
