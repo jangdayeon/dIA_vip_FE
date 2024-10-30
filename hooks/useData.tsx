@@ -38,7 +38,7 @@ export const DataProvider = ({
   const setDataWithStorage = (newer: LocalData) => {
     const { email } = newer;
     if (!email) return;
-    localStorage.setItem(email, JSON.stringify(newer));
+    localStorage.setItem('dIA_VIP', JSON.stringify(newer));
     setData(newer);
   };
 
