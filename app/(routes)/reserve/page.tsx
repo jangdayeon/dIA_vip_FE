@@ -92,6 +92,7 @@ export default function Reserve() {
             <div className='flex gap-2 items-center ml-3'>
               <label className='font-semibold'>카테고리</label>
               <select
+                required
                 ref={categoryRef}
                 defaultValue=''
                 className='border bg-white rounded-lg p-1 border-black w-80'
@@ -122,12 +123,13 @@ export default function Reserve() {
                 maxDate={maxDate}
               />
               <select
+                required
                 ref={timeRef}
                 defaultValue=''
                 className='flex justify-center gap-1 items-center border bg-white border-black rounded-lg p-1.5 pr-2 ml-2 w-36 text-center'
               >
                 <option value='' disabled>
-                  -- : --
+                  00 : 00
                 </option>
                 {times.map((item) => (
                   <option key={item} value={item}>
@@ -146,6 +148,7 @@ export default function Reserve() {
           <div className='flex gap-3 items-center w-full my-2'>
             <label className='w-20 text-right font-semibold'>제목</label>
             <input
+              required
               ref={titleRef}
               type='text'
               className='border bg-white rounded-lg p-1 border-black w-full'
@@ -154,6 +157,7 @@ export default function Reserve() {
           <div className='flex gap-3 items-center w-full my-2'>
             <label className='w-20 text-right font-semibold'>내용</label>
             <textarea
+              required
               ref={detailRef}
               rows={20}
               className='border bg-white rounded-lg p-1 border-black w-full overflow-y-auto'

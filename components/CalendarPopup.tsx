@@ -16,7 +16,7 @@ type Props = {
 export default function CalendarPopup({ dateSet, minDate, maxDate }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [dateString, setDateString] = useState<string>('');
   // 달력 팝업 토글 함수
   const toggleCalendar = () => setIsOpen((prev) => !prev);
