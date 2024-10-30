@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter } from 'next/navigation';
 
-export default function Loading() {
+export default function ConsultingDetailLoading() {
   const router = useRouter();
   return (
     <div className='mt-10 w-full'>
