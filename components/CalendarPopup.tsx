@@ -2,25 +2,22 @@ import { formatDate } from '@/utils/date';
 import { CalendarDaysIcon } from 'lucide-react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 type Props = {
   dateSet: (date: ValuePiece) => void;
+  minDate: Date;
+  maxDate: Date;
 };
 
-const ReserveCalendarPopup = ({ dateSet }: Props) => {
+export default function CalendarPopup({ dateSet, minDate, maxDate }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [dateString, setDateString] = useState<string>('');
-  const calendarRef = useRef<HTMLDivElement>(null);
-
-  const minDate = new Date();
-  const maxDate = new Date(minDate);
-  maxDate.setDate(maxDate.getDate() + 30);
   // 달력 팝업 토글 함수
   const toggleCalendar = () => setIsOpen((prev) => !prev);
 
@@ -54,7 +51,7 @@ const ReserveCalendarPopup = ({ dateSet }: Props) => {
       </button>
 
       {isOpen && (
-        <div ref={calendarRef} className='absolute top-full left-0 mt-1'>
+        <div className='absolute top-full left-0 mt-1'>
           <Calendar
             onChange={(value) => {
               handleDateChange(value);
@@ -67,6 +64,4 @@ const ReserveCalendarPopup = ({ dateSet }: Props) => {
       )}
     </div>
   );
-};
-
-export default ReserveCalendarPopup;
+}

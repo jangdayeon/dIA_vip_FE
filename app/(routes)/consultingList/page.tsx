@@ -1,14 +1,24 @@
 'use client';
 
+import CalendarPopup from '@/components/CalendarPopup';
 import SearchResult from '@/components/SearchResult';
 import { RotateCcw, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 export default function ConsultingList() {
   const [categories, setCategories] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
   const categoryRef = useRef<HTMLSelectElement>(null);
-  const dateStartRef = useRef<HTMLInputElement>(null);
-  const dateEndRef = useRef<HTMLInputElement>(null);
+  const minDate = new Date(2000, 1, 1);
+
+  const handleStartDateSet = (value: Date | null) => {
+    setStartDate(value);
+  };
+
+  const handleEndDateSet = (value: Date | null) => {
+    setEndDate(value);
+  };
 
   useEffect(() => {
     async function fetchCategories() {
@@ -26,7 +36,7 @@ export default function ConsultingList() {
       <div className='my-1 text-gray-600'>
         하나은행만의 전문 PB와 상담한 내역을 확인하실 수 있습니다.
       </div>
-      <form className='mt-10 p-5 border border-black bg-[#D6E8F6] rounded-lg w-full'>
+      <div className='mt-10 p-5 border border-black bg-[#D6E8F6] rounded-lg w-full'>
         <div className='flex w-full items-center gap-2 my-2'>
           <p className='w-32 text-center font-semibold'>검색</p>
           <div className='flex w-full justify-between mr-1 items-center'>
@@ -56,11 +66,18 @@ export default function ConsultingList() {
               ))}
             </select>
             <div className='flex w-full items-center gap-2 justify-end'>
-              <p className='text-center font-semibold mx-2 w-auto'>날짜 설정</p>
-              <div className='flex flex-wrap border bg-white rounded-lg p-1 gap-3 border-black'>
-                <input ref={dateStartRef} type='date' className='' />
-                <input ref={dateEndRef} type='date' className='' />
-              </div>
+              <p className='text-center font-semibold mx-2 w-auto'>시작일</p>
+              <CalendarPopup
+                dateSet={handleStartDateSet}
+                minDate={minDate}
+                maxDate={endDate ? endDate : new Date()}
+              />
+              <p className='text-center font-semibold mx-2 w-auto'>종료일</p>
+              <CalendarPopup
+                dateSet={handleEndDateSet}
+                minDate={startDate ? startDate : minDate}
+                maxDate={new Date()}
+              />
               <button className='border border-black p-1 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white'>
                 <RotateCcw />
               </button>
@@ -68,7 +85,7 @@ export default function ConsultingList() {
           </div>
         </div>
         <SearchResult />
-      </form>
+      </div>
     </div>
   );
 }
