@@ -10,18 +10,18 @@ import { searchResult } from './SearchResult';
 
 const ConsultingItem = ({ title, date, status }: Consulting) => {
   return (
-    <div className='flex items-center justify-between p-3 border-b border-gray-200'>
-      <div className='flex items-center'>
+    <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden'>
+      <div className='flex items-center w-full'>
         {status === '열람 가능' ? (
           <ChatBubbleLeftRightIcon className='w-6 h-6 text-gray-500 mr-3' />
         ) : (
           <ChatBubbleLeftEllipsisIcon className='w-6 h-6 text-gray-500 mr-3' />
         )}
-        <div>
-          <p className='text-sm font-semibold text-gray-700 truncate max-w-60'>
+        <div className='flex-1 overflow-hidden mr-2'>
+          <p className='text-sm font-semibold text-gray-700 truncate'>
             {title}
           </p>
-          <p className='text-xs text-gray-500'>{date}</p>
+          <p className='text-xs text-gray-500 truncate'>{date}</p>
         </div>
       </div>
     </div>
@@ -50,8 +50,8 @@ export default function ConsultingListCard() {
         </Link>
       </div>
 
-      <div className='h-screen overflow-y-scroll'>
-        {lists.slice(0, 5).map((item, index) => (
+      <div>
+        {lists.slice(0, 8).map((item, index) => (
           <ConsultingItem
             key={index}
             title={item.title}

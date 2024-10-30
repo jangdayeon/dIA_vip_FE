@@ -29,8 +29,8 @@ export default function ScheduleCard() {
         <div className='text-slate-600 text-2xl font-semibold'>상담 일정</div>
       </div>
 
-      <div className='overflow-x-hidden'>
-        {scheduleData.slice(0, 5).map((schedule, index) => (
+      <div>
+        {scheduleData.slice(0, 8).map((schedule, index) => (
           <ScheduleItem
             key={index}
             title={schedule.title}
