@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/Button';
-import ReserveCalendarPopup from '@/components/ReserveCalendarPopup';
+import CalendarPopup from '@/components/CalendarPopup';
 import { formatDate } from '@/utils/date';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -37,12 +37,15 @@ export type reserve = {
 
 export default function Reserve() {
   const [categories, setCategories] = useState<string[]>([]);
-  const [childDate, setchildDateDate] = useState<Date | null>(new Date());
+  const [childDate, setchildDate] = useState<Date | null>(new Date());
   const titleRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
   const timeRef = useRef<HTMLSelectElement>(null);
   const detailRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
+  const minDate = new Date();
+  const maxDate = new Date(minDate);
+  maxDate.setDate(maxDate.getDate() + 30);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +68,7 @@ export default function Reserve() {
   };
 
   const handleDateSet = (value: Date | null) => {
-    setchildDateDate(value);
+    setchildDate(value);
   };
 
   useEffect(() => {
@@ -113,7 +116,11 @@ export default function Reserve() {
           <div className='flex justify-between items-center my-2'>
             <div className='flex gap-2 items-center ml-3'>
               <label className='font-semibold'>희망일시</label>
-              <ReserveCalendarPopup dateSet={handleDateSet} />
+              <CalendarPopup
+                dateSet={handleDateSet}
+                minDate={minDate}
+                maxDate={maxDate}
+              />
               <select
                 ref={timeRef}
                 defaultValue=''
