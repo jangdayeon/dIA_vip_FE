@@ -1,11 +1,31 @@
+'use client';
+
+import { getSession } from '@/actions/myauth';
 import ConsultingListCard from '@/components/ConsultingListCard';
 import PBCard from '@/components/PBCard';
 import ReserveCard from '@/components/ReserveCard';
 import ScheduleCard from '@/components/ScheduleCard';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import banner from '../assets/home_banner.png';
+import NotLoginedMain from './NotLoginedMain';
 
-export default function logined() {
+export default function Logined() {
+  const [id, setId] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async function () {
+      const ss = await getSession();
+      setId(ss?.user?.email || '');
+      setLoading(false);
+    })();
+  });
+
+  if (loading) return <></>;
+  if (!id) {
+    return <NotLoginedMain />;
+  }
   return (
     <div className='flex justify-center items-center mx-auto p-10'>
       <div className='bg-sky-50 rounded-2xl'>

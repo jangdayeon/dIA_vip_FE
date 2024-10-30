@@ -9,8 +9,8 @@ export default function Logined() {
       <Image
         src={notLoginedBackgroundImg}
         alt='Background'
-        layout='fill'
-        objectFit='cover'
+        fill
+        style={{ objectFit: 'cover' }}
         quality={100}
         className='-z-10' // 뒤에 배치
       />

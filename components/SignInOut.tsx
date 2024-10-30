@@ -35,7 +35,7 @@ export default function SignInOut({
           onClick={async () => {
             localStorage.removeItem(id);
             await mySignOut();
-            router.replace('/signin');
+            router.refresh();
           }}
           className='text-center text-[#525463] border h-10 bg-[#858899]/20 px-4 py-2 my-4 mx-7 rounded-lg'
         >
