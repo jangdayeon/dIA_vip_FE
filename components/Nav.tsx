@@ -13,7 +13,7 @@ export default function Nav() {
   return (
     <div className='flex justify-between items-center w-full bg-[#d6e8f6] border-b border-[#a5a5a5]'>
       <Link href='/'>
-        <Image src={logo} alt='nav_logo' className='mx-5 w-3/5' />
+        <Image src={logo} alt='nav_logo' className='mx-5 w-2/5' />
       </Link>
       <SignInOut isLogin={isLogin} />
     </div>
