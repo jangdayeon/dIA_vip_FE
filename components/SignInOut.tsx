@@ -33,7 +33,7 @@ export default function SignInOut({
         </div>
         <button
           onClick={async () => {
-            localStorage.removeItem(id);
+            localStorage.removeItem('dIA_VIP');
             await mySignOut();
             router.replace('/signin');
           }}
