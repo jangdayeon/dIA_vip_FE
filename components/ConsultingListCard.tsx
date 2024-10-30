@@ -51,14 +51,20 @@ export default function ConsultingListCard() {
       </div>
 
       <div>
-        {lists.slice(0, 8).map((item, index) => (
-          <ConsultingItem
-            key={index}
-            title={item.title}
-            date={item.date}
-            status={item.status}
-          />
-        ))}
+        {lists.length ? (
+          lists
+            .slice(0, 8)
+            .map((item, index) => (
+              <ConsultingItem
+                key={index}
+                title={item.title}
+                date={item.date}
+                status={item.status}
+              />
+            ))
+        ) : (
+          <div className='flex justify-center mt-10'>상담 내역이 없습니다.</div>
+        )}
       </div>
     </div>
   );
