@@ -46,7 +46,7 @@ export default function Confirm() {
             <div className='flex gap-2 items-center ml-3'>
               <p className='font-semibold'>희망일시</p>
               <p className='border bg-white rounded-lg p-1 border-black w-80'>
-                {data.date}
+                {`${data.date.slice(0, 4)}.${data.date.slice(4, 6)}.${data.date.slice(6, 8)} ${data.time}`}
               </p>
             </div>
             <div className='flex gap-2 items-center'>
