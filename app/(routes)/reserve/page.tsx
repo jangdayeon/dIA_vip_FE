@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@/components/Button';
 import CalendarPopup from '@/components/CalendarPopup';
 import { formatDate } from '@/utils/date';
 import { useRouter } from 'next/navigation';
@@ -50,21 +49,23 @@ export default function Reserve() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const dateString = childDate;
-    if (!dateString) return;
-    const dateObject = new Date(dateString);
-    const date = formatDate(dateObject);
-    const reserveData = {
-      title: titleRef.current?.value || '',
-      category: categoryRef.current?.value || '',
-      date: date,
-      time: timeRef.current?.value || '',
-      detail: detailRef.current?.value || '',
-    };
+    if (confirm('예약하시겠습니까?')) {
+      const dateString = childDate;
+      if (!dateString) return;
+      const dateObject = new Date(dateString);
+      const date = formatDate(dateObject);
+      const reserveData = {
+        title: titleRef.current?.value || '',
+        category: categoryRef.current?.value || '',
+        date: date,
+        time: timeRef.current?.value || '',
+        detail: detailRef.current?.value || '',
+      };
 
-    localStorage.setItem('reserveData', JSON.stringify(reserveData));
+      localStorage.setItem('reserveData', JSON.stringify(reserveData));
 
-    router.push('/confirm');
+      router.push('/confirm');
+    }
   };
 
   const handleDateSet = (value: Date | null) => {
@@ -172,7 +173,12 @@ export default function Reserve() {
             />
           </div>
           <div className='flex justify-end'>
-            <Button type='submit' text='예약하기' bg='bg-slate-300' />
+            <button
+              type='submit'
+              className='border border-black bg-slate-300 p-2 rounded-lg'
+            >
+              예약하기
+            </button>
           </div>
         </form>
       </div>
