@@ -72,7 +72,7 @@ export default function PBCard() {
             <div className='flex items-center space-x-2 text-gray-700'>
               <MessageCircleHeart />
               <div>
-                안유진 PB와 함께한 지<div className='text-xs'>2024/08/01</div>
+                안유진 PB와 함께한 지<div className='text-xs'>2024-08-01</div>
               </div>
             </div>
             <div className='flex items-center space-x-2'>81일</div>

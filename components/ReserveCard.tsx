@@ -6,13 +6,12 @@ import reserveIcon from '../assets/market_validation_icon.png';
 export default function ReserveCard() {
   return (
     <div className='bg-white shadow-lg rounded-lg'>
-      <div className='flex justify-between border-b border-opacity-55 px-6 py-4'>
-        <h2 className='text-slate-600 text-2xl font-semibold'>상담 예약</h2>
-
-        <Link href='/reserve'>
-          <ChevronRightIcon className='h-8 text-[#3F6886] hover:text-black' />
-        </Link>
-      </div>
+      <Link href='/reserve'>
+        <div className='flex justify-between border-b border-opacity-55 px-6 py-4 hover:bg-gray-100'>
+          <h2 className='text-slate-600 text-2xl font-semibold'>상담 예약</h2>
+          <ChevronRightIcon className='h-8 text-[#3F6886]' />
+        </div>
+      </Link>
 
       <div className='flex px-6'>
         <div className='mt-4 space-y-2'>

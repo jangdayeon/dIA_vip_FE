@@ -43,12 +43,12 @@ export default function ConsultingListCard() {
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>
-      <div className='flex justify-between border-b border-opacity-55 px-6 py-4'>
-        <div className='text-slate-600 text-2xl font-semibold'>상담 내역</div>
-        <Link href='/consultingList'>
-          <ChevronRightIcon className='h-8 text-[#3F6886] hover:text-black' />
-        </Link>
-      </div>
+      <Link href='/consultingList'>
+        <div className='flex justify-between border-b border-opacity-55 px-6 py-4 hover:bg-gray-100'>
+          <div className='text-slate-600 text-2xl font-semibold'>상담 내역</div>
+          <ChevronRightIcon className='h-8 text-[#3F6886]' />
+        </div>
+      </Link>
 
       <div>
         {lists.length ? (

@@ -4,22 +4,21 @@ import { CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 
 const ScheduleItem = ({ title, date }: Schedule) => {
-  console.log(scheduleData);
   return (
-    <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden'>
-      <div className='flex items-center w-full'>
-        <CalendarClock className='w-6 h-6 text-gray-500 mr-3' />
-        <div className='flex-1 overflow-hidden mr-2'>
-          <p className='text-sm font-semibold text-gray-700 truncate'>
-            {title}
-          </p>
-          <p className='text-xs text-gray-500 truncate'>{date}</p>
-        </div>
-        <Link href='/confirm'>
+    <Link href='/confirm'>
+      <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden hover:bg-gray-100'>
+        <div className='flex items-center w-full'>
+          <CalendarClock className='w-6 h-6 text-gray-500 mr-3' />
+          <div className='flex-1 overflow-hidden mr-2'>
+            <p className='text-sm font-semibold text-gray-700 truncate'>
+              {title}
+            </p>
+            <p className='text-xs text-gray-500 truncate'>{date}</p>
+          </div>
           <ChevronRightIcon className='w-5 h-5' />
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
