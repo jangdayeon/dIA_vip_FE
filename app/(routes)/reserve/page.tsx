@@ -96,7 +96,7 @@ export default function Reserve() {
                 required
                 ref={categoryRef}
                 defaultValue=''
-                className='border bg-white rounded-lg p-1 border-black w-80'
+                className='border bg-white rounded-lg p-1.5 border-black w-80'
               >
                 <option value='' disabled>
                   카테고리를 선택하세요.
@@ -150,6 +150,7 @@ export default function Reserve() {
             <label className='w-20 text-right font-semibold'>제목</label>
             <input
               required
+              maxLength={50}
               ref={titleRef}
               type='text'
               className='border bg-white rounded-lg p-1 border-black w-full'
@@ -160,16 +161,9 @@ export default function Reserve() {
             <textarea
               required
               ref={detailRef}
-              rows={20}
-              className='border bg-white rounded-lg p-1 border-black w-full overflow-y-auto'
-            />
-          </div>
-          <div className='flex gap-3 items-center w-full my-2'>
-            <label className='w-20 text-right font-semibold'>첨부파일</label>
-            <input
-              type='file'
-              className='border bg-white rounded-lg p-1 border-black w-full'
-              multiple
+              rows={10}
+              maxLength={300}
+              className='border bg-white rounded-lg p-1 border-black w-full overflow-y-auto resize-none'
             />
           </div>
           <div className='flex justify-end'>
