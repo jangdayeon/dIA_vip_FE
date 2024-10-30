@@ -1,5 +1,3 @@
-'use client';
-
 import { getSession } from '@/actions/myauth';
 import ConsultingListCard from '@/components/ConsultingListCard';
 import PBCard from '@/components/PBCard';
@@ -8,6 +6,7 @@ import ScheduleCard from '@/components/ScheduleCard';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import banner from '../assets/home_banner.png';
+import LoginedMainLoading from './LoginedMainLoading';
 import NotLoginedMain from './NotLoginedMain';
 
 export default function Logined() {
@@ -22,7 +21,7 @@ export default function Logined() {
     })();
   });
 
-  if (loading) return <></>;
+  if (loading) return <LoginedMainLoading />;
   if (!id) {
     return <NotLoginedMain />;
   }
