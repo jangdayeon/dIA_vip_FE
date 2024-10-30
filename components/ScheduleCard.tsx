@@ -5,19 +5,19 @@ import Link from 'next/link';
 
 const ScheduleItem = ({ title, date }: Schedule) => {
   return (
-    <div className='flex items-center justify-between p-3 border-b border-gray-200'>
-      <div className='flex items-center'>
+    <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden'>
+      <div className='flex items-center w-full'>
         <CalendarClock className='w-6 h-6 text-gray-500 mr-3' />
-        <div>
-          <p className='text-sm font-semibold text-gray-700 truncate max-w-60'>
+        <div className='flex-1 overflow-hidden mr-2'>
+          <p className='text-sm font-semibold text-gray-700 truncate'>
             {title}
           </p>
-          <p className='text-xs text-gray-500'>{date}</p>
+          <p className='text-xs text-gray-500 truncate'>{date}</p>
         </div>
+        <Link href='/confirm'>
+          <ChevronRightIcon className='w-5 h-5' />
+        </Link>
       </div>
-      <Link href='/confirm'>
-        <ChevronRightIcon className='w-5 h-5' />
-      </Link>
     </div>
   );
 };
@@ -29,8 +29,8 @@ export default function ScheduleCard() {
         <div className='text-slate-600 text-2xl font-semibold'>상담 일정</div>
       </div>
 
-      <div className='h-screen overflow-y-scroll'>
-        {scheduleData.map((schedule, index) => (
+      <div className='overflow-x-hidden'>
+        {scheduleData.slice(0, 5).map((schedule, index) => (
           <ScheduleItem
             key={index}
             title={schedule.title}

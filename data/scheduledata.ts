@@ -5,7 +5,8 @@ export type Schedule = {
 
 export const scheduleData = [
   {
-    title: '건물 매각 건에 대해서 상담 요청합니다.',
+    title:
+      '건물 매각 건에 대해서 상담 요청합니다.건물 매각 건에 대해서 상담 요청합니다.',
     date: '2024.10.22 16:30',
   },
   {

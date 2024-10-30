@@ -51,7 +51,7 @@ export default function ConsultingListCard() {
       </div>
 
       <div className='h-screen overflow-y-scroll'>
-        {lists.map((item, index) => (
+        {lists.slice(0, 5).map((item, index) => (
           <ConsultingItem
             key={index}
             title={item.title}
