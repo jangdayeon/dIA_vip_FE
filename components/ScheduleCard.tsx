@@ -4,6 +4,7 @@ import { CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 
 const ScheduleItem = ({ title, date }: Schedule) => {
+  console.log(scheduleData);
   return (
     <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden'>
       <div className='flex items-center w-full'>
@@ -30,13 +31,21 @@ export default function ScheduleCard() {
       </div>
 
       <div>
-        {scheduleData.slice(0, 8).map((schedule, index) => (
-          <ScheduleItem
-            key={index}
-            title={schedule.title}
-            date={schedule.date}
-          />
-        ))}
+        {scheduleData.length ? (
+          scheduleData
+            .slice(0, 8)
+            .map((schedule, index) => (
+              <ScheduleItem
+                key={index}
+                title={schedule.title}
+                date={schedule.date}
+              />
+            ))
+        ) : (
+          <div className='flex justify-center mt-10'>
+            예약된 상담이 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );
