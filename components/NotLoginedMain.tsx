@@ -1,9 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import hanaCharacters from '../assets/hanaCharacters.png';
 import notLoginedBackgroundImg from '../assets/notLoginedBackgroundImg.png';
 import notLoginedText from '../assets/notLoginedText.png';
 
-export default function Logined() {
+export default function NotLogined() {
   return (
     <div className='relative h-screen w-full'>
       <Image
