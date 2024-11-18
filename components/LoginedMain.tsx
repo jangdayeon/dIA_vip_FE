@@ -4,6 +4,7 @@ import ReserveCard from '@/components/ReserveCard';
 import ScheduleCard from '@/components/ScheduleCard';
 import Image from 'next/image';
 import banner from '../assets/home_banner.png';
+import RecommendCard from './RecommendCard';
 
 export default function logined() {
   return (
@@ -11,14 +12,16 @@ export default function logined() {
       <div className='bg-sky-50 rounded-2xl'>
         <Image src={banner} alt='' className='w-full h-40' />
 
-        <div className='grid grid-cols-3 gap-3 p-5'>
-          <div className='grid grid-cols-1 gap-3'>
+        <div className='p-5'>
+          <div className='grid grid-cols-3 gap-3 mb-3'>
             <PBCard />
-            <ReserveCard />
+            <ScheduleCard />
+            <ConsultingListCard />
           </div>
-
-          <ScheduleCard />
-          <ConsultingListCard />
+          <div className='grid grid-cols-2 gap-3'>
+            <ReserveCard />
+            <RecommendCard />
+          </div>
         </div>
       </div>
     </div>
