@@ -4,6 +4,7 @@ import { getSession, mySignOut } from '@/actions/myauth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Notification from './Notification';
 
 export default function SignInOut({
   isLogin,
@@ -30,6 +31,7 @@ export default function SignInOut({
           <Link href='/consultingList' className='hover:text-[#3F6886] '>
             상담 내역
           </Link>
+          <Notification />
         </div>
         <button
           onClick={async () => {
