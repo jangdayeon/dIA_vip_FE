@@ -29,7 +29,7 @@ export default function ScheduleCard() {
         <div className='text-slate-600 text-2xl font-semibold'>상담 일정</div>
       </div>
 
-      <div className='h-96 overflow-y-scroll'>
+      <div className='h-72 overflow-y-scroll'>
         {scheduleData.map((schedule, index) => (
           <ScheduleItem
             key={index}
