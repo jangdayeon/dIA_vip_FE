@@ -1,4 +1,4 @@
-import { MessageCircleHeart, PhoneCall } from 'lucide-react';
+import { ChevronRightIcon, MessageCircleHeart, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import pb_profile from '../assets/pb_profile.png';
@@ -51,22 +51,13 @@ export default function PBCard() {
         </div>
 
         <div className='mt-4 space-y-2'>
-          <div className='flex justify-between bg-blue-100 w-full p-2 rounded-lg font-semibold'>
+          <button className='flex bg-blue-100 hover:bg-blue-300 justify-between w-full p-2 rounded-lg font-semibold'>
             <div className='flex items-center space-x-2 text-gray-700'>
               <PhoneCall />
-              <div>현재 상담 가능 상태</div>
+              <div>빠른 상담</div>
             </div>
-            <div className='flex items-center space-x-2'>
-              <div
-                className={`w-3 h-3 rounded-full ${
-                  isOnline ? 'bg-green-500' : 'bg-gray-400'
-                }`}
-              />
-              <span className='text-gray-700'>
-                {isOnline ? '온라인' : '오프라인'}
-              </span>
-            </div>
-          </div>
+            <ChevronRightIcon className='text-[#3F6886]' />
+          </button>
 
           <div className='flex justify-between bg-blue-100 w-full p-2 rounded-lg font-semibold'>
             <div className='flex items-center space-x-2 text-gray-700'>

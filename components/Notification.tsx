@@ -38,13 +38,18 @@ export default function Notification() {
         <div className='absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg'>
           {/* Header */}
           <div className='flex items-center justify-between px-4 py-2 border-b'>
-            <span className='font-semibold text-gray-700'>Notifications</span>
-            <button
-              onClick={markAllAsRead}
-              className='text-sm text-blue-500 hover:underline'
-            >
-              Mark all as read
-            </button>
+            <span className='font-semibold text-gray-700'>알림</span>
+            <div className='space-x-2'>
+              <button
+                onClick={markAllAsRead}
+                className='text-sm text-blue-500 hover:underline'
+              >
+                전체 읽음
+              </button>
+              <button className='text-sm text-blue-500 hover:underline'>
+                전체 삭제
+              </button>
+            </div>
           </div>
 
           {/* Notifications */}
@@ -75,9 +80,9 @@ export default function Notification() {
 
           {/* Footer */}
           <div className='px-4 py-2 text-center border-t'>
-            <a href='#' className='text-sm text-blue-500 hover:underline'>
+            {/* <a href='#' className='text-sm text-blue-500 hover:underline'>
               See All
-            </a>
+            </a> */}
           </div>
         </div>
       )}
