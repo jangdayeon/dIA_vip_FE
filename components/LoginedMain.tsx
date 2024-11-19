@@ -13,14 +13,14 @@ export default function logined() {
         <Image src={banner} alt='' className='w-full h-40' />
 
         <div className='p-5'>
-          <div className='grid grid-cols-3 gap-3 mb-3'>
+          <div className='grid grid-cols-3 gap-3'>
             <PBCard />
             <ScheduleCard />
             <ConsultingListCard />
-          </div>
-          <div className='grid grid-cols-2 gap-3'>
             <ReserveCard />
-            <RecommendCard />
+            <div className='col-span-2'>
+              <RecommendCard />
+            </div>
           </div>
         </div>
       </div>

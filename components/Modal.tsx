@@ -3,6 +3,7 @@
 import { SquareCheckBig } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useRef, useEffect } from 'react';
 import PBCard from '../assets/pb_card.png';
 
 interface ModalProps {
@@ -11,13 +12,31 @@ interface ModalProps {
 
 export default function Modal({ onClose }: ModalProps) {
   const router = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
   const onReserve = () => {
     router.push('/reserve');
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
-      <div className='bg-sky-50 rounded-lg p-6 max-w-2xl w-full'>
+      <div ref={modalRef} className='bg-sky-50 rounded-lg p-6 max-w-2xl w-full'>
         <div className='flex flex-row px-4 py-6 gap-4'>
           <div className='w-1/3'>
             <Image src={PBCard} alt='PB card' className='' />

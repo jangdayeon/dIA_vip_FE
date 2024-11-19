@@ -1,7 +1,5 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
 import Link from 'next/link';
-import reserveIcon from '../assets/market_validation_icon.png';
 
 export default function ReserveCard() {
   return (
@@ -23,11 +21,6 @@ export default function ReserveCard() {
             하나은행만의 전문 PB와 1대 1 상담을 언제든 신청할 수 있습니다.
           </div>
         </div>
-        <Image
-          src={reserveIcon}
-          alt='reserve icon'
-          className='w-36 h-36 rotate-6'
-        />
       </div>
     </div>
   );

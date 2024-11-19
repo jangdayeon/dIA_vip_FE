@@ -50,7 +50,7 @@ export default function ConsultingListCard() {
         </Link>
       </div>
 
-      <div className='h-screen overflow-y-scroll'>
+      <div className='h-96 overflow-y-scroll'>
         {lists.map((item, index) => (
           <ConsultingItem
             key={index}
