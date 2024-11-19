@@ -6,8 +6,6 @@ import Modal from './Modal';
 
 export default function PBCard() {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isOnline, setIsOnline] = useState<boolean>(true); // Simulating online status
 
   const handleOpenModal = (): void => {
     setModalOpen(true);
@@ -16,6 +14,16 @@ export default function PBCard() {
   const handleCloseModal = (): void => {
     setModalOpen(false);
   };
+
+  const handleQuick = (): void => {
+    const confirm = window.confirm('빠른 상담을 요청하시겠습니까?');
+    if (confirm) {
+      alert('빠른 상담 요청이 접수되었습니다.\n15분 이내로 연락드리겠습니다.');
+    } else {
+      alert('빠른 상담 요청이 취소되었습니다.');
+    }
+  };
+
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='border-b border-opacity-55 px-6 py-4'>
@@ -51,7 +59,10 @@ export default function PBCard() {
         </div>
 
         <div className='mt-4 space-y-2'>
-          <button className='flex bg-blue-100 hover:bg-blue-300 justify-between w-full p-2 rounded-lg font-semibold'>
+          <button
+            className='flex bg-blue-100 hover:bg-blue-300 justify-between w-full p-2 rounded-lg font-semibold'
+            onClick={handleQuick}
+          >
             <div className='flex items-center space-x-2 text-gray-700'>
               <PhoneCall />
               <div>빠른 상담</div>
