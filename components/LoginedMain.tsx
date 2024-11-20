@@ -27,7 +27,13 @@ export default function Logined() {
   return (
     <div className='flex justify-center items-center mx-auto p-10'>
       <div className='bg-sky-50 rounded-2xl'>
-        <Image src={banner} alt='' className='w-full h-40' />
+        <Image
+          src={banner}
+          alt='banner'
+          style={{ objectFit: 'cover' }}
+          quality={100}
+          className='w-full h-40 rounded-t-2xl'
+        />
 
         <div className='p-5'>
           <div className='grid grid-cols-3 gap-3'>
