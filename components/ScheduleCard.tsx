@@ -29,22 +29,14 @@ export default function ScheduleCard() {
         <div className='text-slate-600 text-2xl font-semibold'>상담 일정</div>
       </div>
 
-      <div>
-        {scheduleData.length ? (
-          scheduleData
-            .slice(0, 8)
-            .map((schedule, index) => (
-              <ScheduleItem
-                key={index}
-                title={schedule.title}
-                date={schedule.date}
-              />
-            ))
-        ) : (
-          <div className='flex justify-center mt-10'>
-            예약된 상담이 없습니다.
-          </div>
-        )}
+      <div className='h-72 overflow-y-scroll'>
+        {scheduleData.map((schedule, index) => (
+          <ScheduleItem
+            key={index}
+            title={schedule.title}
+            date={schedule.date}
+          />
+        ))}
       </div>
     </div>
   );

@@ -50,21 +50,15 @@ export default function ConsultingListCard() {
         </div>
       </Link>
 
-      <div>
-        {lists.length ? (
-          lists
-            .slice(0, 8)
-            .map((item, index) => (
-              <ConsultingItem
-                key={index}
-                title={item.title}
-                date={item.date}
-                status={item.status}
-              />
-            ))
-        ) : (
-          <div className='flex justify-center mt-10'>상담 내역이 없습니다.</div>
-        )}
+      <div className='h-72 overflow-y-scroll'>
+        {lists.map((item, index) => (
+          <ConsultingItem
+            key={index}
+            title={item.title}
+            date={item.date}
+            status={item.status}
+          />
+        ))}
       </div>
     </div>
   );
