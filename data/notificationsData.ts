@@ -1,32 +1,20 @@
 export const notificationsData = [
   {
     id: 1,
-    text: 'Lorem ipsum dolor sit amet consectetur.',
-    time: '16h',
+    title: '새해 인사 드립니다.',
+    text: '안녕하세요, 조경은 고객님 안유진 PB입니다. 2025년 새해가 밝았습니다. 새해 복 많이 받으시길 바랍니다~^^',
     read: false,
   },
   {
     id: 2,
-    text: 'Lorem ipsum dolor sit amet consectetur.',
-    time: '18h',
+    title: '조경은 고객님을 위한 카드 혜택을 알려드립니다.',
+    text: '',
     read: false,
   },
   {
     id: 3,
-    text: 'Lorem ipsum dolor sit amet consectetur.',
-    time: '20h',
-    read: false,
-  },
-  {
-    id: 4,
-    text: 'Lorem ipsum dolor sit amet consectetur.',
-    time: '22h',
-    read: false,
-  },
-  {
-    id: 5,
-    text: 'Lorem ipsum dolor sit amet consectetur.',
-    time: '24h',
+    title: '2024.04.10일자 상담 일지가 도착했습니다.',
+    text: '',
     read: false,
   },
 ];
