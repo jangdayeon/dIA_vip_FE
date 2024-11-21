@@ -68,7 +68,7 @@ function SignupCard() {
 
   return (
     <div className='flex flex-col items-center p-20'>
-      <div className='w-1/2'>
+      <div className='w-2/5'>
         <div className='border-b border-gray-400 mb-8 w-full pb-8'>
           <h1 className='text-3xl font-extrabold mb-3'>회원가입</h1>
           <p className='text-lg font-medium'>
