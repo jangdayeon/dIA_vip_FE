@@ -25,7 +25,7 @@ export default function Logined() {
     return <NotLoginedMain />;
   }
   return (
-    <div className='flex justify-center items-center mx-auto p-10'>
+    <div className='flex justify-center items-center mx-auto p-10 w-5/6'>
       <div className='bg-sky-50 rounded-2xl'>
         <Image
           src={banner}
