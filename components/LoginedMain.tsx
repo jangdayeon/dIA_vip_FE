@@ -7,7 +7,7 @@ import ReserveCard from '@/components/ReserveCard';
 import ScheduleCard from '@/components/ScheduleCard';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import banner from '../assets/home_banner.png';
+import banner from '../assets/banner.gif';
 import NotLoginedMain from './NotLoginedMain';
 import RecommendCard from './RecommendCard';
 
@@ -32,7 +32,7 @@ export default function Logined() {
           alt='banner'
           style={{ objectFit: 'cover' }}
           quality={100}
-          className='w-full h-40 rounded-t-2xl'
+          className='w-full border-t-2 border-x-2 border-sky-50 h-40 rounded-t-2xl'
         />
 
         <div className='p-5'>
