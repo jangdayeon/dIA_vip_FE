@@ -3,22 +3,29 @@
 import CalendarPopup from '@/components/CalendarPopup';
 import SearchResult from '@/components/SearchResult';
 import { RotateCcw, Search } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ConsultingList() {
   const [categories, setCategories] = useState<string[]>([]);
-  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
-  const categoryRef = useRef<HTMLSelectElement>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+  const [filters, setFilters] = useState<{
+    category: string;
+    startDate: Date | null;
+    endDate: Date | null;
+    keyword: string;
+  }>({
+    category: '전체',
+    startDate: new Date(),
+    endDate: new Date(),
+    keyword: '',
+  });
+
+  const [applyFilters, setApplyFilters] = useState<boolean>(false); // 필터 적용 여부
+
   const minDate = new Date(2000, 1, 1);
-
-  const handleStartDateSet = (value: Date | null) => {
-    setStartDate(value);
-  };
-
-  const handleEndDateSet = (value: Date | null) => {
-    setEndDate(value);
-  };
 
   useEffect(() => {
     async function fetchCategories() {
@@ -29,6 +36,38 @@ export default function ConsultingList() {
 
     fetchCategories();
   }, []);
+
+  const handleStartDateSet = (value: Date | null) => {
+    setStartDate(value);
+  };
+
+  const handleEndDateSet = (value: Date | null) => {
+    setEndDate(value);
+  };
+
+  const handleReset = () => {
+    setSearchKeyword('');
+    setStartDate(new Date());
+    setEndDate(new Date());
+    setSelectedCategory('전체');
+    setFilters({
+      category: '전체',
+      startDate: new Date(),
+      endDate: new Date(),
+      keyword: '',
+    });
+    setApplyFilters(false); // 필터 해제
+  };
+
+  const handleSearch = () => {
+    setFilters({
+      category: selectedCategory,
+      startDate: startDate,
+      endDate: endDate,
+      keyword: searchKeyword,
+    });
+    setApplyFilters(true); // 필터 적용
+  };
 
   return (
     <div className='mx-32 mt-10'>
@@ -44,8 +83,13 @@ export default function ConsultingList() {
               type='text'
               className='border border-black bg-white rounded-lg p-1 w-full'
               placeholder='검색 키워드를 입력해주세요.'
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
             />
-            <button className='border border-black p-1 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white ml-2'>
+            <button
+              className='border border-black p-1 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white ml-2'
+              onClick={handleSearch}
+            >
               <Search />
             </button>
           </div>
@@ -54,9 +98,9 @@ export default function ConsultingList() {
           <div className='flex flex-wrap items-center gap-2'>
             <label className='w-28 text-center font-semibold'>카테고리</label>
             <select
-              ref={categoryRef}
-              defaultValue='전체'
               className='border bg-white rounded-lg p-1.5 border-black'
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
             >
               <option value='전체'>전체</option>
               {categories.map((category) => (
@@ -72,19 +116,24 @@ export default function ConsultingList() {
               dateSet={handleStartDateSet}
               minDate={minDate}
               maxDate={endDate ? endDate : new Date()}
+              selectedDate={startDate}
             />
             <label className='text-center font-semibold'>종료일</label>
             <CalendarPopup
               dateSet={handleEndDateSet}
               minDate={startDate ? startDate : minDate}
               maxDate={new Date()}
+              selectedDate={endDate}
             />
-            <button className='border border-black p-1 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white'>
+            <button
+              className='border border-black p-1 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white'
+              onClick={handleReset}
+            >
               <RotateCcw />
             </button>
           </div>
         </div>
-        <SearchResult />
+        <SearchResult filters={filters} applyFilters={applyFilters} />
       </div>
     </div>
   );

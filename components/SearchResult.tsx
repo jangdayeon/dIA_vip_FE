@@ -10,26 +10,61 @@ export type searchResult = {
   status: string;
 };
 
-export default function SearchResult() {
+type Filters = {
+  category: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  keyword: string;
+};
+
+export default function SearchResult({
+  filters,
+  applyFilters,
+}: {
+  filters: Filters;
+  applyFilters: boolean;
+}) {
   const [searchResults, setSearchResults] = useState<searchResult[]>([]);
+  const [filteredResults, setFilteredResults] = useState<searchResult[]>([]);
   const router = useRouter();
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
     e.preventDefault();
-
     router.push(`/consultingList/${id}`);
   };
 
   useEffect(() => {
     async function fetchSearchResults() {
-      const response = await fetch('/api/searchResults');
+      const response = await fetch('/api/searchResults'); // 전체 결과 API 호출
       const data = await response.json();
       setSearchResults(data.searchResults);
+      setFilteredResults(data.searchResults); // 초기 전체 결과 설정
+    }
+    fetchSearchResults();
+  }, []);
+
+  useEffect(() => {
+    if (!applyFilters) {
+      setFilteredResults(searchResults); // 필터를 적용하지 않을 때 전체 결과 표시
+      return;
     }
 
-    fetchSearchResults();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const { category, startDate, endDate, keyword } = filters;
+
+    const filtered = searchResults.filter((item) => {
+      const isCategoryMatch = category === '전체' || item.category === category;
+      const isDateMatch =
+        (!startDate || new Date(item.date) >= new Date(startDate)) &&
+        (!endDate || new Date(item.date) <= new Date(endDate));
+      const isKeywordMatch =
+        !keyword || item.title.toLowerCase().includes(keyword.toLowerCase());
+
+      return isCategoryMatch && isDateMatch && isKeywordMatch;
+    });
+
+    setFilteredResults(filtered);
+  }, [filters, searchResults, applyFilters]);
+
   return (
     <div className='border border-black bg-white w-full h-96 overflow-y-auto p-2'>
       <table className='table-auto w-full'>
@@ -44,7 +79,7 @@ export default function SearchResult() {
           </tr>
         </thead>
         <tbody>
-          {searchResults.map((item) => (
+          {filteredResults.map((item) => (
             <tr key={item.id}>
               <td className='border-b border-black px-4 py-2 text-center'>
                 {item.id}
