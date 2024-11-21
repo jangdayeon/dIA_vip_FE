@@ -28,8 +28,8 @@ function SigninCard() {
   };
 
   return (
-    <div className='flex flex-col items-center p-20'>
-      <div className='w-1/2'>
+    <div className='flex flex-col items-center p-36'>
+      <div className='w-2/5'>
         <div className='border-b border-gray-400 mb-8 w-full pb-8'>
           <h1 className='text-3xl font-extrabold mb-3'>로그인</h1>
           <p className='text-lg font-medium'>
@@ -42,7 +42,7 @@ function SigninCard() {
             <input
               name='id'
               placeholder='아이디를 입력하세요.'
-              className='w-full rounded-lg h-16 p-3 text-lg font-medium focus:outline-none'
+              className='w-full rounded-lg h-16 p-3 text-lg font-medium focus:outline-none focus-within:bg-inherit'
             />
           </div>
 
@@ -52,7 +52,7 @@ function SigninCard() {
               type='password'
               placeholder='비밀번호를 입력하세요.'
               name='pw'
-              className='w-full h-16 rounded-lg p-3 text-lg font-medium focus:outline-none'
+              className='w-full h-16 rounded-lg p-3 text-lg font-medium focus:outline-none focus-within:bg-inherit'
             />
           </div>
           {errorMsg && <div className='text-red-600 mb-3'>{errorMsg}</div>}

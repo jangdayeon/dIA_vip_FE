@@ -75,7 +75,7 @@ export default function ConsultingList() {
       <div className='my-1 text-gray-600'>
         하나은행만의 전문 PB와 상담한 내역을 확인하실 수 있습니다.
       </div>
-      <div className='mt-10 p-5 border border-black bg-[#D6E8F6] rounded-lg'>
+      <div className='bg-[#D6E8F6] rounded-lg drop-shadow-md px-24 py-16 mt-10'>
         <div className='flex justify-between items-center gap-2 my-2'>
           <label className='w-32 text-center font-semibold'>검색</label>
           <div className='w-full flex items-center'>
@@ -94,9 +94,11 @@ export default function ConsultingList() {
             </button>
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2'>
-          <div className='flex flex-wrap items-center gap-2'>
-            <label className='w-28 text-center font-semibold'>카테고리</label>
+        <div className='flex justify-between my-2'>
+          <div className='flex flex-wrap items-center'>
+            <label className='w-[122px] text-center font-semibold'>
+              카테고리
+            </label>
             <select
               className='border bg-white rounded-lg p-1.5 border-black'
               value={selectedCategory}
