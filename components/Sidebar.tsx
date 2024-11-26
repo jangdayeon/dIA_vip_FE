@@ -2,16 +2,19 @@
 
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import { Menu } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { searchResult } from './SearchResult';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
   const [searchResults, setSearchResults] = useState<searchResult[]>([]);
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleNavigation = (id: number) => {
+    setSelectedItemId(id);
     router.push(`/consultingList/${id}`);
   };
   const toggleSidebar = () => {
@@ -28,6 +31,15 @@ export default function Sidebar() {
     fetchSearchResults();
   }, []);
 
+  useEffect(() => {
+    if (pathname) {
+      const match = pathname.match(/\/consultingList\/(\d+)/); // Extract ID from URL
+      if (match && match[1]) {
+        setSelectedItemId(Number(match[1]));
+      }
+    }
+  }, [pathname]);
+
   return (
     <div
       className={`flex flex-col bg-gray-100 transition-width duration-300 ${isOpen ? 'w-80' : 'w-16'}`}
@@ -41,7 +53,11 @@ export default function Sidebar() {
           .map((item) => (
             <div
               key={item.id}
-              className='flex items-center space-x-2 cursor-pointer'
+              className={`flex items-center space-x-2 cursor-pointer ${
+                selectedItemId === item.id
+                  ? 'bg-white border-l-4 border-blue-500'
+                  : ''
+              }`}
               onClick={() => handleNavigation(item.id)}
             >
               {isOpen && (
