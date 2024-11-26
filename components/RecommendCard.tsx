@@ -37,12 +37,12 @@ export default function RecommendCard() {
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='border-b border-opacity-55 px-6 py-4'>
-        <div className='text-slate-600 text-2xl font-semibold'>맞춤 컨텐츠</div>
+        <div className='text-slate-600 text-2xl font-semibold'>맞춤 콘텐츠</div>
       </div>
-      <div className='p-6'>
+      <div className='p-2'>
         <Swiper
           modules={[Navigation]}
-          spaceBetween={20}
+          spaceBetween={5}
           slidesPerView={3}
           navigation
           loop={true}
