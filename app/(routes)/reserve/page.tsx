@@ -122,7 +122,7 @@ export default function Reserve() {
                   dateSet={handleDateSet}
                   minDate={minDate}
                   maxDate={maxDate}
-                  selectedDate={null}
+                  selectedDate={childDate}
                 />
                 <select
                   required
