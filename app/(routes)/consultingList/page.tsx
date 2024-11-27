@@ -24,6 +24,7 @@ export default function ConsultingList() {
   });
 
   const [applyFilters, setApplyFilters] = useState<boolean>(false); // 필터 적용 여부
+  const [dateFilterEnabled, setDateFilterEnabled] = useState<boolean>(true); // 날짜 필터링 활성화 여부
 
   const minDate = new Date(2000, 1, 1);
 
@@ -57,6 +58,7 @@ export default function ConsultingList() {
       keyword: '',
     });
     setApplyFilters(false); // 필터 해제
+    setDateFilterEnabled(false); // 날짜 필터링 비활성화
   };
 
   const handleSearch = () => {
@@ -128,6 +130,17 @@ export default function ConsultingList() {
                 maxDate={new Date()}
                 selectedDate={endDate}
               />
+
+              <input
+                type='checkbox'
+                id='dateFilter'
+                checked={dateFilterEnabled}
+                onChange={(e) => setDateFilterEnabled(e.target.checked)}
+              />
+              <label htmlFor='dateFilter' className='font-semibold text-xs'>
+                전체조회
+              </label>
+
               <button
                 className='p-1.5 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white'
                 onClick={handleReset}
@@ -136,7 +149,11 @@ export default function ConsultingList() {
               </button>
             </div>
           </div>
-          <SearchResult filters={filters} applyFilters={applyFilters} />
+          <SearchResult
+            filters={filters}
+            applyFilters={applyFilters}
+            dateFilterEnabled={dateFilterEnabled}
+          />
         </div>
       </div>
     </div>

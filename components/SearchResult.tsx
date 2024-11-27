@@ -20,9 +20,11 @@ type Filters = {
 export default function SearchResult({
   filters,
   applyFilters,
+  dateFilterEnabled,
 }: {
   filters: Filters;
   applyFilters: boolean;
+  dateFilterEnabled: boolean;
 }) {
   const [searchResults, setSearchResults] = useState<searchResult[]>([]);
   const [filteredResults, setFilteredResults] = useState<searchResult[]>([]);
@@ -54,8 +56,9 @@ export default function SearchResult({
     const filtered = searchResults.filter((item) => {
       const isCategoryMatch = category === '전체' || item.category === category;
       const isDateMatch =
-        (!startDate || new Date(item.date) >= new Date(startDate)) &&
-        (!endDate || new Date(item.date) <= new Date(endDate));
+        dateFilterEnabled ||
+        ((!startDate || new Date(item.date) >= new Date(startDate)) &&
+          (!endDate || new Date(item.date) <= new Date(endDate)));
       const isKeywordMatch =
         !keyword || item.title.toLowerCase().includes(keyword.toLowerCase());
 
@@ -63,7 +66,7 @@ export default function SearchResult({
     });
 
     setFilteredResults(filtered);
-  }, [filters, searchResults, applyFilters]);
+  }, [filters, searchResults, applyFilters, dateFilterEnabled]);
 
   return (
     <div className='border border-sky-50 bg-white w-full h-96 overflow-y-auto p-2 mt-5'>
