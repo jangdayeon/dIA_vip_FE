@@ -1,6 +1,8 @@
 'use client';
 
 import { FolderArrowDownIcon, HeartIcon } from '@heroicons/react/16/solid';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -17,6 +19,7 @@ type ConsultingDetail = {
   category: string;
   title: string;
   date: string;
+  time: string;
   manager: string;
   status: string;
   content: string;
@@ -45,7 +48,41 @@ export default function ConsultingDetailCard() {
 
   if (!consultingDetail) return <Loading />;
 
-  const { category, title, date, manager } = consultingDetail;
+  const { category, title, date, time, manager } = consultingDetail;
+
+  const downloadPDF = () => {
+    const contentToCapture = document.getElementById(
+      'consulting-detail-content'
+    );
+
+    if (contentToCapture) {
+      html2canvas(contentToCapture, { scale: 2 }).then((canvas) => {
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const imgData = canvas.toDataURL('image/png');
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const imgWidth = pageWidth;
+        let imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        let yOffset = 0;
+
+        // Add the first page
+        doc.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
+
+        // Check if the content height exceeds one page
+        while (imgHeight > pageHeight) {
+          doc.addPage();
+          yOffset = yOffset - pageHeight;
+          doc.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
+          imgHeight -= pageHeight;
+        }
+
+        // Save the PDF
+        doc.save(`상담 내역_${date}.pdf`);
+      });
+    }
+  };
 
   return (
     <div className='mt-10 w-full'>
@@ -58,7 +95,7 @@ export default function ConsultingDetailCard() {
           추가 상담
         </button>
         <button
-          onClick={() => {}}
+          onClick={downloadPDF}
           className='flex flex-row bg-[#3F6886] p-2 rounded-lg text-[#F2F9FF] hover:bg-[#2c4a5f]'
         >
           <FolderArrowDownIcon className='h-6 w-6' />
@@ -66,7 +103,10 @@ export default function ConsultingDetailCard() {
         </button>
       </div>
       <div>
-        <div className='mt-5 pt-5 shadow-[0_0px_6px_0px_rgba(0,0,0,0.1)] bg-[#F2F9FF] rounded-t-lg'>
+        <div
+          id='consulting-detail-content'
+          className='mt-5 pt-5 shadow-[0_0px_6px_0px_rgba(0,0,0,0.1)] bg-[#F2F9FF] rounded-t-lg'
+        >
           <div className='my-5 mx-24'>
             <div className='text-2xl font-bold'>
               [{category}] {title}
@@ -75,7 +115,9 @@ export default function ConsultingDetailCard() {
               <div className='flex flex-row gap-2'>
                 <div className='font-bold'>PB명</div> {manager}
               </div>
-              <div>{date}</div>
+              <div>
+                {date} {time}
+              </div>
             </div>
           </div>
 
