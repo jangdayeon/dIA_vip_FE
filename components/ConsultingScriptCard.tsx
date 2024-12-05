@@ -22,7 +22,7 @@ export default function ConsultingScriptCard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='w-96 h-screen overflow-y-scroll'>
+    <div className='w-full'>
       {consultingScripts.map((item) => (
         <div
           key={item.sequence}
@@ -31,11 +31,11 @@ export default function ConsultingScriptCard() {
           }
         >
           {item.speaker === 'VIP' ? (
-            <div className='border border-[#3F6886] rounded-lg max-w-48 w-fit p-1 my-1.5 bg-[#3F6886] text-white'>
+            <div className='border border-[#3F6886] rounded-lg max-w-96 w-fit p-1 my-1.5 bg-[#3F6886] text-white'>
               {item.content}
             </div>
           ) : (
-            <div className='border border-[#D6E8F6] rounded-lg max-w-48 w-fit p-1 my-1.5 bg-[#D6E8F6] text-black'>
+            <div className='border border-[#D6E8F6] rounded-lg max-w-96 w-fit p-1 my-1.5 bg-[#D6E8F6] text-black'>
               {item.content}
             </div>
           )}

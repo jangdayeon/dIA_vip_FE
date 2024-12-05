@@ -68,7 +68,7 @@ export default function Sidebar() {
                       <p className='text-sm font-semibold text-gray-700 truncate max-w-48'>
                         {item.title}
                       </p>
-                      <p className='text-xs text-gray-500'>{item.date}</p>
+                      <p className='text-xs text-gray-500'>{item.date} {item.time}</p>
                     </div>
                   </div>
                 </div>

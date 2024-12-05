@@ -6,6 +6,7 @@ export type searchResult = {
   category: string;
   title: string;
   date: string;
+  time: string;
   manager: string;
   status: string;
 };
@@ -94,7 +95,7 @@ export default function SearchResult({
                 {item.title}
               </td>
               <td className='border-b border-black px-4 py-2 text-center'>
-                {item.date}
+                {item.date} {item.time}
               </td>
               <td className='border-b border-black px-4 py-2 text-center'>
                 {item.manager}
