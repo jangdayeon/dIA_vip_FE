@@ -3,12 +3,27 @@
 import { notificationsData } from '@/data/notificationsData';
 import { BellIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import noti from '../assets/notification.png';
 
 export default function Notification() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState(notificationsData);
+
+  const notiRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notiRef.current && !notiRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const markAllAsRead = () => {
     setNotifications(
@@ -21,7 +36,7 @@ export default function Notification() {
   };
 
   return (
-    <div className='relative inline-block'>
+    <div className='relative inline-block' ref={notiRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className='relative p-2 hover:text-[#3F6886] focus:outline-none'
