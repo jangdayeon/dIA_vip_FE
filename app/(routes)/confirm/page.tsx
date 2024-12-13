@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button';
+import Button from '@/stories/Button';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { type reserve } from '../reserve/page';

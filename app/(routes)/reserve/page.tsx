@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button';
+import Button from '@/stories/Button';
 import CalendarPopup from '@/components/CalendarPopup';
 import { formatDate } from '@/utils/date';
 import { useRouter } from 'next/navigation';

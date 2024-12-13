@@ -1,7 +1,7 @@
 'use client';
 
 import { authenticate } from '@/actions/myauth';
-import Button from '@/components/Button';
+import Button from '@/stories/Button';
 import { LockClosedIcon, UserIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
