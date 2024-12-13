@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint --no-cache",
     "format": "prettier --write --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "format:fix": "prettier --write --ignore-path .gitignore .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
@@ -34,7 +36,15 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "3.2.2",
     "@next/eslint-plugin-next": "^15.0.1",
+    "@storybook/addon-essentials": "8.4.7",
+    "@storybook/addon-interactions": "8.4.7",
+    "@storybook/addon-onboarding": "8.4.7",
+    "@storybook/blocks": "8.4.7",
+    "@storybook/nextjs": "8.4.7",
+    "@storybook/react": "8.4.7",
+    "@storybook/test": "8.4.7",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -44,8 +54,10 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-storybook": "^0.11.1",
     "postcss": "^8",
     "prettier": "^3.3.3",
+    "storybook": "8.4.7",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
