@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useEffect } from 'react';
 import PBCard from '../assets/pb_card.png';
-import Button from './Button';
+import Button from '@/stories/Button';
 
 interface ModalProps {
   onClose: () => void;

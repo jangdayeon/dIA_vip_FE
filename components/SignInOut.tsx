@@ -1,10 +1,10 @@
 'use client';
 
 import { getSession, mySignOut } from '@/actions/myauth';
+import Button from '@/stories/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Button from './Button';
 import Notification from './Notification';
 
 export default function SignInOut({
