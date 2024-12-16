@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '@/stories/Button';
 import CalendarPopup from '@/components/CalendarPopup';
+import Button from '@/stories/Button';
 import { formatDate } from '@/utils/date';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -92,13 +92,15 @@ export default function Reserve() {
         <div className='bg-[#D6E8F6] rounded-lg drop-shadow-md px-24 py-16 mt-10'>
           <form onSubmit={handleSubmit}>
             <div className='flex justify-between items-center my-2'>
-              <div className='flex gap-2 items-center ml-3'>
-                <label className='font-semibold'>카테고리</label>
+              <div className='flex flex-wrap gap-2 items-center'>
+                <label className='w-20 text-right font-semibold'>
+                  카테고리
+                </label>
                 <select
                   required
                   ref={categoryRef}
                   defaultValue=''
-                  className='bg-white rounded-lg p-1.5 w-80 focus:outline-none focus:outline-sky-50'
+                  className='bg-white rounded-lg p-1.5 focus:outline-none focus:outline-sky-50'
                 >
                   <option value='' disabled>
                     카테고리를 선택하세요.
@@ -112,12 +114,14 @@ export default function Reserve() {
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>PB</p>
-                <p className='bg-white rounded-lg px-8 py-1.5'>안유진</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>안유진</p>
               </div>
             </div>
             <div className='flex justify-between items-center my-2'>
-              <div className='flex gap-2 items-center ml-3'>
-                <label className='font-semibold'>희망일시</label>
+              <div className='flex flex-wrap gap-2 items-center'>
+                <label className='w-20 text-right font-semibold'>
+                  희망일시
+                </label>
                 <CalendarPopup
                   dateSet={handleDateSet}
                   minDate={minDate}
@@ -128,7 +132,7 @@ export default function Reserve() {
                   required
                   ref={timeRef}
                   defaultValue=''
-                  className='flex justify-center gap-1 items-center bg-white rounded-lg py-[9px] pr-2 ml-2 w-36 text-center focus:outline-none focus:outline-sky-50'
+                  className='flex justify-center gap-1 items-center bg-white rounded-lg py-1.5 pr-2 ml-2 w-36 text-center focus:outline-none focus:outline-sky-50'
                 >
                   <option value='' disabled>
                     00 : 00
@@ -142,10 +146,10 @@ export default function Reserve() {
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>고객명</p>
-                <p className='bg-white rounded-lg px-8 py-1.5'>김현수</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>김현수</p>
               </div>
             </div>
-            <div className='flex gap-3 items-center w-full my-2'>
+            <div className='flex gap-4 items-center w-full my-2'>
               <label className='w-20 text-right font-semibold'>제목</label>
               <input
                 required
@@ -155,7 +159,7 @@ export default function Reserve() {
                 className='bg-white rounded-lg p-1.5 w-full focus:outline-none focus:outline-sky-50'
               />
             </div>
-            <div className='flex gap-3 items-center w-full my-2'>
+            <div className='flex gap-4 items-center w-full my-2'>
               <label className='w-20 text-right font-semibold'>내용</label>
               <textarea
                 required

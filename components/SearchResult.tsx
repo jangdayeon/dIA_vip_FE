@@ -71,36 +71,28 @@ export default function SearchResult({
 
   return (
     <div className='border border-sky-50 bg-white w-full h-96 overflow-y-auto p-2 mt-5'>
-      <table className='table-auto w-full'>
-        <thead>
+      <table className='table-auto w-full border-collapse'>
+        <thead className='sticky top-0 bg-gray-100 z-10'>
           <tr>
-            <th className='border-b-2 border-black px-4 py-2'>순번</th>
-            <th className='border-b-2 border-black px-4 py-2'>카테고리</th>
-            <th className='border-b-2 border-black px-4 py-2'>제목</th>
-            <th className='border-b-2 border-black px-4 py-2'>상담일시</th>
-            <th className='border-b-2 border-black px-4 py-2'>담당자</th>
-            <th className='border-b-2 border-black px-4 py-2'>일지보기</th>
+            <th className='px-4 py-2'>순번</th>
+            <th className='px-4 py-2'>카테고리</th>
+            <th className='px-4 py-2'>제목</th>
+            <th className='px-4 py-2'>상담일시</th>
+            <th className='px-4 py-2'>담당자</th>
+            <th className='px-4 py-2'>일지보기</th>
           </tr>
         </thead>
         <tbody>
           {filteredResults.map((item) => (
-            <tr key={item.id}>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.id}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.category}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center truncate max-w-48'>
-                {item.title}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
+            <tr key={item.id} className='border-b border-black text-center'>
+              <td className='px-4 py-2'>{item.id}</td>
+              <td className='px-4 py-2'>{item.category}</td>
+              <td className='px-4 py-2 truncate max-w-48'>{item.title}</td>
+              <td className='px-4 py-2'>
                 {item.date} {item.time}
               </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.manager}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
+              <td className='px-4 py-2'>{item.manager}</td>
+              <td className='px-4 py-2'>
                 {item.status === '열람 가능' ? (
                   <button
                     onClick={(e) => handleSubmit(e, item.id)}
