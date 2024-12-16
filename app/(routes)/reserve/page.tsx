@@ -37,6 +37,8 @@ export type reserve = {
 
 export default function Reserve() {
   const [categories, setCategories] = useState<string[]>([]);
+  const [pbName, setPbName] = useState<string>('');
+  const [vipName, setVipName] = useState<string>('');
   const [childDate, setchildDate] = useState<Date | null>(new Date());
   const titleRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
@@ -74,14 +76,27 @@ export default function Reserve() {
   };
 
   useEffect(() => {
-    async function fetchCategories() {
-      const response = await fetch('/api/categories');
-      const data = await response.json();
-      setCategories(data.categories);
-    }
-
     fetchCategories();
+    fetchReserveInfo();
   }, []);
+
+  async function fetchCategories() {
+    const response = await fetch('/api/categories');
+    const data = await response.json();
+    setCategories(data.categories);
+  }
+
+  async function fetchReserveInfo() {
+    try {
+      const response = await fetch('http://localhost:8080/vip/reserves/info');
+      const data = await response.json();
+      setPbName(data.pbName);
+      console.log(data.pbName);
+      setVipName(data.vipName);
+    } catch (error) {
+      console.error('Error fetching reserve info:', error);
+    }
+  }
   return (
     <div className='flex justify-center items-center mb-10 mt-5'>
       <div className='mx-32 mt-10 w-3/5'>
@@ -114,7 +129,9 @@ export default function Reserve() {
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>PB</p>
-                <p className='bg-white rounded-lg px-5 py-1.5'>안유진</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>
+                  {pbName || 'PB명'}
+                </p>
               </div>
             </div>
             <div className='flex justify-between items-center my-2'>
@@ -146,7 +163,9 @@ export default function Reserve() {
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>고객명</p>
-                <p className='bg-white rounded-lg px-5 py-1.5'>김현수</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>
+                  {vipName || '고객명'}
+                </p>
               </div>
             </div>
             <div className='flex gap-4 items-center w-full my-2'>
