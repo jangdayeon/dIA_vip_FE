@@ -2,7 +2,6 @@
 
 import CalendarPopup from '@/components/CalendarPopup';
 import Button from '@/stories/Button';
-import { formatDate } from '@/utils/date';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -35,8 +34,13 @@ export type reserve = {
   detail: string;
 };
 
+export type Category = {
+  id: number;
+  name: string;
+};
+
 export default function Reserve() {
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [pbName, setPbName] = useState<string>('');
   const [vipName, setVipName] = useState<string>('');
   const [childDate, setchildDate] = useState<Date | null>(new Date());
@@ -49,25 +53,44 @@ export default function Reserve() {
   const maxDate = new Date(minDate);
   maxDate.setDate(maxDate.getDate() + 30);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (confirm('예약하시겠습니까?')) {
-      const dateString = childDate;
-      if (!dateString) return;
-      const dateObject = new Date(dateString);
-      const date = formatDate(dateObject);
+      if (!childDate) return;
+
       const reserveData = {
         title: titleRef.current?.value || '',
-        category: categoryRef.current?.value || '',
-        date: date,
+        categoryId: categoryRef.current?.value || '',
+        date: childDate?.toISOString().split('T')[0],
         time: timeRef.current?.value || '',
-        detail: detailRef.current?.value || '',
+        content: detailRef.current?.value || '',
       };
+      console.log(reserveData);
 
-      localStorage.setItem('reserveData', JSON.stringify(reserveData));
+      try {
+        const response = await fetch('http://localhost:8080/vip/reserves', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(reserveData),
+        });
 
-      router.push('/confirm');
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log('예약 성공:', responseData);
+
+          alert('예약이 성공적으로 등록되었습니다.');
+          router.push('/confirm');
+        } else {
+          const errorData = await response.json();
+          alert(`예약 실패: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('예약 요청 중 오류 발생:', error);
+        alert('예약 요청 중 문제가 발생했습니다.');
+      }
     }
   };
 
@@ -81,9 +104,13 @@ export default function Reserve() {
   }, []);
 
   async function fetchCategories() {
-    const response = await fetch('/api/categories');
-    const data = await response.json();
-    setCategories(data.categories);
+    try {
+      const response = await fetch('http://localhost:8080/vip/categories');
+      const data: Category[] = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   }
 
   async function fetchReserveInfo() {
@@ -121,8 +148,8 @@ export default function Reserve() {
                     카테고리를 선택하세요.
                   </option>
                   {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
+                    <option key={category.id} value={category.id}>
+                      {category.name}
                     </option>
                   ))}
                 </select>

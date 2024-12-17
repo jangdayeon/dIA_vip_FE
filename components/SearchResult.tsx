@@ -74,7 +74,7 @@ export default function SearchResult({
       <table className='table-auto w-full border-collapse'>
         <thead className='sticky top-0 bg-gray-100 z-10'>
           <tr>
-            <th className='px-4 py-2'>순번</th>
+            <th className='px-4 py-2'>ID</th>
             <th className='px-4 py-2'>카테고리</th>
             <th className='px-4 py-2'>제목</th>
             <th className='px-4 py-2'>상담일시</th>
