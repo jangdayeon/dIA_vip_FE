@@ -1,3 +1,4 @@
+import { type Consulting } from '@/utils/type';
 import {
   ChatBubbleLeftEllipsisIcon,
   ChatBubbleLeftRightIcon,
@@ -5,19 +6,6 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { item } from './ConsultingDetailCard';
-
-export type Consulting = {
-  id: number;
-  category?: string;
-  title: string;
-  date: string;
-  time?: string;
-  manager?: string;
-  status: boolean;
-  contents?: string;
-  journalProducts?: item[];
-};
 
 const ConsultingItem = ({ title, date, status }: Consulting) => {
   return (

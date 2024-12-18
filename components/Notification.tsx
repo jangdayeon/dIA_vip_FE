@@ -1,16 +1,10 @@
 'use client';
 
+import { type Notification } from '@/utils/type';
 import { BellIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import noti from '../assets/notification.png';
-
-export type Notification = {
-  id: number;
-  title: string;
-  text: string;
-  read: boolean;
-};
 
 export default function Notification() {
   const [isOpen, setIsOpen] = useState(false);

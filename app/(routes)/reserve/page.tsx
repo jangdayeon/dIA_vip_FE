@@ -2,6 +2,7 @@
 
 import CalendarPopup from '@/components/CalendarPopup';
 import Button from '@/stories/Button';
+import { type Category } from '@/utils/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -25,19 +26,6 @@ const times = [
   '17:00',
   '17:30',
 ];
-
-export type reserve = {
-  title: string;
-  category: string;
-  date: string;
-  time: string;
-  detail: string;
-};
-
-export type Category = {
-  id: number;
-  name: string;
-};
 
 export default function Reserve() {
   const [categories, setCategories] = useState<Category[]>([]);

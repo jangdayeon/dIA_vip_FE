@@ -1,5 +1,6 @@
 'use client';
 
+import { type Consulting } from '@/utils/type';
 import { FolderArrowDownIcon, HeartIcon } from '@heroicons/react/16/solid';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -7,14 +8,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Loading from './ConsultingDetailLoading';
-import { Consulting } from './ConsultingListCard';
 import ConsultingScriptCard from './ConsultingScriptCard';
-
-export type item = {
-  id: number;
-  name: string;
-  url: string;
-};
 
 export default function ConsultingDetailCard() {
   const { id } = useParams();
@@ -130,7 +124,7 @@ export default function ConsultingDetailCard() {
           <div className='bg-white w-full py-5 border-b'>
             <div className='text-xl font-bold mx-24'>상담 주요 스크립트</div>
             <div className='mt-5 flex justify-center mx-24'>
-              <ConsultingScriptCard />
+              <ConsultingScriptCard id={id} />
             </div>
           </div>
         </div>

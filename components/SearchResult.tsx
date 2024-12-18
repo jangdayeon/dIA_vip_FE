@@ -1,6 +1,6 @@
+import { type Consulting } from '@/utils/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Consulting } from './ConsultingListCard';
 
 type Filters = {
   category: string;

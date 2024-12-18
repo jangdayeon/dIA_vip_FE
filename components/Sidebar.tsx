@@ -1,12 +1,10 @@
 'use client';
 
+import { type Consulting } from '@/utils/type';
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import { Menu } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Consulting } from './ConsultingListCard';
-
-// import { searchResult } from './SearchResult';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);

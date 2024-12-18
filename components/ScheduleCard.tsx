@@ -1,18 +1,8 @@
+import { type Reservation } from '@/utils/type';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
-export type Reservation = {
-  id: number;
-  title: string;
-  categoryName?: string;
-  date: string;
-  time: string;
-  content?: string;
-  customerName?: string;
-  pbName?: string;
-};
 
 const ScheduleItem = ({ title, date, time }: Reservation) => {
   return (

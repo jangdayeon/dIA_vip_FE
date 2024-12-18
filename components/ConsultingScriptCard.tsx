@@ -1,26 +1,25 @@
+import { type Script } from '@/utils/type';
 import { useEffect, useState } from 'react';
 
-export type consultingScript = {
-  sequence: number;
-  speaker: string;
-  content: string;
-};
-
-export default function ConsultingScriptCard() {
-  const [consultingScripts, setConsultingScripts] = useState<
-    consultingScript[]
-  >([]);
+export default function ConsultingScriptCard({
+  id,
+}: {
+  id: string | string[];
+}) {
+  const [consultingScripts, setConsultingScripts] = useState<Script[]>([]);
 
   useEffect(() => {
-    async function fetchConsultingScripts() {
-      const response = await fetch('/api/consultingScripts');
-      const data = await response.json();
-      setConsultingScripts(data.consultingScripts);
+    async function fetchScripts() {
+      const response = await fetch(
+        `http://localhost:8080/vip/journals/${id}/scripts`
+      );
+      const data: Script[] = await response.json();
+      setConsultingScripts(data);
     }
 
-    fetchConsultingScripts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    fetchScripts();
+  }, [id]);
+
   return (
     <div className='w-full'>
       {consultingScripts.map((item) => (
