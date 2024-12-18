@@ -1,15 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-export type searchResult = {
-  id: number;
-  category: string;
-  title: string;
-  date: string;
-  time: string;
-  manager: string;
-  status: string;
-};
+import { Consulting } from './ConsultingListCard';
 
 type Filters = {
   category: string;
@@ -27,8 +18,8 @@ export default function SearchResult({
   applyFilters: boolean;
   dateFilterEnabled: boolean;
 }) {
-  const [searchResults, setSearchResults] = useState<searchResult[]>([]);
-  const [filteredResults, setFilteredResults] = useState<searchResult[]>([]);
+  const [searchResults, setSearchResults] = useState<Consulting[]>([]);
+  const [filteredResults, setFilteredResults] = useState<Consulting[]>([]);
   const router = useRouter();
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
@@ -38,10 +29,10 @@ export default function SearchResult({
 
   useEffect(() => {
     async function fetchSearchResults() {
-      const response = await fetch('/api/searchResults'); // 전체 결과 API 호출
-      const data = await response.json();
-      setSearchResults(data.searchResults);
-      setFilteredResults(data.searchResults); // 초기 전체 결과 설정
+      const response = await fetch('http://localhost:8080/vip/journals'); // 전체 결과 API 호출
+      const data: Consulting[] = await response.json();
+      setSearchResults(data);
+      setFilteredResults(data); // 초기 전체 결과 설정
     }
     fetchSearchResults();
   }, []);
@@ -93,15 +84,15 @@ export default function SearchResult({
               </td>
               <td className='px-4 py-2'>{item.manager}</td>
               <td className='px-4 py-2'>
-                {item.status === '열람 가능' ? (
+                {item.status ? (
                   <button
                     onClick={(e) => handleSubmit(e, item.id)}
                     className='hover:underline text-blue-700'
                   >
-                    {item.status}
+                    열람 가능
                   </button>
                 ) : (
-                  item.status
+                  <span className='text-gray-500'>열람 불가</span>
                 )}
               </td>
             </tr>

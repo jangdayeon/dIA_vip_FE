@@ -6,21 +6,15 @@ import { useEffect, useState } from 'react';
 export type Reservation = {
   id: number;
   title: string;
-  categoryName: string;
+  categoryName?: string;
   date: string;
   time: string;
-  content: string;
-  customerName: string;
-  pbName: string;
+  content?: string;
+  customerName?: string;
+  pbName?: string;
 };
 
-export type Schedule = {
-  title: string;
-  date: string;
-  time: string;
-};
-
-const ScheduleItem = ({ title, date, time }: Schedule) => {
+const ScheduleItem = ({ title, date, time }: Reservation) => {
   return (
     <Link href='/confirm'>
       <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden hover:bg-gray-100'>
@@ -68,6 +62,7 @@ export default function ScheduleCard() {
         {reservations.map((schedule) => (
           <ScheduleItem
             key={schedule.id}
+            id={schedule.id}
             title={schedule.title}
             date={schedule.date}
             time={schedule.time}

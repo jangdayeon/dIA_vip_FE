@@ -4,11 +4,13 @@ import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import { Menu } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { searchResult } from './SearchResult';
+import { Consulting } from './ConsultingListCard';
+
+// import { searchResult } from './SearchResult';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
-  const [searchResults, setSearchResults] = useState<searchResult[]>([]);
+  const [searchResults, setSearchResults] = useState<Consulting[]>([]);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -22,13 +24,13 @@ export default function Sidebar() {
   };
 
   useEffect(() => {
-    async function fetchSearchResults() {
-      const response = await fetch('/api/searchResults');
-      const data = await response.json();
-      setSearchResults(data.searchResults);
+    async function fetchSidebar() {
+      const response = await fetch('http://localhost:8080/vip/journals');
+      const data: Consulting[] = await response.json();
+      setSearchResults(data);
     }
 
-    fetchSearchResults();
+    fetchSidebar();
   }, []);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function Sidebar() {
       </button>
       <nav className=''>
         {searchResults
-          .filter((item) => item.status === '열람 가능') // "열람 가능"인 항목만 필터링
+          .filter((item) => item.status === true) // "열람 가능"인 항목만 필터링
           .map((item) => (
             <div
               key={item.id}
@@ -68,7 +70,9 @@ export default function Sidebar() {
                       <p className='text-sm font-semibold text-gray-700 truncate max-w-48'>
                         {item.title}
                       </p>
-                      <p className='text-xs text-gray-500'>{item.date} {item.time}</p>
+                      <p className='text-xs text-gray-500'>
+                        {item.date} {item.time}
+                      </p>
                     </div>
                   </div>
                 </div>
