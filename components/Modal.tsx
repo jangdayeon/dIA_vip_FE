@@ -1,11 +1,12 @@
 'use client';
 
-import { Check, PhoneCall, MapPin } from 'lucide-react';
+import Button from '@/stories/Button';
+import { PBProfile } from '@/utils/type';
+import { PhoneCall, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import PBCard from '../assets/pb_card.png';
-import Button from '@/stories/Button';
 
 interface ModalProps {
   onClose: () => void;
@@ -14,6 +15,22 @@ interface ModalProps {
 export default function Modal({ onClose }: ModalProps) {
   const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
+  const [pbModal, setPbModal] = useState<PBProfile | null>(null);
+
+  useEffect(() => {
+    async function fetchPBModal() {
+      try {
+        const response = await fetch('http://localhost:8080/vip/pb');
+        const data: PBProfile = await response.json();
+        setPbModal(data);
+      } catch (error) {
+        console.error('Error fetching PB data:', error);
+      }
+    }
+
+    fetchPBModal();
+  }, []);
+
   const onReserve = () => {
     router.push('/reserve');
   };
@@ -35,6 +52,12 @@ export default function Modal({ onClose }: ModalProps) {
     };
   }, [onClose]);
 
+  if (!pbModal) {
+    return <div>Loading...</div>;
+  }
+
+  const { name, introduction, location, tel, career, tags } = pbModal;
+
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
       <div
@@ -49,51 +72,38 @@ export default function Modal({ onClose }: ModalProps) {
           />
           <div>
             <div className='flex gap-2'>
-              <h2 className='text-slate-600 text-2xl font-bold'>안유진 PB</h2>
+              <h2 className='text-slate-600 text-2xl font-bold'>{name} PB</h2>
             </div>
             <div className='font-bold text-lg mb-1 mt-1'>
-              &quot;고객님의 자산을 안전하게 책임지겠습니다.&quot;
+              &quot;{introduction}&quot;
             </div>
             <div className='mt-1 space-x-1'>
-              <span className='px-2 py-1 bg-slate-500 rounded-sm text-xs text-white'>
-                #펀드
-              </span>
-              <span className='px-2 py-1 bg-slate-500 rounded-sm text-xs text-white'>
-                #채권
-              </span>
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className='px-2 py-1 bg-slate-500 rounded-sm text-xs text-white'
+                >
+                  #{tag}
+                </span>
+              ))}
             </div>
-            <div className='space-y-2 text-sm mt-3 font-normal bg-[#D9D9D9] bg-opacity-40 p-3 rounded-xl'>
+            <div className='space-y-2 text-sm mt-3 font-normal bg-[#D9D9D9] bg-opacity-40 p-5 rounded-xl'>
               <div className='flex items-center gap-2'>
                 <PhoneCall className='w-4 h-4' />
-                02-1234-1234
+                {tel}
               </div>
               <div className='flex items-center gap-2'>
                 <MapPin className='w-4 h-4' />
-                강남파이낸스PB센터
+                {location}
               </div>
             </div>
 
-            <div className='space-y-2 text-sm mt-2 font-semibold bg-[#D9D9D9] bg-opacity-40 p-3 rounded-xl'>
-              <div className='flex items-center gap-2'>
-                <Check className='w-4 h-4' />
-                자산 관리 및 포트폴리오 설계
-              </div>
-              <div className='flex items-center gap-2'>
-                <Check className='w-4 h-4' />
-                투자 전략 분석 및 리스크 관리
-              </div>
-              <div className='flex items-center gap-2'>
-                <Check className='w-4 h-4' />
-                고액 자산가 및 VIP 고객 대응
-              </div>
-              <div className='flex items-center gap-2'>
-                <Check className='w-4 h-4' />
-                글로벌 투자 상품 및 시장 분석
-              </div>
-              <div className='flex items-center gap-2'>
-                <Check className='w-4 h-4' />
-                세금 계획 및 상속 전략 수립
-              </div>
+            <div className='space-y-2 text-sm mt-2 font-semibold bg-[#D9D9D9] bg-opacity-40 p-5 rounded-xl'>
+              {career.split('\n').map((i, index) => (
+                <div key={index} className='flex items-center gap-2'>
+                  {i}
+                </div>
+              ))}
             </div>
           </div>
         </div>

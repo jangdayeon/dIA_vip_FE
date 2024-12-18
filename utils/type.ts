@@ -31,10 +31,10 @@ export type item = {
 };
 
 export type Script = {
-    sequence: number;
-    speaker: string;
-    content: string;
-  };
+  sequence: number;
+  speaker: string;
+  content: string;
+};
 
 // schedule
 export type Reservation = {
@@ -53,4 +53,16 @@ export type Notification = {
   title: string;
   text: string;
   read: boolean;
+};
+
+export type PBProfile = {
+  name: string;
+  introduction: string;
+  date: string;
+  location: string;
+  tel: string;
+  career: string;
+  imageUrl: string;
+  tags: string[];
+  online: boolean;
 };

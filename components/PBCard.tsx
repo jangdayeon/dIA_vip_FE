@@ -1,13 +1,27 @@
+import { type PBProfile } from '@/utils/type';
 import { MessageCircleHeart, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import pb_profile from '../assets/pb_profile.png';
 import Modal from './Modal';
 
 export default function PBCard() {
+  const [pb, setPb] = useState<PBProfile | null>(null);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isOnline, setIsOnline] = useState<boolean>(true);
+
+  useEffect(() => {
+    async function fetchPBData() {
+      try {
+        const response = await fetch('http://localhost:8080/vip/pb');
+        const data: PBProfile = await response.json();
+        setPb(data);
+      } catch (error) {
+        console.error('Error fetching PB data:', error);
+      }
+    }
+
+    fetchPBData();
+  }, []);
 
   const handleOpenModal = (): void => {
     setModalOpen(true);
@@ -16,6 +30,19 @@ export default function PBCard() {
   const handleCloseModal = (): void => {
     setModalOpen(false);
   };
+
+  const Dday = (startDate: string): number => {
+    const start = new Date(startDate);
+    const now = new Date();
+    const differenceInMs = now.getTime() - start.getTime();
+    return Math.floor(differenceInMs / (1000 * 60 * 60 * 24)); // Convert ms to days
+  };
+
+  if (!pb) {
+    return <div>Loading...</div>;
+  }
+
+  const { name, introduction, date, tags, online } = pb;
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>
@@ -28,40 +55,30 @@ export default function PBCard() {
           onClick={handleOpenModal}
         >
           <Image
+            // src={imageUrl}
             src={pb_profile}
-            alt='PB profile'
-            className='w-20 h-20 rounded-full'
+            alt='PB image'
+            width={80}
+            height={80}
+            className='rounded-full'
           />
           <div>
-            <h2 className='text-lg font-semibold'>안유진 PB</h2>
+            <h2 className='text-lg font-semibold'>{name} PB</h2>
             <div className='space-x-2 mt-1'>
-              <span className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'>
-                #부동산
-              </span>
-              <span className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'>
-                #성수점
-              </span>
-              <span className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'>
-                #친절
-              </span>
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'
+                >
+                  #{tag}
+                </span>
+              ))}
             </div>
-            <p className='text-sm text-gray-500 mt-2'>
-              안녕하세요. 부동산 투자 전문 PB 안유진입니다.
-            </p>
+            <p className='text-sm text-gray-500 mt-2'>{introduction}</p>
           </div>
         </div>
 
         <div className='mt-4 space-y-2'>
-          {/* <button
-            className='flex bg-blue-100 hover:bg-blue-300 justify-between w-full p-2 rounded-lg font-semibold'
-            onClick={handleQuick}
-          >
-            <div className='flex items-center space-x-2 text-gray-700'>
-              <PhoneCall />
-              <div>빠른 상담</div>
-            </div>
-            <ChevronRightIcon className='text-[#3F6886]' />
-          </button> */}
           <div className='flex justify-between bg-blue-100 w-full p-2 rounded-lg font-semibold'>
             <div className='flex items-center space-x-2 text-gray-700'>
               <PhoneCall />
@@ -70,11 +87,11 @@ export default function PBCard() {
             <div className='flex items-center space-x-2'>
               <div
                 className={`w-3 h-3 rounded-full ${
-                  isOnline ? 'bg-green-500' : 'bg-gray-400'
+                  online ? 'bg-green-500' : 'bg-gray-400'
                 }`}
               />
               <span className='text-gray-700'>
-                {isOnline ? '온라인' : '오프라인'}
+                {online ? '온라인' : '오프라인'}
               </span>
             </div>
           </div>
@@ -83,10 +100,10 @@ export default function PBCard() {
             <div className='flex items-center space-x-2 text-gray-700'>
               <MessageCircleHeart />
               <div>
-                안유진 PB와 함께한 지<div className='text-xs'>2024-08-01</div>
+                {name} PB와 함께한 지<div className='text-xs'>{date}</div>
               </div>
             </div>
-            <div className='flex items-center space-x-2'>81일</div>
+            <div className='flex items-center space-x-2'>{Dday(date)}일</div>
           </div>
         </div>
       </div>
