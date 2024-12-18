@@ -1,4 +1,4 @@
-export type reserve = {
+export type Reserve = {
   title: string;
   category: string;
   date: string;
@@ -20,11 +20,11 @@ export type Consulting = {
   manager?: string;
   status: boolean;
   contents?: string;
-  journalProducts?: item[];
+  journalProducts?: Item[];
 };
 
 // recommendation
-export type item = {
+export type Item = {
   id: number;
   name: string;
   url: string;

@@ -1,19 +1,34 @@
 'use client';
 
 import Button from '@/stories/Button';
-import { useRouter } from 'next/navigation';
+import { type Reservation } from '@/utils/type';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { type reserve } from '../reserve/page';
 
 export default function Confirm() {
   const router = useRouter();
-  const [data, setData] = useState<reserve | null>(null);
+  const { id } = useParams();
+  const [data, setData] = useState<Reservation | null>(null);
+
   useEffect(() => {
-    const localReserveData = localStorage.getItem('reserveData');
-    if (!localReserveData) return;
-    const reserveData = JSON.parse(localReserveData) as reserve;
-    setData(reserveData);
-  }, []);
+    const fetchReservation = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/vip/reserves/${id}`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch reservation');
+        }
+        const reservationData: Reservation = await response.json();
+        setData(reservationData);
+      } catch (error) {
+        console.error('Error fetching reservation:', error);
+      }
+    };
+
+    fetchReservation();
+  }, [id]);
+
   const cancel = () => {
     setData(null);
     router.push('/');
@@ -34,11 +49,13 @@ export default function Confirm() {
                 <label className='w-20 text-right font-semibold'>
                   카테고리
                 </label>
-                <div className='bg-white rounded-lg p-1.5'>{data.category}</div>
+                <div className='bg-white rounded-lg p-1.5'>
+                  {data.categoryName}
+                </div>
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>PB명</p>
-                <p className='bg-white rounded-lg px-5 py-1.5'>안유진</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>{data.pbName}</p>
               </div>
             </div>
             <div className='flex justify-between items-center my-2'>
@@ -47,12 +64,14 @@ export default function Confirm() {
                   희망일시
                 </label>
                 <p className='bg-white rounded-lg p-1.5'>
-                  {`${data.date.slice(0, 4)}.${data.date.slice(4, 6)}.${data.date.slice(6, 8)} ${data.time}`}
+                  {data.date} {data.time}
                 </p>
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>고객명</p>
-                <p className='bg-white rounded-lg px-5 py-1.5'>김현수</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>
+                  {data.customerName}
+                </p>
               </div>
             </div>
             <div className='flex gap-4 items-center w-full my-2'>
@@ -64,7 +83,7 @@ export default function Confirm() {
             <div className='flex gap-4 items-center w-full my-2'>
               <label className='w-20 text-right font-semibold'>내용</label>
               <div className='bg-white rounded-lg p-1.5 w-full min-h-96 overflow-y-auto'>
-                {data.detail}
+                {data.content}
               </div>
             </div>
             <div className='flex justify-end gap-2'>
@@ -74,10 +93,10 @@ export default function Confirm() {
                 text='신청 취소'
                 type='button'
               />
-              <form action='/consultingList' className='text-white'>
+              <form action='/' className='text-white'>
                 <Button
                   type='submit'
-                  text='목록으로'
+                  text='메인으로'
                   className='bg-[#3F6886] hover:bg-[#2c4a5f] hover:text-white'
                 />
               </form>

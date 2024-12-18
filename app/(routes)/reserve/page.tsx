@@ -70,7 +70,7 @@ export default function Reserve() {
           console.log('예약 성공:', responseData);
 
           alert('예약이 성공적으로 등록되었습니다.');
-          router.push('/confirm');
+          router.push(`/confirm/${responseData}`);
         } else {
           const errorData = await response.json();
           alert(`예약 실패: ${errorData.message}`);

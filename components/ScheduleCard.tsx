@@ -4,9 +4,9 @@ import { CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-const ScheduleItem = ({ title, date, time }: Reservation) => {
+const ScheduleItem = ({ id, title, date, time }: Reservation) => {
   return (
-    <Link href='/confirm'>
+    <Link href={`/confirm/${id}`}>
       <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden hover:bg-gray-100'>
         <div className='flex items-center w-full'>
           <CalendarClock className='w-6 h-6 text-gray-500 mr-3' />
