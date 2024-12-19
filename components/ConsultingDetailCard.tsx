@@ -1,5 +1,6 @@
 'use client';
 
+import { type Consulting } from '@/utils/type';
 import { FolderArrowDownIcon, HeartIcon } from '@heroicons/react/16/solid';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -9,38 +10,18 @@ import { useEffect, useState } from 'react';
 import Loading from './ConsultingDetailLoading';
 import ConsultingScriptCard from './ConsultingScriptCard';
 
-type item = {
-  name: string;
-  url: string;
-};
-
-type ConsultingDetail = {
-  id: number;
-  category: string;
-  title: string;
-  date: string;
-  time: string;
-  manager: string;
-  status: string;
-  content: string;
-  items: item[];
-};
-
 export default function ConsultingDetailCard() {
   const { id } = useParams();
-  const [consultingDetail, setConsultingDetail] =
-    useState<ConsultingDetail | null>(null);
+  const [consultingDetail, setConsultingDetail] = useState<Consulting | null>(
+    null
+  );
   const router = useRouter();
 
   useEffect(() => {
     async function fetchConsultingDetail() {
-      const response = await fetch('/api/searchResults');
-      const data = await response.json();
-      const detail = data.searchResults.find(
-        (item: ConsultingDetail) => item.id === Number(id)
-      );
-
-      if (detail) setConsultingDetail(detail);
+      const response = await fetch(`http://localhost:8080/vip/journals/${id}`);
+      const detail: Consulting = await response.json();
+      setConsultingDetail(detail);
     }
 
     fetchConsultingDetail();
@@ -48,7 +29,8 @@ export default function ConsultingDetailCard() {
 
   if (!consultingDetail) return <Loading />;
 
-  const { category, title, date, time, manager } = consultingDetail;
+  const { category, title, date, time, manager, contents, journalProducts } =
+    consultingDetail;
 
   const downloadPDF = () => {
     const contentToCapture = document.getElementById(
@@ -123,14 +105,14 @@ export default function ConsultingDetailCard() {
 
           <div className='bg-white w-full py-5 border-b'>
             <div className='text-xl font-bold mx-24'>상담 내용</div>
-            <div className='mt-5 mx-24'>상세 상담 내용이 여기 표시됩니다.</div>
+            <div className='mt-5 mx-24'>{contents}</div>
           </div>
           <div className='bg-white w-full py-5 border-b'>
             <div className='text-xl font-bold mb-5 mx-24'>추천 상품</div>
-            {consultingDetail.items && consultingDetail.items.length > 0 ? (
+            {journalProducts && journalProducts.length > 0 ? (
               <ul className='list-disc pl-5 mx-24'>
-                {consultingDetail.items.map((item, index) => (
-                  <li key={index} className='my-2'>
+                {journalProducts.map((item) => (
+                  <li key={item.id} className='my-2'>
                     <a href={item.url}>{item.name}</a>
                   </li>
                 ))}
@@ -142,7 +124,7 @@ export default function ConsultingDetailCard() {
           <div className='bg-white w-full py-5 border-b'>
             <div className='text-xl font-bold mx-24'>상담 주요 스크립트</div>
             <div className='mt-5 flex justify-center mx-24'>
-              <ConsultingScriptCard />
+              <ConsultingScriptCard id={id} />
             </div>
           </div>
         </div>

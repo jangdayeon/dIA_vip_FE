@@ -1,11 +1,12 @@
-import { scheduleData, type Schedule } from '@/data/scheduledata';
+import { type Reservation } from '@/utils/type';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { CalendarClock } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-const ScheduleItem = ({ title, date }: Schedule) => {
+const ScheduleItem = ({ id, title, date, time }: Reservation) => {
   return (
-    <Link href='/confirm'>
+    <Link href={`/confirm/${id}`}>
       <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden hover:bg-gray-100'>
         <div className='flex items-center w-full'>
           <CalendarClock className='w-6 h-6 text-gray-500 mr-3' />
@@ -13,7 +14,9 @@ const ScheduleItem = ({ title, date }: Schedule) => {
             <p className='text-sm font-semibold text-gray-700 truncate'>
               {title}
             </p>
-            <p className='text-xs text-gray-500 truncate'>{date}</p>
+            <p className='text-xs text-gray-500 truncate'>
+              {date} {time}
+            </p>
           </div>
           <ChevronRightIcon className='w-5 h-5' />
         </div>
@@ -23,6 +26,22 @@ const ScheduleItem = ({ title, date }: Schedule) => {
 };
 
 export default function ScheduleCard() {
+  const [reservations, setReservations] = useState<Reservation[]>([]);
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/vip/reserves');
+        const data: Reservation[] = await response.json();
+        setReservations(data);
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+      }
+    };
+
+    fetchReservations();
+  }, []);
+
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='border-b border-opacity-55 px-6 py-4'>
@@ -30,11 +49,13 @@ export default function ScheduleCard() {
       </div>
 
       <div className='h-72 overflow-y-scroll'>
-        {scheduleData.map((schedule, index) => (
+        {reservations.map((schedule) => (
           <ScheduleItem
-            key={index}
+            key={schedule.id}
+            id={schedule.id}
             title={schedule.title}
             date={schedule.date}
+            time={schedule.time}
           />
         ))}
       </div>

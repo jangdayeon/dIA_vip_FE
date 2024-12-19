@@ -1,6 +1,6 @@
 'use client';
 
-import { notificationsData } from '@/data/notificationsData';
+import { type Notification } from '@/utils/type';
 import { BellIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -8,7 +8,7 @@ import noti from '../assets/notification.png';
 
 export default function Notification() {
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState(notificationsData);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const notiRef = useRef<HTMLDivElement>(null);
 
@@ -25,14 +25,43 @@ export default function Notification() {
     };
   }, []);
 
-  const markAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({ ...notification, read: true }))
-    );
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/vip/notifications');
+        if (!response.ok) throw new Error('Failed to fetch notifications');
+        const data: Notification[] = await response.json();
+        setNotifications(data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  const markAllAsRead = async () => {
+    try {
+      await fetch('http://localhost:8080/vip/notifications', {
+        method: 'PATCH',
+      });
+      setNotifications(
+        notifications.map((notification) => ({ ...notification, read: true }))
+      );
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
+    }
   };
 
-  const deleteAll = () => {
-    setNotifications([]);
+  const deleteAll = async () => {
+    try {
+      await fetch('http://localhost:8080/vip/notifications', {
+        method: 'DELETE',
+      });
+      setNotifications([]);
+    } catch (error) {
+      console.error('Error deleting all notifications:', error);
+    }
   };
 
   return (

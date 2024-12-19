@@ -46,7 +46,7 @@ export default function CalendarPopup({
       </button>
 
       {isOpen && (
-        <div className='absolute top-full left-0 mt-1'>
+        <div className='absolute top-full left-0 mt-1 z-50'>
           <Calendar
             onChange={(value) => handleDateChange(value as Date)}
             value={selectedDate || new Date()} // 변경

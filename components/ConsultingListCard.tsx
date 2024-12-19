@@ -1,4 +1,4 @@
-import { Consulting } from '@/data/consultingdata';
+import { type Consulting } from '@/utils/type';
 import {
   ChatBubbleLeftEllipsisIcon,
   ChatBubbleLeftRightIcon,
@@ -6,13 +6,12 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { searchResult } from './SearchResult';
 
 const ConsultingItem = ({ title, date, status }: Consulting) => {
   return (
     <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden'>
       <div className='flex items-center w-full'>
-        {status === '열람 가능' ? (
+        {status === true ? (
           <ChatBubbleLeftRightIcon className='w-6 h-6 text-gray-500 mr-3' />
         ) : (
           <ChatBubbleLeftEllipsisIcon className='w-6 h-6 text-gray-500 mr-3' />
@@ -29,16 +28,20 @@ const ConsultingItem = ({ title, date, status }: Consulting) => {
 };
 
 export default function ConsultingListCard() {
-  const [lists, setLists] = useState<searchResult[]>([]);
+  const [lists, setLists] = useState<Consulting[]>([]);
 
   useEffect(() => {
-    async function fetchSearchResults() {
-      const response = await fetch('/api/searchResults');
-      const data = await response.json();
-      setLists(data.searchResults);
-    }
+    const fetchJournals = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/vip/journals');
+        const data: Consulting[] = await response.json();
+        setLists(data);
+      } catch (error) {
+        console.error('Error fetching jounals:', error);
+      }
+    };
 
-    fetchSearchResults();
+    fetchJournals();
   }, []);
 
   return (
@@ -51,9 +54,10 @@ export default function ConsultingListCard() {
       </Link>
 
       <div className='h-72 overflow-y-scroll'>
-        {lists.map((item, index) => (
+        {lists.map((item) => (
           <ConsultingItem
-            key={index}
+            key={item.id}
+            id={item.id}
             title={item.title}
             date={item.date}
             status={item.status}

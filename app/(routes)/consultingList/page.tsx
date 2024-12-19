@@ -2,11 +2,12 @@
 
 import CalendarPopup from '@/components/CalendarPopup';
 import SearchResult from '@/components/SearchResult';
+import { type Category } from '@/utils/type';
 import { RotateCcw, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function ConsultingList() {
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -30,9 +31,13 @@ export default function ConsultingList() {
 
   useEffect(() => {
     async function fetchCategories() {
-      const response = await fetch('/api/categories');
-      const data = await response.json();
-      setCategories(data.categories);
+      try {
+        const response = await fetch('http://localhost:8080/vip/categories');
+        const data: Category[] = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
     }
 
     fetchCategories();
@@ -109,8 +114,8 @@ export default function ConsultingList() {
               >
                 <option value='전체'>전체</option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.id} value={category.id}>
+                    {category.name}
                   </option>
                 ))}
               </select>
