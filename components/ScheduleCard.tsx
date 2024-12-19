@@ -1,3 +1,4 @@
+import { formatDate } from '@/utils/date';
 import { type Reservation } from '@/utils/type';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { CalendarClock } from 'lucide-react';
@@ -15,7 +16,7 @@ const ScheduleItem = ({ id, title, date, time }: Reservation) => {
               {title}
             </p>
             <p className='text-xs text-gray-500 truncate'>
-              {date} {time}
+              {formatDate(date)} {time}
             </p>
           </div>
           <ChevronRightIcon className='w-5 h-5' />

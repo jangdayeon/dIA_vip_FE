@@ -1,5 +1,6 @@
 'use client';
 
+import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import { FolderArrowDownIcon, HeartIcon } from '@heroicons/react/16/solid';
 import html2canvas from 'html2canvas';
@@ -98,7 +99,7 @@ export default function ConsultingDetailCard() {
                 <div className='font-bold'>PB명</div> {manager}
               </div>
               <div>
-                {date} {time}
+                {formatDate(date)} {time}
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import { Menu } from 'lucide-react';
@@ -69,7 +70,7 @@ export default function Sidebar() {
                         {item.title}
                       </p>
                       <p className='text-xs text-gray-500'>
-                        {item.date} {item.time}
+                        {formatDate(item.date)} {item.time}
                       </p>
                     </div>
                   </div>

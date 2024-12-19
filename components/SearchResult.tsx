@@ -1,3 +1,4 @@
+import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -80,7 +81,7 @@ export default function SearchResult({
               <td className='px-4 py-2'>{item.category}</td>
               <td className='px-4 py-2 truncate max-w-48'>{item.title}</td>
               <td className='px-4 py-2'>
-                {item.date} {item.time}
+                {formatDate(item.date)} {item.time}
               </td>
               <td className='px-4 py-2'>{item.manager}</td>
               <td className='px-4 py-2'>
