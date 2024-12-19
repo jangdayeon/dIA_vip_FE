@@ -2,8 +2,8 @@ import { type PBProfile } from '@/utils/type';
 import { MessageCircleHeart, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import pb_profile from '../assets/pb_profile.png';
 import Modal from './Modal';
+import PBCardLoading from './PBCardLoading';
 
 export default function PBCard() {
   const [pb, setPb] = useState<PBProfile | null>(null);
@@ -39,10 +39,11 @@ export default function PBCard() {
   };
 
   if (!pb) {
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
+    return <PBCardLoading />;
   }
 
-  const { name, introduction, date, tags, online } = pb;
+  const { name, introduction, date, imageUrl, tags, online } = pb;
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>
@@ -55,12 +56,11 @@ export default function PBCard() {
           onClick={handleOpenModal}
         >
           <Image
-            // src={imageUrl}
-            src={pb_profile}
+            src={imageUrl}
             alt='PB image'
             width={80}
             height={80}
-            className='rounded-full'
+            className='rounded-full  object-cover aspect-square'
           />
           <div>
             <h2 className='text-lg font-semibold'>{name} PB</h2>

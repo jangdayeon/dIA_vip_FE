@@ -2,6 +2,45 @@ import { CalendarPlus, PhoneCall, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ReserveCard() {
+  const handleQuick = async () => {
+    const confirmed = confirm('빠른 상담을 예약하시겠습니까?');
+    if (!confirmed) {
+      return;
+    }
+
+    const now = new Date();
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+
+    const data = {
+      title: '빠른 상담 요청',
+      categoryId: 1,
+      date: now.toISOString().split('T')[0],
+      time: `${hour}:${minute}`,
+      content: '',
+    };
+    console.log(data);
+
+    try {
+      const response = await fetch('http://localhost:8080/vip/reserves', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create quick consult');
+      }
+
+      alert('빠른 상담이 예약되었습니다!');
+    } catch (error) {
+      console.error('Error during quick consult:', error);
+      alert('빠른 상담 예약에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='border-b border-opacity-55 px-6 py-4'>
@@ -9,7 +48,10 @@ export default function ReserveCard() {
       </div>
 
       <div className='flex flex-col justify-center p-6 space-y-2'>
-        <div className='flex items-center space-x-2 border border-blue-100 text-gray-700 hover:bg-blue-50 p-2 rounded-lg font-semibold shadow-sm'>
+        <div
+          onClick={handleQuick}
+          className='flex items-center space-x-2 border border-blue-100 text-gray-700 hover:bg-blue-50 p-2 rounded-lg font-semibold shadow-sm'
+        >
           <PhoneCall className='h-6 w-6' />
           <div className='w-full'>
             <div className='font-semibold'>빠른 상담</div>
