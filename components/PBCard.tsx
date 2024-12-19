@@ -9,7 +9,6 @@ import PBCardLoading from './PBCardLoading';
 export default function PBCard() {
   const [pb, setPb] = useState<PBProfile | null>(null);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function PBCard() {
     return <PBCardLoading />;
   }
 
-  const { name, introduction, date, imageUrl, tags, online } = pb;
+  const { name, introduction, date, imageUrl, tags } = pb;
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>
