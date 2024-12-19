@@ -33,7 +33,7 @@ export default function PBCard() {
     setModalOpen(false);
   };
   useEffect(() => {
-    let socket = new WebSocket('ws://localhost:8080/ws/availability');
+    const socket = new WebSocket('ws://localhost:8080/ws/availability');
 
     socket.onopen = () => {
       console.log('WebSocket 연결됨');
