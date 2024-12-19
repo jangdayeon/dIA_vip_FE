@@ -8,7 +8,7 @@ export default function PBCardLoading() {
         <div className='text-slate-600 text-2xl font-semibold'>담당 PB</div>
       </div>
       <div className='p-6'>
-        <div className='items-center space-x-4 p-2 hover:bg-gray-100 rounded-lg'>
+        <div className='items-center space-x-4 rounded-lg'>
           <Skeleton height={120} />
         </div>
 

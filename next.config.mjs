@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['i.ibb.co', 'image.chosun.com'],
+    domains: ['mydiabucket.s3.ap-northeast-2.amazonaws.com'],
   },
 };
 
