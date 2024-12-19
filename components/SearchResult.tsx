@@ -12,12 +12,10 @@ type Filters = {
 
 export default function SearchResult({
   filters,
-  applyFilters,
-  dateFilterEnabled,
+  onOldestDateChange,
 }: {
   filters: Filters;
-  applyFilters: boolean;
-  dateFilterEnabled: boolean;
+  onOldestDateChange: (oldestDate: Date | null) => void;
 }) {
   const [searchResults, setSearchResults] = useState<Consulting[]>([]);
   const [filteredResults, setFilteredResults] = useState<Consulting[]>([]);
@@ -30,28 +28,25 @@ export default function SearchResult({
 
   useEffect(() => {
     async function fetchSearchResults() {
-      const response = await fetch('http://localhost:8080/vip/journals'); // 전체 결과 API 호출
+      const response = await fetch('http://localhost:8080/vip/journals');
       const data: Consulting[] = await response.json();
       setSearchResults(data);
-      setFilteredResults(data); // 초기 전체 결과 설정
+      setFilteredResults(data);
+      const oldestDate = data[data.length - 1]?.date;
+      if (oldestDate) onOldestDateChange(new Date(oldestDate));
     }
     fetchSearchResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (!applyFilters) {
-      setFilteredResults(searchResults); // 필터를 적용하지 않을 때 전체 결과 표시
-      return;
-    }
-
     const { category, startDate, endDate, keyword } = filters;
 
     const filtered = searchResults.filter((item) => {
       const isCategoryMatch = category === '전체' || item.category === category;
       const isDateMatch =
-        dateFilterEnabled ||
-        ((!startDate || new Date(item.date) >= new Date(startDate)) &&
-          (!endDate || new Date(item.date) <= new Date(endDate)));
+        (!startDate || new Date(item.date) >= new Date(startDate)) &&
+        (!endDate || new Date(item.date) <= new Date(endDate));
       const isKeywordMatch =
         !keyword || item.title.toLowerCase().includes(keyword.toLowerCase());
 
@@ -59,7 +54,7 @@ export default function SearchResult({
     });
 
     setFilteredResults(filtered);
-  }, [filters, searchResults, applyFilters, dateFilterEnabled]);
+  }, [filters, searchResults]);
 
   return (
     <div className='border border-sky-50 bg-white w-full h-96 overflow-y-auto p-2 mt-5'>
