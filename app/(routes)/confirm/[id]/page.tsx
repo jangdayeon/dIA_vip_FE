@@ -29,10 +29,29 @@ export default function Confirm() {
     fetchReservation();
   }, [id]);
 
-  const cancel = () => {
-    setData(null);
-    router.push('/');
-    alert('취소되었습니다.');
+  const cancel = async () => {
+    const isConfirmed = confirm('예약을 취소하시겠습니까?');
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/vip/reserves/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to cancel reservation');
+      }
+
+      setData(null);
+      alert('예약이 취소되었습니다.');
+      router.push('/');
+    } catch (error) {
+      console.error('Error cancelling reservation:', error);
+      alert('예약 취소에 실패했습니다.');
+    }
   };
 
   return (
