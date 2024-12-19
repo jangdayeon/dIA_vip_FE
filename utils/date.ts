@@ -1,14 +1,16 @@
-/**
- * Date 객체를 날짜 형식의 string으로 지정해주는 함수입니다.
- * 형식은 yyyyMMdd 입니다.
- * JSON으로 날짜를 보낼 일이 생긴다면 밑의 formatDate 함수를 사용해주시길 바랍니다.
- */
-export function formatDate(date: Date): string {
-  const year = date.getFullYear().toString();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
+// export function formatDate(date: Date): string {
+//   const year = date.getFullYear().toString();
+//   const month = (date.getMonth() + 1).toString().padStart(2, '0');
+//   const day = date.getDate().toString().padStart(2, '0');
 
-  return `${year}${month}${day}`;
+//   return `${year}${month}${day}`;
+// }
+
+/**
+ * yyyy-mm-dd 날짜 형식을 yyyy.mm.dd 형식으로 지정해주는 함수입니다.
+ */
+export function formatDate(date: string): string {
+  return date.split('-').join('.');
 }
 
 /**

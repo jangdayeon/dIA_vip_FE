@@ -1,3 +1,4 @@
+import { formatDate } from '@/utils/date';
 import { type PBProfile } from '@/utils/type';
 import { MessageCircleHeart, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
@@ -39,7 +40,6 @@ export default function PBCard() {
   };
 
   if (!pb) {
-    // return <div>Loading...</div>;
     return <PBCardLoading />;
   }
 
@@ -100,7 +100,8 @@ export default function PBCard() {
             <div className='flex items-center space-x-2 text-gray-700'>
               <MessageCircleHeart />
               <div>
-                {name} PB와 함께한 지<div className='text-xs'>{date}</div>
+                {name} PB와 함께한 지
+                <div className='text-xs'>{formatDate(date)}</div>
               </div>
             </div>
             <div className='flex items-center space-x-2'>{Dday(date)}일</div>

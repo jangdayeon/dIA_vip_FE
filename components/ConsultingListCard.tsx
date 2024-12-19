@@ -1,3 +1,4 @@
+import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import {
   ChatBubbleLeftEllipsisIcon,
@@ -20,7 +21,7 @@ const ConsultingItem = ({ title, date, status }: Consulting) => {
           <p className='text-sm font-semibold text-gray-700 truncate'>
             {title}
           </p>
-          <p className='text-xs text-gray-500 truncate'>{date}</p>
+          <p className='text-xs text-gray-500 truncate'>{formatDate(date)}</p>
         </div>
       </div>
     </div>

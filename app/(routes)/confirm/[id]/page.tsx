@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/stories/Button';
+import { formatDate } from '@/utils/date';
 import { type Reservation } from '@/utils/type';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -83,7 +84,7 @@ export default function Confirm() {
                   희망일시
                 </label>
                 <p className='bg-white rounded-lg p-1.5'>
-                  {data.date} {data.time}
+                  {formatDate(data.date)} {data.time}
                 </p>
               </div>
               <div className='flex gap-2 items-center'>
