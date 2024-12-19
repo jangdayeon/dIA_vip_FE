@@ -45,16 +45,19 @@ export default function Reserve() {
     e.preventDefault();
 
     if (confirm('예약하시겠습니까?')) {
-      if (!childDate) return;
+      if (!childDate || !timeRef.current?.value) return;
+
+      const localDate = new Date(childDate);
+      const [hours, minutes] = timeRef.current.value.split(':');
+      localDate.setHours(Number(hours), Number(minutes), 0, 0);
 
       const reserveData = {
         title: titleRef.current?.value || '',
         categoryId: categoryRef.current?.value || '',
-        date: childDate?.toISOString().split('T')[0],
+        date: localDate.toISOString().split('T')[0],
         time: timeRef.current?.value || '',
         content: detailRef.current?.value || '',
       };
-      console.log(reserveData);
 
       try {
         const response = await fetch('http://localhost:8080/vip/reserves', {
