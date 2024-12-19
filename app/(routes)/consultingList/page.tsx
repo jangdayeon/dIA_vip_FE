@@ -8,8 +8,9 @@ import { useEffect, useState } from 'react';
 
 export default function ConsultingList() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [oldestDate, setOldestDate] = useState<Date | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [filters, setFilters] = useState<{
@@ -19,15 +20,10 @@ export default function ConsultingList() {
     keyword: string;
   }>({
     category: '전체',
-    startDate: new Date(),
+    startDate: null,
     endDate: new Date(),
     keyword: '',
   });
-
-  const [applyFilters, setApplyFilters] = useState<boolean>(false); // 필터 적용 여부
-  const [dateFilterEnabled, setDateFilterEnabled] = useState<boolean>(true); // 날짜 필터링 활성화 여부
-
-  const minDate = new Date(2000, 1, 1);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -45,35 +41,64 @@ export default function ConsultingList() {
 
   const handleStartDateSet = (value: Date | null) => {
     setStartDate(value);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      startDate: value,
+    }));
   };
 
   const handleEndDateSet = (value: Date | null) => {
     setEndDate(value);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      endDate: value,
+    }));
+  };
+
+  const handleOldestDateChange = (date: Date | null) => {
+    setOldestDate(date);
+    if (!startDate && date) {
+      setStartDate(date);
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        startDate: date,
+      }));
+    }
   };
 
   const handleReset = () => {
     setSearchKeyword('');
-    setStartDate(new Date());
+    setStartDate(oldestDate);
     setEndDate(new Date());
     setSelectedCategory('전체');
     setFilters({
       category: '전체',
-      startDate: new Date(),
+      startDate: oldestDate,
       endDate: new Date(),
       keyword: '',
     });
-    setApplyFilters(false); // 필터 해제
-    setDateFilterEnabled(false); // 날짜 필터링 비활성화
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      category: value,
+    }));
   };
 
   const handleSearch = () => {
-    setFilters({
-      category: selectedCategory,
-      startDate: startDate,
-      endDate: endDate,
+    setFilters((prevFilters) => ({
+      ...prevFilters,
       keyword: searchKeyword,
-    });
-    setApplyFilters(true); // 필터 적용
+    }));
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // 기본 Enter 동작 방지
+      handleSearch(); // 검색 버튼 동작 호출
+    }
   };
 
   return (
@@ -93,6 +118,7 @@ export default function ConsultingList() {
                 placeholder='검색 키워드를 입력해주세요.'
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
+                onKeyDown={handleKeyDown} // Enter 키 이벤트 추가
               />
               <button
                 className='p-1.5 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white ml-2'
@@ -110,11 +136,11 @@ export default function ConsultingList() {
               <select
                 className='bg-white rounded-lg p-1.5'
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onChange={(e) => handleCategoryChange(e.target.value)}
               >
                 <option value='전체'>전체</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option key={category.id} value={category.name}>
                     {category.name}
                   </option>
                 ))}
@@ -124,28 +150,17 @@ export default function ConsultingList() {
               <label className='text-center font-semibold'>시작일</label>
               <CalendarPopup
                 dateSet={handleStartDateSet}
-                minDate={minDate}
+                minDate={oldestDate || new Date(2000, 1, 1)}
                 maxDate={endDate ? endDate : new Date()}
                 selectedDate={startDate}
               />
               <label className='text-center font-semibold'>종료일</label>
               <CalendarPopup
                 dateSet={handleEndDateSet}
-                minDate={startDate ? startDate : minDate}
+                minDate={startDate || oldestDate || new Date(2000, 1, 1)}
                 maxDate={new Date()}
                 selectedDate={endDate}
               />
-
-              <input
-                type='checkbox'
-                id='dateFilter'
-                checked={dateFilterEnabled}
-                onChange={(e) => setDateFilterEnabled(e.target.checked)}
-              />
-              <label htmlFor='dateFilter' className='font-semibold text-xs'>
-                전체조회
-              </label>
-
               <button
                 className='p-1.5 rounded-lg bg-gray-300 hover:bg-gray-400 hover:text-white'
                 onClick={handleReset}
@@ -156,8 +171,7 @@ export default function ConsultingList() {
           </div>
           <SearchResult
             filters={filters}
-            applyFilters={applyFilters}
-            dateFilterEnabled={dateFilterEnabled}
+            onOldestDateChange={handleOldestDateChange}
           />
         </div>
       </div>
