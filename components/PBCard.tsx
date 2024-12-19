@@ -1,13 +1,16 @@
 import { type PBProfile } from '@/utils/type';
 import { MessageCircleHeart, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import pb_profile from '../assets/pb_profile.png';
 import Modal from './Modal';
 import PBCardLoading from './PBCardLoading';
 
 export default function PBCard() {
   const [pb, setPb] = useState<PBProfile | null>(null);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
 
   useEffect(() => {
     async function fetchPBData() {
@@ -30,6 +33,25 @@ export default function PBCard() {
   const handleCloseModal = (): void => {
     setModalOpen(false);
   };
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8080/ws/availability');
+
+    socket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      setIsOnline(data.availability);
+      console.log(
+        `pbId: ${data.pbId}, Availability : ${data.availability ? '상담가능' : '상담불가능'}`
+      );
+    };
+
+    socket.onopen = () => {
+      console.log('webSocket 연결됨');
+    };
+    socket.onclose = () => {
+      console.log('websocket 연결 종로');
+    };
+    return () => socket.close();
+  }, []);
 
   const Dday = (startDate: string): number => {
     const start = new Date(startDate);
