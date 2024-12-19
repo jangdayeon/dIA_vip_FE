@@ -1,11 +1,3 @@
-export type Reserve = {
-  title: string;
-  category: string;
-  date: string;
-  time: string;
-  detail: string;
-};
-
 export type Category = {
   id: number;
   name: string;
@@ -36,7 +28,6 @@ export type Script = {
   content: string;
 };
 
-// schedule
 export type Reservation = {
   id: number;
   title: string;
