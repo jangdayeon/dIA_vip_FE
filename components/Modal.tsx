@@ -6,7 +6,8 @@ import { PhoneCall, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useEffect, useState } from 'react';
-import PBCard from '../assets/pb_card.png';
+
+// import PBCard from '../assets/pb_card.png';
 
 interface ModalProps {
   onClose: () => void;
@@ -56,7 +57,7 @@ export default function Modal({ onClose }: ModalProps) {
     return <div>Loading...</div>;
   }
 
-  const { name, introduction, location, tel, career, tags } = pbModal;
+  const { name, introduction, location, tel, career, imageUrl, tags } = pbModal;
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
@@ -66,8 +67,10 @@ export default function Modal({ onClose }: ModalProps) {
       >
         <div className='flex flex-row justify-center pt-6 pb-4 gap-5 '>
           <Image
-            src={PBCard}
+            src={imageUrl}
             alt='PB card'
+            width={48}
+            height={56}
             className='object-cover w-48 h-56'
           />
           <div>

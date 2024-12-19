@@ -15,7 +15,7 @@ export type Consulting = {
   journalProducts?: Item[];
 };
 
-// recommendation
+// Journal Products
 export type Item = {
   id: number;
   name: string;
@@ -56,4 +56,11 @@ export type PBProfile = {
   imageUrl: string;
   tags: string[];
   online: boolean;
+};
+
+export type Recommendation = {
+  id: number;
+  imgUrl: string;
+  description: string;
+  url: string;
 };
