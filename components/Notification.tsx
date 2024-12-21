@@ -1,5 +1,6 @@
 'use client';
 
+import useFetch from '@/hooks/useFetch';
 import { type Notification } from '@/utils/type';
 import { BellIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
@@ -9,8 +10,18 @@ import noti from '../assets/notification.png';
 export default function Notification() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
   const notiRef = useRef<HTMLDivElement>(null);
+
+  const { data, error } = useFetch<Notification[]>('/vip/notifications');
+
+  useEffect(() => {
+    if (data) {
+      setNotifications(data);
+    }
+    if (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  }, [data, error]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -23,21 +34,6 @@ export default function Notification() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/vip/notifications');
-        if (!response.ok) throw new Error('Failed to fetch notifications');
-        const data: Notification[] = await response.json();
-        setNotifications(data);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-
-    fetchNotifications();
   }, []);
 
   const markAllAsRead = async () => {

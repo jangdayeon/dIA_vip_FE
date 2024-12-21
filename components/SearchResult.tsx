@@ -1,3 +1,4 @@
+import useFetch from '@/hooks/useFetch';
 import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import { useRouter } from 'next/navigation';
@@ -26,18 +27,17 @@ export default function SearchResult({
     router.push(`/consultingList/${id}`);
   };
 
+  const { data } = useFetch<Consulting[]>('/vip/journals');
+
   useEffect(() => {
-    async function fetchSearchResults() {
-      const response = await fetch('http://localhost:8080/vip/journals');
-      const data: Consulting[] = await response.json();
+    if (data) {
       setSearchResults(data);
       setFilteredResults(data);
       const oldestDate = data[data.length - 1]?.date;
       if (oldestDate) onOldestDateChange(new Date(oldestDate));
     }
-    fetchSearchResults();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     const { category, startDate, endDate, keyword } = filters;

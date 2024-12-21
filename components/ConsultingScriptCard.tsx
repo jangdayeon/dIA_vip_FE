@@ -1,3 +1,4 @@
+import useFetch from '@/hooks/useFetch';
 import { type Script } from '@/utils/type';
 import { useEffect, useState } from 'react';
 
@@ -8,17 +9,13 @@ export default function ConsultingScriptCard({
 }) {
   const [consultingScripts, setConsultingScripts] = useState<Script[]>([]);
 
+  const { data } = useFetch<Script[]>(`/vip/journals/${id}/scripts`);
+
   useEffect(() => {
-    async function fetchScripts() {
-      const response = await fetch(
-        `http://localhost:8080/vip/journals/${id}/scripts`
-      );
-      const data: Script[] = await response.json();
+    if (data) {
       setConsultingScripts(data);
     }
-
-    fetchScripts();
-  }, [id]);
+  }, [data]);
 
   return (
     <div className='w-full'>

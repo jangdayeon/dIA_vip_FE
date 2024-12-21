@@ -1,3 +1,4 @@
+import useFetch from '@/hooks/useFetch';
 import { formatDate } from '@/utils/date';
 import { type PBProfile } from '@/utils/type';
 import { MessageCircleHeart, PhoneCall } from 'lucide-react';
@@ -11,19 +12,16 @@ export default function PBCard() {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
 
-  useEffect(() => {
-    async function fetchPBData() {
-      try {
-        const response = await fetch('http://localhost:8080/vip/pb');
-        const data: PBProfile = await response.json();
-        setPb(data);
-      } catch (error) {
-        console.error('Error fetching PB data:', error);
-      }
-    }
+  const { data, error } = useFetch<PBProfile>('/vip/pb');
 
-    fetchPBData();
-  }, []);
+  useEffect(() => {
+    if (data) {
+      setPb(data);
+    }
+    if (error) {
+      console.error('Error fetching PB data:', error);
+    }
+  }, [data, error]);
 
   const handleOpenModal = (): void => {
     setModalOpen(true);

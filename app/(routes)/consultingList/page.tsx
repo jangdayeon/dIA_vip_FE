@@ -2,6 +2,7 @@
 
 import CalendarPopup from '@/components/CalendarPopup';
 import SearchResult from '@/components/SearchResult';
+import useFetch from '@/hooks/useFetch';
 import { type Category } from '@/utils/type';
 import { RotateCcw, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -25,19 +26,16 @@ export default function ConsultingList() {
     keyword: '',
   });
 
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const response = await fetch('http://localhost:8080/vip/categories');
-        const data: Category[] = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    }
+  const { data, error } = useFetch<Category[]>('/vip/categories');
 
-    fetchCategories();
-  }, []);
+  useEffect(() => {
+    if (data) {
+      setCategories(data);
+    }
+    if (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }, [data, error]);
 
   const handleStartDateSet = (value: Date | null) => {
     setStartDate(value);

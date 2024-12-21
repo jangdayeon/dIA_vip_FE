@@ -1,5 +1,6 @@
 'use client';
 
+import useFetch from '@/hooks/useFetch';
 import Button from '@/stories/Button';
 import { formatDate } from '@/utils/date';
 import { type Reservation } from '@/utils/type';
@@ -9,29 +10,21 @@ import { useEffect, useState } from 'react';
 export default function Confirm() {
   const router = useRouter();
   const { id } = useParams();
-  const [data, setData] = useState<Reservation | null>(null);
+  const [confirm, setConfirmation] = useState<Reservation | null>(null);
+
+  const { data, error } = useFetch<Reservation>(`/vip/reserves/${id}`);
 
   useEffect(() => {
-    const fetchReservation = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/vip/reserves/${id}`
-        );
-        if (!response.ok) {
-          throw new Error('Failed to fetch reservation');
-        }
-        const reservationData: Reservation = await response.json();
-        setData(reservationData);
-      } catch (error) {
-        console.error('Error fetching reservation:', error);
-      }
-    };
-
-    fetchReservation();
-  }, [id]);
+    if (data) {
+      setConfirmation(data);
+    }
+    if (error) {
+      console.error('Error fetching reservation:', error);
+    }
+  }, [data, error]);
 
   const cancel = async () => {
-    const isConfirmed = confirm('예약을 취소하시겠습니까?');
+    const isConfirmed = window.confirm('예약을 취소하시겠습니까?');
 
     if (!isConfirmed) {
       return;
@@ -46,7 +39,7 @@ export default function Confirm() {
         throw new Error('Failed to cancel reservation');
       }
 
-      setData(null);
+      setConfirmation(null);
       alert('예약이 취소되었습니다.');
       router.push('/');
     } catch (error) {
@@ -62,7 +55,7 @@ export default function Confirm() {
         <div className='my-1 text-gray-600'>
           하나은행만의 전문 PB와 1대 1 상담을 언제든 신청할 수 있습니다.
         </div>
-        {data ? (
+        {confirm ? (
           <div className='bg-[#D6E8F6] rounded-lg shadow-[0_4px_6px_0px_rgba(0,0,0,0.1)] px-24 py-16 mt-10'>
             <div className='flex justify-between items-center my-2'>
               <div className='flex flex-wrap gap-2 items-center'>
@@ -70,12 +63,14 @@ export default function Confirm() {
                   카테고리
                 </label>
                 <div className='bg-white rounded-lg p-1.5'>
-                  {data.categoryName}
+                  {confirm.categoryName}
                 </div>
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>PB명</p>
-                <p className='bg-white rounded-lg px-5 py-1.5'>{data.pbName}</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>
+                  {confirm.pbName}
+                </p>
               </div>
             </div>
             <div className='flex justify-between items-center my-2'>
@@ -84,26 +79,26 @@ export default function Confirm() {
                   희망일시
                 </label>
                 <p className='bg-white rounded-lg p-1.5'>
-                  {formatDate(data.date)} {data.time}
+                  {formatDate(confirm.date)} {confirm.time}
                 </p>
               </div>
               <div className='flex gap-2 items-center'>
                 <p className='font-semibold'>고객명</p>
                 <p className='bg-white rounded-lg px-5 py-1.5'>
-                  {data.customerName}
+                  {confirm.customerName}
                 </p>
               </div>
             </div>
             <div className='flex gap-4 items-center w-full my-2'>
               <label className='w-20 text-right font-semibold'>제목</label>
               <div className='bg-white rounded-lg p-1.5 w-full'>
-                {data.title}
+                {confirm.title}
               </div>
             </div>
             <div className='flex gap-4 items-center w-full my-2'>
               <label className='w-20 text-right font-semibold'>내용</label>
               <div className='bg-white rounded-lg p-1.5 w-full min-h-96 overflow-y-auto'>
-                {data.content}
+                {confirm.content}
               </div>
             </div>
             <div className='flex justify-end gap-2'>
