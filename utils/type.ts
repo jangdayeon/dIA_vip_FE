@@ -28,6 +28,11 @@ export type Script = {
   content: string;
 };
 
+export type ReserveInfo = {
+  pbName: string;
+  vipName: string;
+};
+
 export type Reservation = {
   id: number;
   title: string;

@@ -1,8 +1,9 @@
 'use client';
 
 import CalendarPopup from '@/components/CalendarPopup';
+import useFetch from '@/hooks/useFetch';
 import Button from '@/stories/Button';
-import { type Category } from '@/utils/type';
+import { ReserveInfo, Category } from '@/utils/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -60,13 +61,16 @@ export default function Reserve() {
       };
 
       try {
-        const response = await fetch('http://localhost:8080/vip/reserves', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(reserveData),
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/vip/reserves`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reserveData),
+          }
+        );
 
         if (response.ok) {
           const responseData = await response.json();
@@ -89,32 +93,31 @@ export default function Reserve() {
     setchildDate(value);
   };
 
+  const { data: categoriesData, error: categoriesError } =
+    useFetch<Category[]>('/vip/categories');
+
+  const { data: reserveInfoData, error: reserveInfoError } =
+    useFetch<ReserveInfo>('/vip/reserves/info');
+
   useEffect(() => {
-    fetchCategories();
-    fetchReserveInfo();
-  }, []);
-
-  async function fetchCategories() {
-    try {
-      const response = await fetch('http://localhost:8080/vip/categories');
-      const data: Category[] = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
+    if (categoriesData) {
+      setCategories(categoriesData);
     }
-  }
 
-  async function fetchReserveInfo() {
-    try {
-      const response = await fetch('http://localhost:8080/vip/reserves/info');
-      const data = await response.json();
-      setPbName(data.pbName);
-      console.log(data.pbName);
-      setVipName(data.vipName);
-    } catch (error) {
-      console.error('Error fetching reserve info:', error);
+    if (categoriesError) {
+      console.error('Error fetching categories:', categoriesError);
     }
-  }
+
+    if (reserveInfoData) {
+      setPbName(reserveInfoData.pbName);
+      setVipName(reserveInfoData.vipName);
+    }
+
+    if (reserveInfoError) {
+      console.error('Error fetching reserve info:', reserveInfoError);
+    }
+  }, [categoriesData, reserveInfoData, categoriesError, reserveInfoError]);
+
   return (
     <div className='flex justify-center items-center mb-10 mt-5'>
       <div className='mx-32 mt-10 w-3/5'>

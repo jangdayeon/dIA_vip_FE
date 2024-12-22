@@ -21,7 +21,6 @@ export default function useFetch<T>(
             method,
             headers: {
               'Content-Type': 'application/json',
-              // 추후 로그인 인증 추가할 것
             },
           }
         );

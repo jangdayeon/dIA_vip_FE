@@ -22,13 +22,16 @@ export default function ReserveCard() {
     console.log(data);
 
     try {
-      const response = await fetch('http://localhost:8080/vip/reserves', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/vip/reserves`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error('Failed to create quick consult');

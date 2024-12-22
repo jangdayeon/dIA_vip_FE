@@ -31,9 +31,12 @@ export default function Confirm() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/vip/reserves/${id}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/vip/reserves/${id}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
       if (!response.ok) {
         throw new Error('Failed to cancel reservation');

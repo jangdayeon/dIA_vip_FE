@@ -38,7 +38,7 @@ export default function Notification() {
 
   const markAllAsRead = async () => {
     try {
-      await fetch('http://localhost:8080/vip/notifications', {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/vip/notifications`, {
         method: 'PATCH',
       });
       setNotifications(
@@ -51,7 +51,7 @@ export default function Notification() {
 
   const deleteAll = async () => {
     try {
-      await fetch('http://localhost:8080/vip/notifications', {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/vip/notifications`, {
         method: 'DELETE',
       });
       setNotifications([]);
