@@ -1,3 +1,4 @@
+import useFetch from '@/hooks/useFetch';
 import { Recommendation } from '@/utils/type';
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -11,26 +12,18 @@ import { useEffect, useState } from 'react';
 export default function RecommendCard() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
 
+  const { data, error } = useFetch<Recommendation[]>(
+    '/vip/journals/recommendations'
+  );
+
   useEffect(() => {
-    async function fetchRecommendations() {
-      try {
-        const response = await fetch(
-          'http://localhost:8080/vip/journals/recommendations'
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch recommendations');
-        }
-
-        const data: Recommendation[] = await response.json();
-        setRecommendations(data);
-      } catch (error) {
-        console.error('Error fetching recommendations:', error);
-      }
+    if (data) {
+      setRecommendations(data);
     }
-
-    fetchRecommendations();
-  }, []);
+    if (error) {
+      console.error('Error fetching recommendations:', error);
+    }
+  }, [data, error]);
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>

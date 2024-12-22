@@ -1,3 +1,4 @@
+import useFetch from '@/hooks/useFetch';
 import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import {
@@ -31,19 +32,16 @@ const ConsultingItem = ({ title, date, status }: Consulting) => {
 export default function ConsultingListCard() {
   const [lists, setLists] = useState<Consulting[]>([]);
 
-  useEffect(() => {
-    const fetchJournals = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/vip/journals');
-        const data: Consulting[] = await response.json();
-        setLists(data);
-      } catch (error) {
-        console.error('Error fetching jounals:', error);
-      }
-    };
+  const { data, error } = useFetch<Consulting[]>('/vip/journals');
 
-    fetchJournals();
-  }, []);
+  useEffect(() => {
+    if (data) {
+      setLists(data);
+    }
+    if (error) {
+      console.error('Error fetching jounals:', error);
+    }
+  }, [data, error]);
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>

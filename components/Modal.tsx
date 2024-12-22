@@ -1,13 +1,12 @@
 'use client';
 
+import useFetch from '@/hooks/useFetch';
 import Button from '@/stories/Button';
 import { PBProfile } from '@/utils/type';
 import { PhoneCall, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useEffect, useState } from 'react';
-
-// import PBCard from '../assets/pb_card.png';
 
 interface ModalProps {
   onClose: () => void;
@@ -18,19 +17,16 @@ export default function Modal({ onClose }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [pbModal, setPbModal] = useState<PBProfile | null>(null);
 
-  useEffect(() => {
-    async function fetchPBModal() {
-      try {
-        const response = await fetch('http://localhost:8080/vip/pb');
-        const data: PBProfile = await response.json();
-        setPbModal(data);
-      } catch (error) {
-        console.error('Error fetching PB data:', error);
-      }
-    }
+  const { data, error } = useFetch<PBProfile>('/vip/pb');
 
-    fetchPBModal();
-  }, []);
+  useEffect(() => {
+    if (data) {
+      setPbModal(data);
+    }
+    if (error) {
+      console.error('Error fetching PB data:', error);
+    }
+  }, [data, error]);
 
   const onReserve = () => {
     router.push('/reserve');

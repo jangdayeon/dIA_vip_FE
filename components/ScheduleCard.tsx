@@ -1,3 +1,4 @@
+import useFetch from '@/hooks/useFetch';
 import { formatDate } from '@/utils/date';
 import { type Reservation } from '@/utils/type';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
@@ -29,19 +30,16 @@ const ScheduleItem = ({ id, title, date, time }: Reservation) => {
 export default function ScheduleCard() {
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
-  useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/vip/reserves');
-        const data: Reservation[] = await response.json();
-        setReservations(data);
-      } catch (error) {
-        console.error('Error fetching reservations:', error);
-      }
-    };
+  const { data, error } = useFetch<Reservation[]>('/vip/reserves');
 
-    fetchReservations();
-  }, []);
+  useEffect(() => {
+    if (data) {
+      setReservations(data);
+    }
+    if (error) {
+      console.error('Error fetching reservations:', error);
+    }
+  }, [data, error]);
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>

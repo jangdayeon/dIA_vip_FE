@@ -1,5 +1,6 @@
 'use client';
 
+import useFetch from '@/hooks/useFetch';
 import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
@@ -22,15 +23,13 @@ export default function Sidebar() {
     setIsOpen(!isOpen);
   };
 
+  const { data } = useFetch<Consulting[]>('/vip/journals');
+
   useEffect(() => {
-    async function fetchSidebar() {
-      const response = await fetch('http://localhost:8080/vip/journals');
-      const data: Consulting[] = await response.json();
+    if (data) {
       setSearchResults(data);
     }
-
-    fetchSidebar();
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (pathname) {

@@ -1,5 +1,6 @@
 'use client';
 
+import useFetch from '@/hooks/useFetch';
 import { formatDate } from '@/utils/date';
 import { type Consulting } from '@/utils/type';
 import { FolderArrowDownIcon, HeartIcon } from '@heroicons/react/16/solid';
@@ -18,15 +19,13 @@ export default function ConsultingDetailCard() {
   );
   const router = useRouter();
 
-  useEffect(() => {
-    async function fetchConsultingDetail() {
-      const response = await fetch(`http://localhost:8080/vip/journals/${id}`);
-      const detail: Consulting = await response.json();
-      setConsultingDetail(detail);
-    }
+  const { data } = useFetch<Consulting>(`/vip/journals/${id}`);
 
-    fetchConsultingDetail();
-  }, [id]);
+  useEffect(() => {
+    if (data) {
+      setConsultingDetail(data);
+    }
+  }, [data]);
 
   if (!consultingDetail) return <Loading />;
 
