@@ -56,7 +56,7 @@ export default function RecommendCard() {
                   alt={slide.description}
                   width={300}
                   height={200}
-                  className='mb-2 object-cover h-32'
+                  className='mb-2 object-cover h-36'
                 />
                 <p className='text-sm text-gray-500'>{slide.description}</p>
               </Link>

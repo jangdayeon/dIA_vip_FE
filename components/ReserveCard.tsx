@@ -34,7 +34,9 @@ export default function ReserveCard() {
       );
 
       if (!response.ok) {
-        throw new Error('Failed to create quick consult');
+        const errorResponse = await response.json();
+        const errorMessage = errorResponse.message;
+        throw new Error(`${errorMessage}`);
       }
 
       alert('빠른 상담이 예약되었습니다! 15분 내로 연락 드리겠습니다.');
