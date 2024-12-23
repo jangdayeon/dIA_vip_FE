@@ -12,7 +12,28 @@ export default function PBCard() {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
 
+<<<<<<< HEAD
   const { data, error } = useFetch<PBProfile>('/vip/pb');
+=======
+  useEffect(() => {
+    async function fetchPBData() {
+      try {
+        const response = await fetch('http://localhost:8080/vip/pb', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          mode: 'cors', // CORS 모드 설정
+        });
+        console.log('🚀 ~ fetchPBData ~ response:', response.body);
+        const data: PBProfile = await response.json();
+        setPb(data);
+      } catch (error) {
+        console.error('Error fetching PB data:', error);
+      }
+    }
+>>>>>>> 2ad955f ([feat] : auth jwt 발급하도록 수정)
 
   useEffect(() => {
     if (data) {
