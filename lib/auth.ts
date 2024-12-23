@@ -22,23 +22,11 @@ export const {
       async authorize(credentials) {
         if (!credentials || !credentials.id || !credentials.pw) return null;
         // Spring API로 사용자 검증 요청
-        const response = await fetch('http://localhost:8080/vip/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-
-          body: JSON.stringify({
-            id: credentials.id,
-            pw: credentials.pw,
-          }),
-        });
-        console.log('🚀 ~ authorize ~ response:', response.status);
-
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Invalid credentials');
-        }
-        const user = { email: credentials.id, name: 'Guest' } as User;
+        const user = {
+          email: credentials.id,
+          name: 'Guest',
+          id: 'xxx',
+        } as User;
         return user;
       },
     }),
@@ -49,6 +37,7 @@ export const {
       return true;
     },
     session({ session, token }) {
+      // console.log('ttttttttttttt', token);
       // 토큰 정보를 세션에 전달
       session.user = {
         ...session.user,
@@ -58,6 +47,7 @@ export const {
 
       // 커스텀 필드 추가
       session.sessionToken = token.email as string; // 타입 단언 사용
+      // console.log('ssssssssssssss>>', session);
       return session;
     },
     // jwt({ token, user }) {
@@ -71,6 +61,9 @@ export const {
     // },
   },
 
+  // session: {
+  //   strategy: 'database',
+  // },
   pages: {
     signIn: '/signin',
   },
