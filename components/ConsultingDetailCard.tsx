@@ -113,7 +113,9 @@ export default function ConsultingDetailCard() {
               <ul className='list-disc pl-5 mx-24'>
                 {journalProducts.map((item) => (
                   <li key={item.id} className='my-2'>
-                    <a href={item.url}>{item.name}</a>
+                    <a href={item.url} className='hover:underline'>
+                      {item.name}
+                    </a>
                   </li>
                 ))}
               </ul>

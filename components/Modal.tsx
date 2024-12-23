@@ -65,8 +65,8 @@ export default function Modal({ onClose }: ModalProps) {
           <Image
             src={imageUrl}
             alt='PB card'
-            width={48}
-            height={56}
+            width={192}
+            height={224}
             className='object-cover w-48 h-56'
           />
           <div>

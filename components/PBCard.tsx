@@ -77,9 +77,9 @@ export default function PBCard() {
           <Image
             src={imageUrl}
             alt='PB image'
-            width={80}
-            height={80}
-            className='rounded-full  object-cover aspect-square'
+            width={192}
+            height={224}
+            className='rounded-full  object-cover aspect-square w-20 h-20'
           />
           <div>
             <h2 className='text-lg font-semibold'>{name} PB</h2>

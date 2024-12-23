@@ -37,11 +37,11 @@ export default function ReserveCard() {
         throw new Error('Failed to create quick consult');
       }
 
-      alert('빠른 상담이 예약되었습니다!');
+      alert('빠른 상담이 예약되었습니다! 15분 내로 연락 드리겠습니다.');
       window.location.reload();
     } catch (error) {
       console.error('Error during quick consult:', error);
-      alert('빠른 상담 예약에 실패했습니다. 다시 시도해주세요.');
+      alert(error);
     }
   };
 
