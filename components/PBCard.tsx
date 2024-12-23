@@ -19,6 +19,7 @@ export default function PBCard() {
       setPb(data);
     }
     if (error) {
+      console.log('🚀 ~ PBCard ~ data:', data);
       console.error('Error fetching PB data:', error);
     }
   }, [data, error]);
