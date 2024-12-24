@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import RecommendCardLoading from './RecommendCardLoading';
 
 export default function RecommendCard() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
@@ -24,6 +25,10 @@ export default function RecommendCard() {
       console.error('Error fetching recommendations:', error);
     }
   }, [data, error]);
+
+  if (!recommendations || recommendations.length === 0) {
+    return <RecommendCardLoading />;
+  }
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>
@@ -43,25 +48,28 @@ export default function RecommendCard() {
           }}
           className='flex items-center'
         >
-          {recommendations.map((slide) => (
-            <SwiperSlide key={slide.id} className='p-4 bg-white'>
-              <Link
-                href={slide.url}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='block text-center'
-              >
-                <Image
-                  src={slide.imgUrl}
-                  alt={slide.description}
-                  width={300}
-                  height={200}
-                  className='mb-2 object-cover h-36'
-                />
-                <p className='text-sm text-gray-500'>{slide.description}</p>
-              </Link>
-            </SwiperSlide>
-          ))}
+          {recommendations.map((recommendation) => {
+            const { id, url, imgUrl, description } = recommendation;
+            return (
+              <SwiperSlide key={id} className='p-4 bg-white'>
+                <Link
+                  href={url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='block text-center'
+                >
+                  <Image
+                    src={imgUrl}
+                    alt={description}
+                    width={300}
+                    height={200}
+                    className='mb-2 object-cover h-36'
+                  />
+                  <p className='text-sm text-gray-500'>{description}</p>
+                </Link>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
     </div>
