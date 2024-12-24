@@ -27,10 +27,13 @@ export default function SignInOut({
   async function logout() {
     try {
       // Spring 서버에 로그아웃 요청
-      const backendRes = await fetch('http://localhost:8080/vip/logout', {
-        method: 'POST',
-        credentials: 'include', // JSESSIONID 포함
-      });
+      const backendRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/vip/logout`,
+        {
+          method: 'POST',
+          credentials: 'include', // JSESSIONID 포함
+        }
+      );
 
       console.log('🚀 ~ logout ~ backendRes:', backendRes);
 
