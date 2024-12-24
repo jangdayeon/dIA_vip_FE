@@ -68,6 +68,7 @@ export default function Reserve() {
             headers: {
               'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(reserveData),
           }
         );

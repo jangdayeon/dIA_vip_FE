@@ -35,6 +35,7 @@ export default function Confirm() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/vip/reserves/${id}`,
         {
           method: 'DELETE',
+          credentials: 'include',
         }
       );
 

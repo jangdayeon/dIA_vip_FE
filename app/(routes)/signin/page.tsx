@@ -20,12 +20,15 @@ function SigninCard() {
     setErrorMsg(null);
 
     try {
-      const response = await fetch('http://localhost:8080/vip/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // JSESSIONID 포함
-        body: JSON.stringify({ id, pw }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/vip/login`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // JSESSIONID 포함
+          body: JSON.stringify({ id, pw }),
+        }
+      );
       console.log('🚀 ~ handleSubmit ~ response:', response);
 
       if (!response.ok) {

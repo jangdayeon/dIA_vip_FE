@@ -40,6 +40,7 @@ export default function Notification() {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/vip/notifications`, {
         method: 'PATCH',
+        credentials: 'include',
       });
       setNotifications(
         notifications.map((notification) => ({ ...notification, read: true }))
@@ -53,6 +54,7 @@ export default function Notification() {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/vip/notifications`, {
         method: 'DELETE',
+        credentials: 'include',
       });
       setNotifications([]);
     } catch (error) {
