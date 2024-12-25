@@ -46,7 +46,7 @@ export default function PBCard() {
 
   useEffect(() => {
     const socket = new WebSocket(
-      `ws://${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/ws/availability`
+      `wss://${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/ws/availability`
     );
 
     socket.onopen = () => {
