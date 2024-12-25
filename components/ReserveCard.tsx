@@ -19,7 +19,6 @@ export default function ReserveCard() {
       time: `${hour}:${minute}`,
       content: '',
     };
-    console.log(data);
 
     try {
       const response = await fetch(

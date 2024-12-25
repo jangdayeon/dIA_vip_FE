@@ -32,12 +32,11 @@ export const {
     }),
   ],
   callbacks: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     signIn({ user }) {
-      console.log('🚀 ~ signIn ~ user:', user); // 디버깅
       return true;
     },
     session({ session, token }) {
-      // console.log('ttttttttttttt', token);
       // 토큰 정보를 세션에 전달
       session.user = {
         ...session.user,
@@ -47,7 +46,6 @@ export const {
 
       // 커스텀 필드 추가
       session.sessionToken = token.email as string; // 타입 단언 사용
-      // console.log('ssssssssssssss>>', session);
       return session;
     },
     // jwt({ token, user }) {
@@ -55,8 +53,6 @@ export const {
     //     token.name = user.name || '';
     //     token.email = user.email || '';
     //   }
-    //   console.log('🚀 ~ jwt ~ token:', token); // 디버깅
-
     //   return token;
     // },
   },

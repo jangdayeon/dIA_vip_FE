@@ -29,7 +29,6 @@ function SigninCard() {
           body: JSON.stringify({ id, pw }),
         }
       );
-      console.log('🚀 ~ handleSubmit ~ response:', response);
 
       if (!response.ok) {
         const error = await response.json();

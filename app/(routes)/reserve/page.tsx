@@ -75,7 +75,6 @@ export default function Reserve() {
 
         if (response.ok) {
           const responseData = await response.json();
-          console.log('예약 성공:', responseData);
 
           alert('예약이 성공적으로 등록되었습니다.');
           router.push(`/confirm/${responseData}`);

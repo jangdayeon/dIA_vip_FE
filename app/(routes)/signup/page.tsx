@@ -23,7 +23,6 @@ function SignupCard() {
       /^(01[0|1|6|7|8|9])[-]?\d{3,4}[-]?\d{4}$|^(0\d{1,2})[-]?\d{3,4}[-]?\d{4}$/;
     const addressRegex = /^[가-힣0-9\s\-,.]+$/;
 
-    console.log(name, email, pw, pwCheck, phone, address);
     if (!name || !email || !pw || !pwCheck || !phone || !address) {
       setErrorMsg('입력을 확인해주세요.');
       return;
@@ -75,8 +74,6 @@ function SignupCard() {
         }
       );
 
-      console.log('🚀 ~ handleSubmit ~ response:', response);
-
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'Invalid credentials');
@@ -84,7 +81,6 @@ function SignupCard() {
     } catch (error) {
       setErrorMsg('회원가입에 실패했습니다. 다시 시도해 주세요.');
       console.error('🚀 ~ handleSubmit error:', error);
-      console.log('왜');
     }
     alert('회원가입 성공!');
     router.push('/signin');
