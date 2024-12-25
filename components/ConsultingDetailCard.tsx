@@ -105,7 +105,13 @@ export default function ConsultingDetailCard() {
 
           <div className='bg-white w-full py-5 border-b'>
             <div className='text-xl font-bold mx-24'>상담 내용</div>
-            <div className='mt-5 mx-24'>{contents}</div>
+            <div className='mt-5 mx-24'>
+              {contents?.split('\n').map((sentence, index) => (
+                <p key={index} className='mb-4'>
+                  {sentence}
+                </p>
+              ))}
+            </div>
           </div>
           <div className='bg-white w-full py-5 border-b'>
             <div className='text-xl font-bold mb-5 mx-24'>추천 상품</div>
@@ -113,7 +119,12 @@ export default function ConsultingDetailCard() {
               <ul className='list-disc pl-5 mx-24'>
                 {journalProducts.map((item) => (
                   <li key={item.id} className='my-2'>
-                    <a href={item.url} className='hover:underline'>
+                    <a
+                      href={item.url}
+                      className='hover:underline'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
                       {item.name}
                     </a>
                   </li>

@@ -52,7 +52,7 @@ export default function ConsultingListCard() {
         </div>
       </Link>
 
-      <div className='h-72 overflow-y-scroll'>
+      <div className='h-80 overflow-y-auto'>
         {lists.map((item) => (
           <ConsultingItem
             key={item.id}

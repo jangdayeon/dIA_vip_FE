@@ -1,6 +1,6 @@
 import useFetch from '@/hooks/useFetch';
 import { formatDate } from '@/utils/date';
-import { type PBProfile } from '@/utils/type';
+import { Info, type PBProfile } from '@/utils/type';
 import { MessageCircleHeart, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -9,10 +9,14 @@ import PBCardLoading from './PBCardLoading';
 
 export default function PBCard() {
   const [pb, setPb] = useState<PBProfile | null>(null);
+  const [vipName, setVipName] = useState<string>('');
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   // const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
 
   const { data, error } = useFetch<PBProfile>('/vip/pb');
+
+  const { data: infoData, error: infoError } =
+    useFetch<Info>('/vip/reserves/info');
 
   useEffect(() => {
     if (data) {
@@ -22,7 +26,15 @@ export default function PBCard() {
       console.log('🚀 ~ PBCard ~ data:', data);
       console.error('Error fetching PB data:', error);
     }
-  }, [data, error]);
+
+    if (infoData) {
+      setVipName(infoData.vipName);
+    }
+
+    if (infoError) {
+      console.error('Error fetching info:', infoError);
+    }
+  }, [data, error, infoData, infoError]);
 
   const handleOpenModal = (): void => {
     setModalOpen(true);
@@ -71,23 +83,27 @@ export default function PBCard() {
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='border-b border-opacity-55 px-6 py-4'>
-        <div className='text-slate-600 text-2xl font-semibold'>담당 PB</div>
+        <div className='text-slate-600 text-2xl font-semibold'>
+          {vipName}님의 담당 PB
+        </div>
       </div>
-      <div className='p-6'>
+      <div className='p-4'>
         <div
-          className='flex items-center space-x-4 p-2 hover:bg-gray-100 rounded-lg'
+          className='flex items-center gap-4 p-2 hover:bg-gray-100 rounded-lg'
           onClick={handleOpenModal}
         >
-          <Image
-            src={imageUrl}
-            alt='PB image'
-            width={192}
-            height={224}
-            className='rounded-full  object-cover aspect-square w-20 h-20'
-          />
+          <div className='w-24 h-24'>
+            <Image
+              src={imageUrl}
+              alt='PB image'
+              width={192}
+              height={224}
+              className='rounded-full object-cover aspect-square'
+            />
+          </div>
           <div>
             <h2 className='text-lg font-semibold'>{name} PB</h2>
-            <div className='space-x-2 mt-1'>
+            <div className='flex flex-wrap gap-2 mt-2'>
               {tags.map((tag, index) => (
                 <span
                   key={index}

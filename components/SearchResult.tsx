@@ -57,11 +57,11 @@ export default function SearchResult({
   }, [filters, searchResults]);
 
   return (
-    <div className='border border-sky-50 bg-white w-full h-96 overflow-y-auto p-2 mt-5'>
+    <div className='border border-sky-50 bg-white w-full h-96 overflow-y-auto mt-5'>
       <table className='table-auto w-full border-collapse'>
         <thead className='sticky top-0 bg-gray-100 z-10'>
           <tr>
-            <th className='px-4 py-2'>ID</th>
+            <th className='px-4 py-2'>번호</th>
             <th className='px-4 py-2'>카테고리</th>
             <th className='px-4 py-2'>제목</th>
             <th className='px-4 py-2'>상담일시</th>
@@ -70,9 +70,9 @@ export default function SearchResult({
           </tr>
         </thead>
         <tbody>
-          {filteredResults.map((item) => (
+          {filteredResults.map((item, index) => (
             <tr key={item.id} className='border-b border-black text-center'>
-              <td className='px-4 py-2'>{item.id}</td>
+              <td className='px-4 py-2'>{index + 1}</td>
               <td className='px-4 py-2'>{item.category}</td>
               <td className='px-4 py-2 truncate max-w-48'>{item.title}</td>
               <td className='px-4 py-2'>

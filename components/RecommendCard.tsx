@@ -1,5 +1,5 @@
 import useFetch from '@/hooks/useFetch';
-import { Recommendation } from '@/utils/type';
+import { Info, Recommendation } from '@/utils/type';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
@@ -12,19 +12,30 @@ import RecommendCardLoading from './RecommendCardLoading';
 
 export default function RecommendCard() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [vipName, setVipName] = useState<string>('');
+
+  const { data: infoData, error: infoError } =
+    useFetch<Info>('/vip/reserves/info');
 
   const { data, error } = useFetch<Recommendation[]>(
     '/vip/journals/recommendations'
   );
 
   useEffect(() => {
+    if (infoData) {
+      setVipName(infoData.vipName);
+    }
+
+    if (infoError) {
+      console.error('Error fetching reserve info:', infoError);
+    }
     if (data) {
       setRecommendations(data);
     }
     if (error) {
       console.error('Error fetching recommendations:', error);
     }
-  }, [data, error]);
+  }, [data, error, infoData, infoError]);
 
   if (!recommendations || recommendations.length === 0) {
     return <RecommendCardLoading />;
@@ -33,7 +44,9 @@ export default function RecommendCard() {
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='border-b border-opacity-55 px-6 py-4'>
-        <div className='text-slate-600 text-2xl font-semibold'>맞춤 콘텐츠</div>
+        <div className='text-slate-600 text-2xl font-semibold'>
+          {vipName}님의 맞춤 콘텐츠
+        </div>
       </div>
       <div className='p-2 rounded-b-lg'>
         <Swiper

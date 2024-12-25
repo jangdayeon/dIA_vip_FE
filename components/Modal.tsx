@@ -50,7 +50,7 @@ export default function Modal({ onClose }: ModalProps) {
   }, [onClose]);
 
   if (!pbModal) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   const { name, introduction, location, tel, career, imageUrl, tags } = pbModal;
