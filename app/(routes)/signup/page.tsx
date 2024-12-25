@@ -58,8 +58,34 @@ function SignupCard() {
       return;
     }
 
-    //TODO: 회원가입 관련 처리
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/vip/signup`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // JSESSIONID 포함
+          body: JSON.stringify({
+            name,
+            email,
+            password: pw,
+            tel: phone,
+            address,
+          }),
+        }
+      );
 
+      console.log('🚀 ~ handleSubmit ~ response:', response);
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Invalid credentials');
+      }
+    } catch (error) {
+      setErrorMsg('회원가입에 실패했습니다. 다시 시도해 주세요.');
+      console.error('🚀 ~ handleSubmit error:', error);
+      console.log('왜');
+    }
     alert('회원가입 성공!');
     router.push('/signin');
   }
