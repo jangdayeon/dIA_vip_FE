@@ -58,9 +58,7 @@ export const LogOut: StoryObj<typeof meta> = {
     text: '로그아웃',
     className:
       'h-10 px-4 py-2 my-4 mx-7 bg-gray-300 hover:bg-gray-400 hover:text-white',
-    onClick: () => {
-      console.log('로그아웃');
-    },
+    onClick: () => {},
   },
 };
 
@@ -69,9 +67,7 @@ export const PBModal_reserve: StoryObj<typeof meta> = {
     type: 'button',
     text: '상담 예약',
     className: 'h-10 px-4 py-2 bg-gray-300 hover:bg-gray-400',
-    onClick: () => {
-      console.log('상담 예약으로 이동');
-    },
+    onClick: () => {},
   },
 };
 

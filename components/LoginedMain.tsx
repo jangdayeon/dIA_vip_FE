@@ -13,8 +13,6 @@ import RecommendCard from './RecommendCard';
 
 export default function Logined() {
   const [id, setId] = useState('guest');
-  console.log('🚀 ~ Logined ~ id:', id);
-
   useEffect(() => {
     (async function () {
       const ss = await getSession();

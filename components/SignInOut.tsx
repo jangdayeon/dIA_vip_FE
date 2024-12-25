@@ -54,8 +54,6 @@ export default function SignInOut({
         }
       );
 
-      console.log('🚀 ~ logout ~ backendRes:', backendRes);
-
       if (!backendRes.ok) {
         console.error('Spring signout failed');
         throw new Error('Backend signout failed');
