@@ -2,9 +2,10 @@
 
 import { getSession, mySignOut } from '@/actions/myauth';
 import Button from '@/stories/Button';
+import { ChevronDownIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Notification from './Notification';
 
 export default function SignInOut({
@@ -13,6 +14,8 @@ export default function SignInOut({
   isLogin: () => Promise<string>;
 }) {
   const [id, setId] = useState('');
+  const [dropdown, setDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   // 로그인 상태 확인
@@ -22,6 +25,22 @@ export default function SignInOut({
       setId(ss?.user?.email || '');
     })();
   }, [isLogin]);
+
+  useEffect(() => {
+    function handleOutsideClick(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdown(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   // 로그아웃 처리
   async function logout() {
@@ -51,14 +70,39 @@ export default function SignInOut({
     return (
       <div className='flex flex-row justify-between'>
         <div className='flex flex-row font-bold gap-5 items-center'>
-          <Link href='/reserve' className='hover:text-[#3F6886] '>
-            상담 예약
-          </Link>
-          <Link href='/consultingList' className='hover:text-[#3F6886] '>
-            상담 내역
-          </Link>
+          <div className='relative' ref={dropdownRef}>
+            <button
+              className='font-bold flex flex-row items-center gap-2 hover:text-[#3F6886]'
+              onClick={() => setDropdown(!dropdown)}
+            >
+              메뉴
+              <ChevronDownIcon
+                className={`w-5 h-5 transition-transform ${
+                  dropdown ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            {dropdown && (
+              <div className='absolute right-0 mt-2 w-32 text-center bg-white border border-gray-200 rounded shadow-md z-10'>
+                <Link
+                  href='/reserve'
+                  className='block px-4 py-2 text-sm text-gray-700 hover:bg-[#3F6886] hover:text-white'
+                >
+                  상담 예약
+                </Link>
+                <Link
+                  href='/consultingList'
+                  className='block px-4 py-2 text-sm text-gray-700 hover:bg-[#3F6886] hover:text-white'
+                >
+                  상담 내역
+                </Link>
+              </div>
+            )}
+          </div>
           <Notification />
         </div>
+
         <Button
           onClick={async () => {
             try {

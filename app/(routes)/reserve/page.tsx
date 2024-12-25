@@ -3,7 +3,7 @@
 import CalendarPopup from '@/components/CalendarPopup';
 import useFetch from '@/hooks/useFetch';
 import Button from '@/stories/Button';
-import { ReserveInfo, Category } from '@/utils/type';
+import { Info, Category } from '@/utils/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -98,7 +98,7 @@ export default function Reserve() {
     useFetch<Category[]>('/vip/categories');
 
   const { data: reserveInfoData, error: reserveInfoError } =
-    useFetch<ReserveInfo>('/vip/reserves/info');
+    useFetch<Info>('/vip/reserves/info');
 
   useEffect(() => {
     if (categoriesData) {
@@ -115,7 +115,7 @@ export default function Reserve() {
     }
 
     if (reserveInfoError) {
-      console.error('Error fetching reserve info:', reserveInfoError);
+      console.error('Error fetching info:', reserveInfoError);
     }
   }, [categoriesData, reserveInfoData, categoriesError, reserveInfoError]);
 

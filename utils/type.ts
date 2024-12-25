@@ -28,7 +28,7 @@ export type Script = {
   content: string;
 };
 
-export type ReserveInfo = {
+export type Info = {
   pbName: string;
   vipName: string;
 };

@@ -2,7 +2,6 @@
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -17,7 +16,6 @@ function SignupCard() {
     const pwCheck = formData.get('pwCheck');
     const phone = formData.get('phone');
     const address = formData.get('address');
-    const sex = formData.get('sex');
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
@@ -25,7 +23,7 @@ function SignupCard() {
       /^(01[0|1|6|7|8|9])[-]?\d{3,4}[-]?\d{4}$|^(0\d{1,2})[-]?\d{3,4}[-]?\d{4}$/;
     const addressRegex = /^[가-힣0-9\s\-,.]+$/;
 
-    console.log(name, email, pw, pwCheck, phone, address, sex);
+    console.log(name, email, pw, pwCheck, phone, address);
     if (!name || !email || !pw || !pwCheck || !phone || !address) {
       setErrorMsg('입력을 확인해주세요.');
       return;
@@ -129,23 +127,6 @@ function SignupCard() {
             />
           </div>
 
-          <div>
-            <Label>성별</Label>
-            <RadioGroup
-              defaultValue='sex'
-              className='flex flex-row mt-3'
-              name='sex'
-            >
-              <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='man' id='man' />
-                <Label htmlFor='man'>남</Label>
-              </div>
-              <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='woman' id='woman' />
-                <Label htmlFor='woman'>여</Label>
-              </div>
-            </RadioGroup>
-          </div>
           {errorMsg && <div className='text-red-600 mb-3'>{errorMsg}</div>}
 
           <button
