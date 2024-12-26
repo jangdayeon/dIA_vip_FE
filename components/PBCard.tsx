@@ -21,6 +21,7 @@ export default function PBCard() {
   useEffect(() => {
     if (data) {
       setPb(data);
+      setIsOnline(data.online);
     }
     if (error) {
       console.error('Error fetching PB data:', error);
