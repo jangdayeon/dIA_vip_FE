@@ -11,7 +11,7 @@ export default function PBCard() {
   const [pb, setPb] = useState<PBProfile | null>(null);
   const [vipName, setVipName] = useState<string>('');
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
+  // const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
 
   const { data, error } = useFetch<PBProfile>('/vip/pb');
 
@@ -54,10 +54,11 @@ export default function PBCard() {
 
     socket.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      setIsOnline(data.availability);
-      console.log(
-        `pbId: ${data.pbId}, Availability: ${data.availability ? '상담가능' : '상담불가능'}`
-      );
+      setPb(data);
+      // setIsOnline(data.availability);
+      // console.log(
+      //   `pbId: ${data.pbId}, Availability: ${data.availability ? '상담가능' : '상담불가능'}`
+      // );
     };
     socket.onclose = () => {
       console.log('websocket 연결 종로');
@@ -77,7 +78,7 @@ export default function PBCard() {
     return <PBCardLoading />;
   }
 
-  const { name, introduction, date, imageUrl, tags } = pb;
+  const { name, introduction, date, imageUrl, tags, online } = pb;
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>
@@ -125,11 +126,11 @@ export default function PBCard() {
             <div className='flex items-center space-x-2'>
               <div
                 className={`w-3 h-3 rounded-full ${
-                  isOnline ? 'bg-green-500' : 'bg-gray-400'
+                  online ? 'bg-green-500' : 'bg-gray-400'
                 }`}
               />
               <span className='text-gray-700'>
-                {isOnline ? '온라인' : '오프라인'}
+                {online ? '온라인' : '오프라인'}
               </span>
             </div>
           </div>
