@@ -51,7 +51,6 @@ export const DataProvider = ({
       const localData = JSON.parse(
         localStorage.getItem(email) || 'null'
       ) as LocalData;
-      console.log(localData);
 
       if (!localData) {
         setDataWithStorage({

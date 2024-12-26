@@ -5,11 +5,23 @@
     "prettier",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:storybook/recommended"
   ],
-  "plugins": ["react", "react-hooks"],
+  "plugins": [
+    "react",
+    "react-hooks"
+  ],
   "rules": {
-    "react/prop-types": ["error", { "ignore": ["className", "type"] }],
+    "react/prop-types": [
+      "error",
+      {
+        "ignore": [
+          "className",
+          "type"
+        ]
+      }
+    ],
     "@typescript-eslint/no-empty-object-type": "off"
   }
 }

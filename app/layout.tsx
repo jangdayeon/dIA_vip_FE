@@ -49,7 +49,7 @@ export default async function RootLayout({
               {children}
             </div>
             <footer className='font-bold text-center border'>
-              &copy; 2024 디지털 하나로 프로젝트
+              &copy; 2024 dIA All rights reserved.
             </footer>
           </DataProvider>
         </SessionProvider>

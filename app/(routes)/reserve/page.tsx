@@ -1,7 +1,9 @@
 'use client';
 
 import CalendarPopup from '@/components/CalendarPopup';
-import { formatDate } from '@/utils/date';
+import useFetch from '@/hooks/useFetch';
+import Button from '@/stories/Button';
+import { Info, Category } from '@/utils/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -26,16 +28,10 @@ const times = [
   '17:30',
 ];
 
-export type reserve = {
-  title: string;
-  category: string;
-  date: string;
-  time: string;
-  detail: string;
-};
-
 export default function Reserve() {
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [pbName, setPbName] = useState<string>('');
+  const [vipName, setVipName] = useState<string>('');
   const [childDate, setchildDate] = useState<Date | null>(new Date());
   const titleRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
@@ -46,25 +42,50 @@ export default function Reserve() {
   const maxDate = new Date(minDate);
   maxDate.setDate(maxDate.getDate() + 30);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (confirm('예약하시겠습니까?')) {
-      const dateString = childDate;
-      if (!dateString) return;
-      const dateObject = new Date(dateString);
-      const date = formatDate(dateObject);
+      if (!childDate || !timeRef.current?.value) return;
+
+      const localDate = new Date(childDate);
+      const [hours, minutes] = timeRef.current.value.split(':');
+      localDate.setHours(Number(hours), Number(minutes), 0, 0);
+
       const reserveData = {
         title: titleRef.current?.value || '',
-        category: categoryRef.current?.value || '',
-        date: date,
+        categoryId: categoryRef.current?.value || '',
+        date: localDate.toISOString().split('T')[0],
         time: timeRef.current?.value || '',
-        detail: detailRef.current?.value || '',
+        content: detailRef.current?.value || '',
       };
 
-      localStorage.setItem('reserveData', JSON.stringify(reserveData));
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/vip/reserves`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(reserveData),
+          }
+        );
 
-      router.push('/confirm');
+        if (response.ok) {
+          const responseData = await response.json();
+
+          alert('예약이 성공적으로 등록되었습니다.');
+          router.push(`/confirm/${responseData}`);
+        } else {
+          const errorData = await response.json();
+          alert(`예약 실패: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('예약 요청 중 오류 발생:', error);
+        alert('예약 요청 중 문제가 발생했습니다.');
+      }
     }
   };
 
@@ -72,109 +93,131 @@ export default function Reserve() {
     setchildDate(value);
   };
 
+  const { data: categoriesData, error: categoriesError } =
+    useFetch<Category[]>('/vip/categories');
+
+  const { data: reserveInfoData, error: reserveInfoError } =
+    useFetch<Info>('/vip/reserves/info');
+
   useEffect(() => {
-    async function fetchCategories() {
-      const response = await fetch('/api/categories');
-      const data = await response.json();
-      setCategories(data.categories);
+    if (categoriesData) {
+      setCategories(categoriesData);
     }
 
-    fetchCategories();
-  }, []);
+    if (categoriesError) {
+      console.error('Error fetching categories:', categoriesError);
+    }
+
+    if (reserveInfoData) {
+      setPbName(reserveInfoData.pbName);
+      setVipName(reserveInfoData.vipName);
+    }
+
+    if (reserveInfoError) {
+      console.error('Error fetching info:', reserveInfoError);
+    }
+  }, [categoriesData, reserveInfoData, categoriesError, reserveInfoError]);
+
   return (
-    <div className='mx-32 mt-10'>
-      <div className='text-4xl font-bold'>상담 예약</div>
-      <div className='my-1 text-gray-600'>
-        하나은행만의 전문 PB와 1대 1 상담을 언제든 신청할 수 있습니다.
-      </div>
-      <div className='bg-[#F2F9FF] rounded-lg drop-shadow-md px-24 py-16'>
-        <form onSubmit={handleSubmit}>
-          <div className='flex justify-between items-center my-2'>
-            <div className='flex gap-2 items-center ml-3'>
-              <label className='font-semibold'>카테고리</label>
-              <select
-                required
-                ref={categoryRef}
-                defaultValue=''
-                className='border bg-white rounded-lg p-1.5 border-black w-80'
-              >
-                <option value='' disabled>
-                  카테고리를 선택하세요.
-                </option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+    <div className='flex justify-center items-center mb-10 mt-5'>
+      <div className='mx-32 mt-10 w-3/5'>
+        <div className='text-4xl font-bold'>상담 예약</div>
+        <div className='my-1 text-gray-600'>
+          하나은행만의 전문 PB와 1대 1 상담을 언제든 신청할 수 있습니다.
+        </div>
+        <div className='bg-[#D6E8F6] rounded-lg drop-shadow-md px-24 py-16 mt-10'>
+          <form onSubmit={handleSubmit}>
+            <div className='flex justify-between items-center my-2'>
+              <div className='flex flex-wrap gap-2 items-center'>
+                <label className='w-20 text-right font-semibold'>
+                  카테고리
+                </label>
+                <select
+                  required
+                  ref={categoryRef}
+                  defaultValue=''
+                  className='bg-white rounded-lg p-1.5 focus:outline-none focus:outline-sky-50'
+                >
+                  <option value='' disabled>
+                    카테고리를 선택하세요.
                   </option>
-                ))}
-              </select>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='flex gap-2 items-center'>
+                <p className='font-semibold'>PB</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>
+                  {pbName || 'PB명'}
+                </p>
+              </div>
             </div>
-            <div className='flex gap-2 items-center'>
-              <p className='font-semibold'>PB</p>
-              <p className='border bg-white border-black rounded-lg px-8 py-1'>
-                안유진
-              </p>
+            <div className='flex justify-between items-center my-2'>
+              <div className='flex flex-wrap gap-2 items-center'>
+                <label className='w-20 text-right font-semibold'>
+                  희망일시
+                </label>
+                <CalendarPopup
+                  dateSet={handleDateSet}
+                  minDate={minDate}
+                  maxDate={maxDate}
+                  selectedDate={childDate}
+                />
+                <select
+                  required
+                  ref={timeRef}
+                  defaultValue=''
+                  className='flex justify-center gap-1 items-center bg-white rounded-lg py-1.5 pr-2 ml-2 w-36 text-center focus:outline-none focus:outline-sky-50'
+                >
+                  <option value='' disabled>
+                    00 : 00
+                  </option>
+                  {times.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='flex gap-2 items-center'>
+                <p className='font-semibold'>고객명</p>
+                <p className='bg-white rounded-lg px-5 py-1.5'>
+                  {vipName || '고객명'}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className='flex justify-between items-center my-2'>
-            <div className='flex gap-2 items-center ml-3'>
-              <label className='font-semibold'>희망일시</label>
-              <CalendarPopup
-                dateSet={handleDateSet}
-                minDate={minDate}
-                maxDate={maxDate}
+            <div className='flex gap-4 items-center w-full my-2'>
+              <label className='w-20 text-right font-semibold'>제목</label>
+              <input
+                required
+                maxLength={50}
+                ref={titleRef}
+                type='text'
+                className='bg-white rounded-lg p-1.5 w-full focus:outline-none focus:outline-sky-50'
               />
-              <select
+            </div>
+            <div className='flex gap-4 items-center w-full my-2'>
+              <label className='w-20 text-right font-semibold'>내용</label>
+              <textarea
                 required
-                ref={timeRef}
-                defaultValue=''
-                className='flex justify-center gap-1 items-center border bg-white border-black rounded-lg p-1.5 pr-2 ml-2 w-36 text-center'
-              >
-                <option value='' disabled>
-                  00 : 00
-                </option>
-                {times.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+                ref={detailRef}
+                rows={10}
+                maxLength={300}
+                className='bg-white rounded-lg p-1.5 w-full overflow-y-auto resize-none focus:outline-none focus:outline-sky-50'
+              />
             </div>
-            <div className='flex gap-2 items-center'>
-              <p className='font-semibold'>고객명</p>
-              <p className='border bg-white border-black rounded-lg px-8 py-1'>
-                김현수
-              </p>
+            <div className='flex justify-end'>
+              <Button
+                type='submit'
+                text='예약하기'
+                className='bg-gray-300 hover:bg-gray-400 hover:text-white'
+              />
             </div>
-          </div>
-          <div className='flex gap-3 items-center w-full my-2'>
-            <label className='w-20 text-right font-semibold'>제목</label>
-            <input
-              required
-              maxLength={50}
-              ref={titleRef}
-              type='text'
-              className='border bg-white rounded-lg p-1 border-black w-full'
-            />
-          </div>
-          <div className='flex gap-3 items-center w-full my-2'>
-            <label className='w-20 text-right font-semibold'>내용</label>
-            <textarea
-              required
-              ref={detailRef}
-              rows={10}
-              maxLength={300}
-              className='border bg-white rounded-lg p-1 border-black w-full overflow-y-auto resize-none'
-            />
-          </div>
-          <div className='flex justify-end'>
-            <button
-              type='submit'
-              className='border border-black bg-slate-300 p-2 rounded-lg'
-            >
-              예약하기
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

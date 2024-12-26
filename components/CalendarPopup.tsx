@@ -1,62 +1,56 @@
-import { formatDate } from '@/utils/date';
 import { CalendarDaysIcon } from 'lucide-react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useState, useEffect } from 'react';
-
-type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+import { useState } from 'react';
 
 type Props = {
-  dateSet: (date: ValuePiece) => void;
+  dateSet: (date: Date | null) => void;
   minDate: Date;
   maxDate: Date;
+  selectedDate: Date | null; // 추가
 };
 
-export default function CalendarPopup({ dateSet, minDate, maxDate }: Props) {
+export default function CalendarPopup({
+  dateSet,
+  minDate,
+  maxDate,
+  selectedDate,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [dateString, setDateString] = useState<string>('');
-  // 달력 팝업 토글 함수
+
   const toggleCalendar = () => setIsOpen((prev) => !prev);
 
-  // 날짜 변경 시 팝업 닫기
-  const handleDateChange = (value: Value) => {
+  const handleDateChange = (value: Date) => {
     const date = Array.isArray(value) ? value[0] : value;
-    if (!date) return;
-    setSelectedDate(date);
-    if (!selectedDate) return;
-    setDateString(formatDate(selectedDate));
+    dateSet(date);
     setIsOpen(false);
   };
-  useEffect(() => {
-    handleDateChange(selectedDate);
-    dateSet(selectedDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDate]);
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
+        type='button'
         onClick={toggleCalendar}
-        className='flex items-center border bg-white rounded-lg p-1 pr-2 border-black w-fit min-w-40 gap-1 justify-center'
+        className='flex items-center bg-white rounded-lg p-1.5 pr-2 w-fit min-w-40 gap-1 justify-center focus:outline-sky-50 focus:outline-none'
       >
         <span className='w-full'>
-          {dateString
-            ? `${dateString.slice(0, 4)}.${dateString.slice(4, 6)}.${dateString.slice(6, 8)}`
+          {selectedDate
+            ? `${selectedDate.getFullYear()}.${(selectedDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}.${selectedDate
+                .getDate()
+                .toString()
+                .padStart(2, '0')}`
             : '---- . -- . --'}
         </span>
         <CalendarDaysIcon />
       </button>
 
       {isOpen && (
-        <div className='absolute top-full left-0 mt-1'>
+        <div className='absolute top-full left-0 mt-1 z-50'>
           <Calendar
-            onChange={(value) => {
-              handleDateChange(value);
-            }}
-            value={selectedDate}
+            onChange={(value) => handleDateChange(value as Date)}
+            value={selectedDate || new Date()} // 변경
             minDate={minDate}
             maxDate={maxDate}
           />

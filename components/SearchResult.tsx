@@ -1,76 +1,94 @@
+import useFetch from '@/hooks/useFetch';
+import { formatDate } from '@/utils/date';
+import { type Consulting } from '@/utils/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export type searchResult = {
-  id: number;
+type Filters = {
   category: string;
-  title: string;
-  date: string;
-  manager: string;
-  status: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  keyword: string;
 };
 
-export default function SearchResult() {
-  const [searchResults, setSearchResults] = useState<searchResult[]>([]);
+export default function SearchResult({
+  filters,
+  onOldestDateChange,
+}: {
+  filters: Filters;
+  onOldestDateChange: (oldestDate: Date | null) => void;
+}) {
+  const [searchResults, setSearchResults] = useState<Consulting[]>([]);
+  const [filteredResults, setFilteredResults] = useState<Consulting[]>([]);
   const router = useRouter();
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
     e.preventDefault();
-
     router.push(`/consultingList/${id}`);
   };
 
-  useEffect(() => {
-    async function fetchSearchResults() {
-      const response = await fetch('/api/searchResults');
-      const data = await response.json();
-      setSearchResults(data.searchResults);
-    }
+  const { data } = useFetch<Consulting[]>('/vip/journals');
 
-    fetchSearchResults();
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data);
+      setFilteredResults(data);
+      const oldestDate = data[data.length - 1]?.date;
+      if (oldestDate) onOldestDateChange(new Date(oldestDate));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data]);
+
+  useEffect(() => {
+    const { category, startDate, endDate, keyword } = filters;
+
+    const filtered = searchResults.filter((item) => {
+      const isCategoryMatch = category === '전체' || item.category === category;
+      const isDateMatch =
+        (!startDate || new Date(item.date) >= new Date(startDate)) &&
+        (!endDate || new Date(item.date) <= new Date(endDate));
+      const isKeywordMatch =
+        !keyword || item.title.toLowerCase().includes(keyword.toLowerCase());
+
+      return isCategoryMatch && isDateMatch && isKeywordMatch;
+    });
+
+    setFilteredResults(filtered);
+  }, [filters, searchResults]);
+
   return (
-    <div className='border border-black bg-white w-full h-96 overflow-y-auto p-2'>
-      <table className='table-auto w-full'>
-        <thead>
+    <div className='border border-sky-50 bg-white w-full h-96 overflow-y-auto mt-5'>
+      <table className='table-auto w-full border-collapse'>
+        <thead className='sticky top-0 bg-gray-100 z-10'>
           <tr>
-            <th className='border-b-2 border-black px-4 py-2'>순번</th>
-            <th className='border-b-2 border-black px-4 py-2'>카테고리</th>
-            <th className='border-b-2 border-black px-4 py-2'>제목</th>
-            <th className='border-b-2 border-black px-4 py-2'>상담일시</th>
-            <th className='border-b-2 border-black px-4 py-2'>담당자</th>
-            <th className='border-b-2 border-black px-4 py-2'>일지보기</th>
+            <th className='px-4 py-2'>번호</th>
+            <th className='px-4 py-2'>카테고리</th>
+            <th className='px-4 py-2'>제목</th>
+            <th className='px-4 py-2'>상담일시</th>
+            <th className='px-4 py-2'>담당자</th>
+            <th className='px-4 py-2'>일지보기</th>
           </tr>
         </thead>
         <tbody>
-          {searchResults.map((item) => (
-            <tr key={item.id}>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.id}
+          {filteredResults.map((item, index) => (
+            <tr key={item.id} className='border-b border-black text-center'>
+              <td className='px-4 py-2'>{index + 1}</td>
+              <td className='px-4 py-2'>{item.category}</td>
+              <td className='px-4 py-2 truncate max-w-48'>{item.title}</td>
+              <td className='px-4 py-2'>
+                {formatDate(item.date)} {item.time}
               </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.category}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center truncate max-w-48'>
-                {item.title}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.date}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.manager}
-              </td>
-              <td className='border-b border-black px-4 py-2 text-center'>
-                {item.status === '열람 가능' ? (
+              <td className='px-4 py-2'>{item.manager}</td>
+              <td className='px-4 py-2'>
+                {item.status ? (
                   <button
                     onClick={(e) => handleSubmit(e, item.id)}
                     className='hover:underline text-blue-700'
                   >
-                    {item.status}
+                    열람 가능
                   </button>
                 ) : (
-                  item.status
+                  <span className='text-gray-500'>열람 불가</span>
                 )}
               </td>
             </tr>

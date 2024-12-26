@@ -1,13 +1,39 @@
+import useFetch from '@/hooks/useFetch';
+import { formatDate } from '@/utils/date';
+import { Info, type PBProfile } from '@/utils/type';
 import { MessageCircleHeart, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
-import pb_profile from '../assets/pb_profile.png';
+import { useState, useEffect } from 'react';
 import Modal from './Modal';
+import PBCardLoading from './PBCardLoading';
 
 export default function PBCard() {
+  const [pb, setPb] = useState<PBProfile | null>(null);
+  const [vipName, setVipName] = useState<string>('');
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isOnline, setIsOnline] = useState<boolean>(true); // Simulating online status
+  const [isOnline, setIsOnline] = useState<boolean>(false); // Simulating online status
+
+  const { data, error } = useFetch<PBProfile>('/vip/pb');
+
+  const { data: infoData, error: infoError } =
+    useFetch<Info>('/vip/reserves/info');
+
+  useEffect(() => {
+    if (data) {
+      setPb(data);
+    }
+    if (error) {
+      console.error('Error fetching PB data:', error);
+    }
+
+    if (infoData) {
+      setVipName(infoData.vipName);
+    }
+
+    if (infoError) {
+      console.error('Error fetching info:', infoError);
+    }
+  }, [data, error, infoData, infoError]);
 
   const handleOpenModal = (): void => {
     setModalOpen(true);
@@ -16,37 +42,77 @@ export default function PBCard() {
   const handleCloseModal = (): void => {
     setModalOpen(false);
   };
+
+  useEffect(() => {
+    const socket = new WebSocket(
+      `wss://${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/ws/availability`
+    );
+
+    socket.onopen = () => {
+      console.log('WebSocket 연결됨');
+    };
+
+    socket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      setIsOnline(data.availability);
+      console.log(
+        `pbId: ${data.pbId}, Availability: ${data.availability ? '상담가능' : '상담불가능'}`
+      );
+    };
+    socket.onclose = () => {
+      console.log('websocket 연결 종로');
+    };
+
+    return () => socket.close();
+  }, []);
+
+  const Dday = (startDate: string): number => {
+    const start = new Date(startDate);
+    const now = new Date();
+    const differenceInMs = now.getTime() - start.getTime();
+    return Math.floor(differenceInMs / (1000 * 60 * 60 * 24)); // Convert ms to days
+  };
+
+  if (!pb) {
+    return <PBCardLoading />;
+  }
+
+  const { name, introduction, date, imageUrl, tags } = pb;
+
   return (
     <div className='bg-white shadow-lg rounded-lg'>
       <div className='border-b border-opacity-55 px-6 py-4'>
-        <div className='text-slate-600 text-2xl font-semibold'>담당 PB</div>
+        <div className='text-slate-600 text-2xl font-semibold'>
+          {vipName}님의 담당 PB
+        </div>
       </div>
-      <div className='p-6'>
+      <div className='p-4'>
         <div
-          className='flex items-center space-x-4 p-2 hover:bg-gray-100 rounded-lg'
+          className='flex items-center gap-4 p-2 hover:bg-gray-100 rounded-lg'
           onClick={handleOpenModal}
         >
-          <Image
-            src={pb_profile}
-            alt='PB profile'
-            className='w-20 h-20 rounded-full'
-          />
+          <div className='w-24 h-24'>
+            <Image
+              src={imageUrl}
+              alt='PB image'
+              width={192}
+              height={224}
+              className='rounded-full object-cover aspect-square'
+            />
+          </div>
           <div>
-            <h2 className='text-lg font-semibold'>안유진 PB</h2>
-            <div className='space-x-2 mt-1'>
-              <span className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'>
-                #부동산
-              </span>
-              <span className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'>
-                #성수점
-              </span>
-              <span className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'>
-                #친절
-              </span>
+            <h2 className='text-lg font-semibold'>{name} PB</h2>
+            <div className='flex flex-wrap gap-2 mt-2'>
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className='px-2 py-1 bg-blue-100 rounded-lg text-sm text-gray-600'
+                >
+                  #{tag}
+                </span>
+              ))}
             </div>
-            <p className='text-sm text-gray-500 mt-2'>
-              안녕하세요. 부동산 투자 전문 PB 안유진입니다.
-            </p>
+            <p className='text-sm text-gray-500 mt-2'>{introduction}</p>
           </div>
         </div>
 
@@ -72,10 +138,11 @@ export default function PBCard() {
             <div className='flex items-center space-x-2 text-gray-700'>
               <MessageCircleHeart />
               <div>
-                안유진 PB와 함께한 지<div className='text-xs'>2024-08-01</div>
+                {name} PB와 함께한 지
+                <div className='text-xs'>{formatDate(date)}</div>
               </div>
             </div>
-            <div className='flex items-center space-x-2'>81일</div>
+            <div className='flex items-center space-x-2'>{Dday(date)}일</div>
           </div>
         </div>
       </div>

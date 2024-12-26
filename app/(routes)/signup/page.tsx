@@ -2,7 +2,6 @@
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -17,7 +16,6 @@ function SignupCard() {
     const pwCheck = formData.get('pwCheck');
     const phone = formData.get('phone');
     const address = formData.get('address');
-    const sex = formData.get('sex');
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
@@ -25,7 +23,6 @@ function SignupCard() {
       /^(01[0|1|6|7|8|9])[-]?\d{3,4}[-]?\d{4}$|^(0\d{1,2})[-]?\d{3,4}[-]?\d{4}$/;
     const addressRegex = /^[가-힣0-9\s\-,.]+$/;
 
-    console.log(name, email, pw, pwCheck, phone, address, sex);
     if (!name || !email || !pw || !pwCheck || !phone || !address) {
       setErrorMsg('입력을 확인해주세요.');
       return;
@@ -60,15 +57,38 @@ function SignupCard() {
       return;
     }
 
-    //TODO: 회원가입 관련 처리
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/vip/signup`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // JSESSIONID 포함
+          body: JSON.stringify({
+            name,
+            email,
+            password: pw,
+            tel: phone,
+            address,
+          }),
+        }
+      );
 
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Invalid credentials');
+      }
+    } catch (error) {
+      setErrorMsg('회원가입에 실패했습니다. 다시 시도해 주세요.');
+      console.error('🚀 ~ handleSubmit error:', error);
+    }
     alert('회원가입 성공!');
     router.push('/signin');
   }
 
   return (
     <div className='flex flex-col items-center p-20'>
-      <div className='w-1/2'>
+      <div className='w-2/5'>
         <div className='border-b border-gray-400 mb-8 w-full pb-8'>
           <h1 className='text-3xl font-extrabold mb-3'>회원가입</h1>
           <p className='text-lg font-medium'>
@@ -129,23 +149,6 @@ function SignupCard() {
             />
           </div>
 
-          <div>
-            <Label>성별</Label>
-            <RadioGroup
-              defaultValue='sex'
-              className='flex flex-row mt-3'
-              name='sex'
-            >
-              <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='man' id='man' />
-                <Label htmlFor='man'>남</Label>
-              </div>
-              <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='woman' id='woman' />
-                <Label htmlFor='woman'>여</Label>
-              </div>
-            </RadioGroup>
-          </div>
           {errorMsg && <div className='text-red-600 mb-3'>{errorMsg}</div>}
 
           <button

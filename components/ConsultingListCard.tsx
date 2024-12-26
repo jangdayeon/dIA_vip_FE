@@ -1,4 +1,6 @@
-import { Consulting } from '@/data/consultingdata';
+import useFetch from '@/hooks/useFetch';
+import { formatDate } from '@/utils/date';
+import { type Consulting } from '@/utils/type';
 import {
   ChatBubbleLeftEllipsisIcon,
   ChatBubbleLeftRightIcon,
@@ -6,13 +8,12 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { searchResult } from './SearchResult';
 
 const ConsultingItem = ({ title, date, status }: Consulting) => {
   return (
     <div className='flex items-center justify-between p-3 border-b border-gray-200 overflow-hidden'>
       <div className='flex items-center w-full'>
-        {status === '열람 가능' ? (
+        {status === true ? (
           <ChatBubbleLeftRightIcon className='w-6 h-6 text-gray-500 mr-3' />
         ) : (
           <ChatBubbleLeftEllipsisIcon className='w-6 h-6 text-gray-500 mr-3' />
@@ -21,7 +22,7 @@ const ConsultingItem = ({ title, date, status }: Consulting) => {
           <p className='text-sm font-semibold text-gray-700 truncate'>
             {title}
           </p>
-          <p className='text-xs text-gray-500 truncate'>{date}</p>
+          <p className='text-xs text-gray-500 truncate'>{formatDate(date)}</p>
         </div>
       </div>
     </div>
@@ -29,17 +30,18 @@ const ConsultingItem = ({ title, date, status }: Consulting) => {
 };
 
 export default function ConsultingListCard() {
-  const [lists, setLists] = useState<searchResult[]>([]);
+  const [lists, setLists] = useState<Consulting[]>([]);
+
+  const { data, error } = useFetch<Consulting[]>('/vip/journals');
 
   useEffect(() => {
-    async function fetchSearchResults() {
-      const response = await fetch('/api/searchResults');
-      const data = await response.json();
-      setLists(data.searchResults);
+    if (data) {
+      setLists(data);
     }
-
-    fetchSearchResults();
-  }, []);
+    if (error) {
+      console.error('Error fetching jounals:', error);
+    }
+  }, [data, error]);
 
   return (
     <div className='bg-white shadow-lg rounded-lg'>
@@ -50,21 +52,16 @@ export default function ConsultingListCard() {
         </div>
       </Link>
 
-      <div>
-        {lists.length ? (
-          lists
-            .slice(0, 8)
-            .map((item, index) => (
-              <ConsultingItem
-                key={index}
-                title={item.title}
-                date={item.date}
-                status={item.status}
-              />
-            ))
-        ) : (
-          <div className='flex justify-center mt-10'>상담 내역이 없습니다.</div>
-        )}
+      <div className='h-80 overflow-y-auto'>
+        {lists.map((item) => (
+          <ConsultingItem
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            date={item.date}
+            status={item.status}
+          />
+        ))}
       </div>
     </div>
   );
