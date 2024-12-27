@@ -101,7 +101,7 @@ export default function Reserve() {
 
   useEffect(() => {
     if (categoriesData) {
-      setCategories(categoriesData);
+      setCategories(categoriesData.filter((c) => c.name !== '빠른상담'));
     }
 
     if (categoriesError) {
